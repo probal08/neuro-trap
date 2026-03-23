@@ -191,14 +191,32 @@
         
         <!-- Total Attacks -->
         <div class="panel">
-            <div class="panel-title">TOTAL ATTACKS RECORDED</div>
+            <div class="panel-title">TOTAL INCIDENTS TRACKED</div>
             <div class="stat-value" id="val-total">0</div>
+        </div>
+
+        <!-- Threat Distribution Chart -->
+        <div class="panel">
+            <div class="panel-title">THREAT LEVEL CLASSIFICATION</div>
+            <canvas id="chart-threats" height="200"></canvas>
+        </div>
+
+        <!-- Attack Volume Over Time (wide) -->
+        <div class="panel full-width">
+            <div class="panel-title">ATTACK VOLUME (LAST 24 HOURS)</div>
+            <canvas id="chart-time" height="100"></canvas>
         </div>
 
         <!-- Top IPs Chart -->
         <div class="panel">
             <div class="panel-title">TOP ATTACKING IP ADDRESSES</div>
             <canvas id="chart-ips" height="200"></canvas>
+        </div>
+
+        <!-- Top Countries -->
+        <div class="panel">
+            <div class="panel-title">GLOBAL ATTACK ORIGINS</div>
+            <canvas id="chart-countries" height="200"></canvas>
         </div>
 
         <!-- Top Credentials Chart -->
@@ -252,6 +270,59 @@
             document.getElementById('val-total').innerText = data.total_attacks.toLocaleString();
             document.getElementById('last-updated').innerText = "Last Updated: " + new Date(data.last_updated).toLocaleString();
 
+            // Render Threat Level Chart
+            if (data.threat_distribution) {
+                const threatCtx = document.getElementById('chart-threats').getContext('2d');
+                const tLabels = Object.keys(data.threat_distribution);
+                const tData = Object.values(data.threat_distribution);
+                // Color map based on threat level
+                const tColors = tLabels.map(l => {
+                    if (l === 'CRITICAL') return '#ff003c';
+                    if (l === 'HIGH') return '#ff6600';
+                    if (l === 'MEDIUM') return '#ffcc00';
+                    return '#00ffcc';
+                });
+
+                new Chart(threatCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: tLabels,
+                        datasets: [{
+                            data: tData,
+                            backgroundColor: tColors,
+                            borderWidth: 0
+                        }]
+                    },
+                    options: { responsive: true, plugins: { legend: { position: 'right', labels: { color: '#e0e0e0' } } } }
+                });
+            }
+
+            // Render Time Series Chart
+            if (data.attacks_over_time) {
+                const timeCtx = document.getElementById('chart-time').getContext('2d');
+                new Chart(timeCtx, {
+                    type: 'line',
+                    data: {
+                        labels: data.attacks_over_time.map(t => t.time.split(' ')[1]), // Just show HH:00
+                        datasets: [{
+                            label: 'Attacks per Hour',
+                            data: data.attacks_over_time.map(t => t.count),
+                            borderColor: '#a855f7',
+                            backgroundColor: 'rgba(168, 85, 247, 0.2)',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' } },
+                            x: { grid: { display: false } }
+                        }
+                    }
+                });
+            }
+
             // Render IP Chart
             const ipCtx = document.getElementById('chart-ips').getContext('2d');
             new Chart(ipCtx, {
@@ -275,6 +346,32 @@
                 }
             });
 
+            // Render Countries Chart
+            if (data.top_countries) {
+                const countryCtx = document.getElementById('chart-countries').getContext('2d');
+                new Chart(countryCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: data.top_countries.map(c => c.country),
+                        datasets: [{
+                            label: 'Origin Count',
+                            data: data.top_countries.map(c => c.count),
+                            backgroundColor: 'rgba(0, 255, 204, 0.8)',
+                            borderColor: '#00ccaa',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y', // horizontal bar chart
+                        responsive: true,
+                        scales: {
+                            x: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' } },
+                            y: { grid: { display: false } }
+                        }
+                    }
+                });
+            }
+
             // Render Creds Chart
             const credCtx = document.getElementById('chart-creds').getContext('2d');
             new Chart(credCtx, {
@@ -292,9 +389,7 @@
                 },
                 options: {
                     responsive: true,
-                    plugins: {
-                        legend: { position: 'right', labels: { color: '#e0e0e0' } }
-                    }
+                    plugins: { legend: { position: 'right', labels: { color: '#e0e0e0' } } }
                 }
             });
 

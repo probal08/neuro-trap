@@ -25,9 +25,10 @@ def generate_feed():
             client = MongoClient(uri, serverSelectionTimeoutMS=5000)
             db = client['neurotrap']
             events_coll = db['events']
+            profiles_coll = db['attacker_profiles']
 
-            # Fetch recent events
-            events = list(events_coll.find().sort('timestamp', -1).limit(1000))
+            # Fetch events
+            events = list(events_coll.find().sort('timestamp', -1).limit(2000))
             total_attacks = events_coll.count_documents({})
 
             ips = [e.get('attacker_ip') for e in events if e.get('attacker_ip')]
@@ -36,6 +37,38 @@ def generate_feed():
             creds = [f"{e.get('username', 'root')}:{e.get('password', '')}" 
                      for e in events if e.get('event_type') == 'login_attempt']
             top_creds = Counter(creds).most_common(10)
+
+            # --- Timeseries Data (Attacks per hour) ---
+            from collections import defaultdict
+            timeseries = defaultdict(int)
+            for e in events:
+                ts = e.get('timestamp')
+                if ts:
+                    try:
+                        # Extract YYYY-MM-DD HH
+                        dt = datetime.fromisoformat(ts.replace('Z', '+00:00'))
+                        hour_str = dt.strftime("%Y-%m-%d %H:00")
+                        timeseries[hour_str] += 1
+                    except:
+                        pass
+            
+            # Sort by time, take last 24
+            sorted_times = sorted(timeseries.keys())[-24:]
+            attacks_over_time = [{'time': t, 'count': timeseries[t]} for t in sorted_times]
+
+            # --- Threat Levels & Geo (From Profiles) ---
+            profiles = list(profiles_coll.find().limit(1000))
+            threats = [p.get('threat_level', 'LOW') for p in profiles]
+            threat_distribution = Counter(threats)
+
+            countries = []
+            for p in profiles:
+                geo = p.get('geo_location', {})
+                if isinstance(geo, dict):
+                    c = geo.get('country', 'Unknown')
+                    if c != 'Unknown' and c != 'Local Network':
+                        countries.append(c)
+            top_countries = Counter(countries).most_common(5)
 
             recent_events = []
             for e in events[:20]:
@@ -46,6 +79,8 @@ def generate_feed():
                     'details': e.get('command', '') or e.get('username', '')
                 })
         except Exception as e:
+            import traceback
+            traceback.print_exc()
             print(f"Error querying MongoDB: {e}")
             return
 
@@ -54,6 +89,9 @@ def generate_feed():
         'total_attacks': total_attacks,
         'top_ips': [{'ip': ip, 'count': c_} for ip, c_ in top_ips],
         'top_creds': [{'cred': cred, 'count': c_} for cred, c_ in top_creds],
+        'attacks_over_time': attacks_over_time,
+        'threat_distribution': dict(threat_distribution),
+        'top_countries': [{'country': c, 'count': cnt} for c, cnt in top_countries],
         'recent_events': recent_events
     }
 
