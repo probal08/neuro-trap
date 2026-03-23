@@ -1,0 +1,44 @@
+# ============================================
+# Neuro-Trap Docker Compose
+# Orchestrates the Honeypot + Dashboard
+# ============================================
+
+version: "3.8"
+
+services:
+  # --- Core Honeypot SSH Server ---
+  honeypot:
+    build: .
+    container_name: neuro-trap-honeypot
+    ports:
+      - "2222:2222"
+    volumes:
+      - ./logs:/app/logs
+      - ./server/fs_state.json:/app/server/fs_state.json
+    restart: unless-stopped
+    command: python server/server.py
+
+  # --- Threat Intelligence Dashboard ---
+  dashboard:
+    build: .
+    container_name: neuro-trap-dashboard
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      - honeypot
+    restart: unless-stopped
+    command: streamlit run dashboard.py --server.headless true --server.port 8501
+
+  # --- Automated Threat Feed Generator ---
+  threat-feed:
+    build: .
+    container_name: neuro-trap-feed
+    volumes:
+      - ./logs:/app/logs
+      - ./threat_feed:/app/threat_feed
+    depends_on:
+      - honeypot
+    # Runs once, generates the feed, and exits
+    command: python scripts/generate_threat_feed.py

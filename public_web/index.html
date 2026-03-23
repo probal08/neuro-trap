@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuro-Trap Threat Intelligence</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-color: #050505;
+            --panel-bg: rgba(10, 15, 20, 0.85);
+            --primary-neon: #00ffcc;
+            --accent-neon: #ff003c;
+            --text-main: #e0e0e0;
+            --text-dim: #707070;
+            --border-color: rgba(0, 255, 204, 0.3);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                linear-gradient(rgba(0, 255, 204, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 204, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            color: var(--text-main);
+            font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* HEADER */
+        header {
+            width: 100%;
+            padding: 2rem 0;
+            text-align: center;
+            border-bottom: 2px solid var(--primary-neon);
+            background: linear-gradient(180deg, rgba(0, 255, 204, 0.1) 0%, transparent 100%);
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--primary-neon);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 0 0 10px var(--primary-neon), 0 0 20px rgba(0,255,204,0.5);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-dim);
+            font-size: 1rem;
+        }
+
+        /* LIVE BLINKER */
+        .live-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent-neon);
+            border-radius: 50%;
+            margin-right: 10px;
+            box-shadow: 0 0 10px var(--accent-neon);
+            animation: blink 1.5s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* CONTAINER */
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* PANELS */
+        .panel {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 255, 204, 0.05);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 40px; height: 3px;
+            background: var(--primary-neon);
+            box-shadow: 0 0 10px var(--primary-neon);
+        }
+
+        .panel-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--text-main);
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        /* STATS */
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            color: var(--accent-neon);
+            text-align: center;
+            text-shadow: 0 0 15px rgba(255,0,60,0.4);
+            margin: 2rem 0;
+        }
+
+        /* TABLES */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        th {
+            color: var(--primary-neon);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+        }
+
+        tr:hover td {
+            background-color: rgba(0,255,204,0.05);
+        }
+
+        .ip-col { color: #fff; }
+        .type-col { color: var(--accent-neon); }
+        
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        @media (max-width: 900px) {
+            .container { grid-template-columns: 1fr; }
+        }
+        
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>NEURO-TRAP THREAT INTEL</h1>
+        <p><span class="live-indicator"></span>LIVE HONEYPOT CAPTURES FROM AROUND THE GLOBE</p>
+        <p id="last-updated" style="margin-top: 10px; font-size: 0.8rem; color: #555;">Last Updated: Loading...</p>
+    </header>
+
+    <div class="container">
+        
+        <!-- Total Attacks -->
+        <div class="panel">
+            <div class="panel-title">TOTAL ATTACKS RECORDED</div>
+            <div class="stat-value" id="val-total">0</div>
+        </div>
+
+        <!-- Top IPs Chart -->
+        <div class="panel">
+            <div class="panel-title">TOP ATTACKING IP ADDRESSES</div>
+            <canvas id="chart-ips" height="200"></canvas>
+        </div>
+
+        <!-- Top Credentials Chart -->
+        <div class="panel">
+            <div class="panel-title">MOST COMMON CREDENTIALS USED</div>
+            <canvas id="chart-creds" height="200"></canvas>
+        </div>
+
+        <!-- Recent Events Table -->
+        <div class="panel full-width">
+            <div class="panel-title">LIVE INCIDENT LOG</div>
+            <div style="max-height: 400px; overflow-y: auto;">
+                <table id="table-recent">
+                    <thead>
+                        <tr>
+                            <th>Time (UTC)</th>
+                            <th>Attacker IP</th>
+                            <th>Attack Type</th>
+                            <th>Command / Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Set Chart.js Defaults for Cyberpunk Theme
+        Chart.defaults.color = '#707070';
+        Chart.defaults.font.family = "'JetBrains Mono', monospace";
+        
+        async function fetchThreatData() {
+            try {
+                // Fetch the JSON dynamically generated by GitHub Actions
+                const response = await fetch('./data.json?t=' + new Date().getTime());
+                if (!response.ok) throw new Error("Data not found");
+                const data = await response.json();
+                renderDashboard(data);
+            } catch (err) {
+                console.error("Error fetching threat data:", err);
+                document.getElementById('last-updated').innerText = "System Offline or Data Not Uploaded Yet";
+            }
+        }
+
+        function renderDashboard(data) {
+            // Update Text
+            document.getElementById('val-total').innerText = data.total_attacks.toLocaleString();
+            document.getElementById('last-updated').innerText = "Last Updated: " + new Date(data.last_updated).toLocaleString();
+
+            // Render IP Chart
+            const ipCtx = document.getElementById('chart-ips').getContext('2d');
+            new Chart(ipCtx, {
+                type: 'bar',
+                data: {
+                    labels: data.top_ips.map(i => i.ip),
+                    datasets: [{
+                        label: 'Attack Count',
+                        data: data.top_ips.map(i => i.count),
+                        backgroundColor: 'rgba(0, 255, 204, 0.5)',
+                        borderColor: '#00ffcc',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // Render Creds Chart
+            const credCtx = document.getElementById('chart-creds').getContext('2d');
+            new Chart(credCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: data.top_creds.map(c => c.cred),
+                    datasets: [{
+                        data: data.top_creds.map(c => c.count),
+                        backgroundColor: [
+                            '#ff003c', '#ff0066', '#ff3385', '#ff66a3', '#ff99c2',
+                            '#00ffcc', '#33ffd6', '#66ffe0', '#99ffeb', '#ccfff5'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'right', labels: { color: '#e0e0e0' } }
+                    }
+                }
+            });
+
+            // Populate Table
+            const tbody = document.querySelector('#table-recent tbody');
+            tbody.innerHTML = '';
+            data.recent_events.forEach(ev => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${new Date(ev.timestamp).toLocaleTimeString()}</td>
+                    <td class="ip-col">${ev.ip}</td>
+                    <td class="type-col">${ev.type}</td>
+                    <td>${ev.details}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Initialize
+        fetchThreatData();
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+name: Neuro-Trap Threat Feed
+
+on:
+    # Run daily at midnight UTC
+    schedule:
+        - cron: "0 0 * * *"
+    # Also run on manual trigger
+    workflow_dispatch:
+    # Also run on push to main
+    push:
+        branches: [main]
+        paths:
+            - "logs/honeypot.json"
+
+jobs:
+    generate-feed:
+        runs-on: ubuntu-latest
+
+        permissions:
+            contents: write
+
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.11"
+
+            - name: Generate Threat Feed
+              run: python scripts/generate_threat_feed.py
+
+            - name: Commit & Push Threat Feed
+              run: |
+                  git config user.name "Neuro-Trap Bot"
+                  git config user.email "neurotrap@automated.feed"
+                  git add threat_feed/
+                  git diff --staged --quiet || git commit -m "🛡️ Auto-update threat feed [$(date -u +%Y-%m-%d)]"
+                  git push
