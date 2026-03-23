@@ -187,6 +187,13 @@
 Chart.defaults.color='#6a737d';Chart.defaults.font.family="'JetBrains Mono',monospace";Chart.defaults.font.size=10;
 const NEON=['#00ff41','#00ffff','#ff003c','#ff6600','#a855f7','#f43f5e','#fbbf24','#06b6d4','#10b981','#ec4899'];
 
+// Live clock ticking
+function updateClock(){
+    const now = new Date();
+    document.getElementById('nav-time').innerHTML = `<span style="color:#fff">${now.toLocaleTimeString()}</span> | Last Sync: ${DATA ? new Date(DATA.last_updated).toLocaleTimeString() : '...'}`;
+}
+setInterval(updateClock, 1000);
+
 let DATA=null, charts={};
 
 function showTab(id){
@@ -202,10 +209,14 @@ async function load(){
         if(!r.ok) throw new Error('No data');
         DATA=await r.json();
         render();
+        updateClock();
     }catch(e){
         document.getElementById('nav-time').textContent='OFFLINE';
     }
 }
+
+// Auto-refresh every 5 minutes without reloading the page
+setInterval(load, 300000);
 
 function makeChart(id,cfg){
     if(charts[id]) charts[id].destroy();
@@ -214,9 +225,6 @@ function makeChart(id,cfg){
 
 function render(){
     const d=DATA;
-    // Nav
-    document.getElementById('nav-time').textContent='Last Sync: ' + new Date(d.last_updated).toLocaleString();
-
     // Metrics
     document.getElementById('m-attacks').textContent=(d.total_attacks||0).toLocaleString();
     document.getElementById('m-ips').textContent=(d.unique_ips||0).toLocaleString();
