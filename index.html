@@ -3,413 +3,315 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neuro-Trap Threat Intelligence</title>
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    <!-- Chart.js -->
+    <title>Neuro-Trap | Cyber Immune System — Live Threat Intelligence</title>
+    <meta name="description" content="Real-time AI-powered honeypot threat intelligence dashboard. Live global attack monitoring, attacker profiling, and cyber immune defense.">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root {
-            --bg-color: #050505;
-            --panel-bg: rgba(10, 15, 20, 0.85);
-            --primary-neon: #00ffcc;
-            --accent-neon: #ff003c;
-            --text-main: #e0e0e0;
-            --text-dim: #707070;
-            --border-color: rgba(0, 255, 204, 0.3);
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        *{box-sizing:border-box;margin:0;padding:0}
+        :root{--bg:#050508;--panel:rgba(10,14,22,0.82);--neon:#00ff41;--cyan:#00ffff;--red:#ff003c;--orange:#ff6600;--purple:#a855f7;--dim:#6a737d;--text:#c9d1d9;--border:rgba(0,255,65,0.18)}
+        body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden}
+        body::before{content:'';position:fixed;inset:0;background:linear-gradient(rgba(0,255,65,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,65,.02) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;z-index:0}
 
-        body {
-            background-color: var(--bg-color);
-            background-image: 
-                linear-gradient(rgba(0, 255, 204, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 204, 0.03) 1px, transparent 1px);
-            background-size: 30px 30px;
-            color: var(--text-main);
-            font-family: 'Rajdhani', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        /* NAV */
+        nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:10px 3%;background:rgba(5,5,8,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+        .nav-brand{font-family:'Orbitron',sans-serif;font-weight:900;font-size:1.15rem;color:var(--neon);text-shadow:0 0 10px rgba(0,255,65,.5);letter-spacing:3px}
+        .nav-tabs{display:flex;gap:4px}
+        .nav-tab{padding:7px 16px;border-radius:6px;cursor:pointer;font-weight:700;font-size:.82rem;letter-spacing:1px;text-transform:uppercase;color:var(--dim);border:1px solid transparent;transition:all .25s}
+        .nav-tab:hover,.nav-tab.active{color:var(--neon);background:rgba(0,255,65,.08);border-color:var(--border)}
+        .nav-live{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--dim)}
+        .live-dot{width:7px;height:7px;background:var(--red);border-radius:50%;box-shadow:0 0 8px var(--red);animation:blink 1.4s infinite}
+        @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
 
-        /* HEADER */
-        header {
-            width: 100%;
-            padding: 2rem 0;
-            text-align: center;
-            border-bottom: 2px solid var(--primary-neon);
-            background: linear-gradient(180deg, rgba(0, 255, 204, 0.1) 0%, transparent 100%);
-            box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
-            margin-bottom: 2rem;
-            position: relative;
-        }
+        /* HERO */
+        .hero{text-align:center;padding:28px 20px 18px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+        .hero::before{content:'';position:absolute;top:50%;left:50%;width:260px;height:260px;border:1px solid rgba(0,255,65,.08);border-radius:50%;transform:translate(-50%,-50%);animation:radar 3s ease-out infinite}
+        @keyframes radar{0%{width:40px;height:40px;opacity:.6}100%{width:500px;height:500px;opacity:0}}
+        .hero h1{font-family:'Orbitron',sans-serif;font-size:2.4rem;font-weight:900;color:var(--neon);text-shadow:0 0 18px rgba(0,255,65,.5),.04em 0 0 rgba(255,0,60,.35),-.02em -.02em 0 rgba(0,255,255,.35);letter-spacing:4px;position:relative;z-index:2}
+        .hero p{font-family:'JetBrains Mono',monospace;color:var(--dim);font-size:.78rem;margin-top:4px;position:relative;z-index:2}
+        .hero .badge{display:inline-block;margin-top:8px;padding:3px 14px;border-radius:16px;border:1px solid rgba(0,255,65,.3);background:rgba(0,255,65,.06);font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--neon);position:relative;z-index:2}
 
-        header h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
-            font-weight: 900;
-            color: var(--primary-neon);
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            text-shadow: 0 0 10px var(--primary-neon), 0 0 20px rgba(0,255,204,0.5);
-            margin-bottom: 0.5rem;
-        }
+        /* PAGE */
+        .page{display:none;padding:18px 3% 40px;position:relative;z-index:1}
+        .page.active{display:block}
 
-        header p {
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--text-dim);
-            font-size: 1rem;
-        }
+        /* GRID */
+        .grid{display:grid;gap:14px}
+        .g4{grid-template-columns:repeat(4,1fr)}
+        .g3{grid-template-columns:repeat(3,1fr)}
+        .g2{grid-template-columns:repeat(2,1fr)}
+        .g1{grid-template-columns:1fr}
+        @media(max-width:900px){.g4,.g3,.g2{grid-template-columns:1fr}}
 
-        /* LIVE BLINKER */
-        .live-indicator {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background-color: var(--accent-neon);
-            border-radius: 50%;
-            margin-right: 10px;
-            box-shadow: 0 0 10px var(--accent-neon);
-            animation: blink 1.5s infinite;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
+        /* METRIC CARD */
+        .metric{background:linear-gradient(135deg,rgba(0,255,255,.04),rgba(0,255,65,.02));border:1px solid rgba(0,255,255,.18);border-radius:10px;padding:14px 16px;text-align:center;transition:all .3s}
+        .metric:hover{border-color:rgba(0,255,255,.45);box-shadow:0 0 20px rgba(0,255,255,.08);transform:translateY(-2px)}
+        .metric .label{font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:2px;font-size:.7rem;text-shadow:0 0 5px rgba(255,0,60,.25)}
+        .metric .value{font-family:'Orbitron',sans-serif;font-size:2rem;font-weight:900;color:var(--cyan);text-shadow:0 0 12px rgba(0,255,255,.45);margin:4px 0}
+        .metric .sub{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--purple)}
 
-        /* CONTAINER */
-        .container {
-            width: 90%;
-            max-width: 1400px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
+        /* PANEL */
+        .panel{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px;backdrop-filter:blur(10px);position:relative;overflow:hidden}
+        .panel::before{content:'';position:absolute;top:0;left:0;width:32px;height:2px;background:var(--neon);box-shadow:0 0 8px var(--neon)}
+        .panel-title{font-family:'Orbitron',sans-serif;font-size:.82rem;color:var(--text);letter-spacing:1.5px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+        .panel-title .icon{font-size:1rem}
 
-        /* PANELS */
-        .panel {
-            background-color: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 8px 32px 0 rgba(0, 255, 204, 0.05);
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-        }
+        /* TABLE */
+        table{width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:.76rem}
+        th{color:var(--red);text-transform:uppercase;letter-spacing:1px;font-size:.68rem;font-family:'Rajdhani',sans-serif;font-weight:700;padding:8px 6px;text-align:left;border-bottom:1px solid rgba(255,0,60,.15)}
+        td{padding:7px 6px;border-bottom:1px solid rgba(255,255,255,.03)}
+        tr:hover td{background:rgba(0,255,65,.03)}
+        .ip{color:#fff}.threat-crit{color:var(--red);font-weight:700}.threat-high{color:var(--orange);font-weight:700}.threat-med{color:#ffcc00}.threat-low{color:var(--neon)}
 
-        .panel::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 40px; height: 3px;
-            background: var(--primary-neon);
-            box-shadow: 0 0 10px var(--primary-neon);
-        }
+        /* TERMINAL */
+        .terminal{background:rgba(0,0,0,.7);border:1px solid rgba(0,255,65,.22);border-radius:10px;padding:16px;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--neon);max-height:380px;overflow-y:auto;line-height:1.8;box-shadow:inset 0 0 25px rgba(0,0,0,.5)}
+        .terminal::before{content:'● ● ●';display:block;color:var(--red);font-size:.55rem;letter-spacing:4px;padding-bottom:8px;border-bottom:1px solid rgba(0,255,65,.08);margin-bottom:8px}
+        .t-ts{color:#555}.t-prompt{color:var(--red)}.t-cmd{color:var(--neon)}.t-session{color:#ffcc00}
 
-        .panel-title {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--text-main);
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 0.5rem;
-        }
+        /* BADGES */
+        .badge-blocked{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.68rem;font-weight:700;background:rgba(255,0,60,.15);color:var(--red);border:1px solid rgba(255,0,60,.3)}
+        .badge-monitored{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.68rem;font-weight:700;background:rgba(255,204,0,.1);color:#ffcc00;border:1px solid rgba(255,204,0,.25)}
 
-        /* STATS */
-        .stat-value {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 4rem;
-            color: var(--accent-neon);
-            text-align: center;
-            text-shadow: 0 0 15px rgba(255,0,60,0.4);
-            margin: 2rem 0;
-        }
+        /* SECTION */
+        .section{margin-top:16px}
+        .section-title{font-family:'Orbitron',sans-serif;font-size:.95rem;color:var(--cyan);text-shadow:0 0 8px rgba(0,255,255,.25);letter-spacing:2px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
 
-        /* TABLES */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-        }
-        
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        th {
-            color: var(--primary-neon);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.8rem;
-        }
-
-        tr:hover td {
-            background-color: rgba(0,255,204,0.05);
-        }
-
-        .ip-col { color: #fff; }
-        .type-col { color: var(--accent-neon); }
-        
-        .full-width {
-            grid-column: 1 / -1;
-        }
-
-        @media (max-width: 900px) {
-            .container { grid-template-columns: 1fr; }
-        }
-        
         /* SCROLLBAR */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+        ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:rgba(0,255,65,.25);border-radius:3px}
+
+        /* FOOTER */
+        footer{text-align:center;padding:20px;font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#333;border-top:1px solid rgba(0,255,65,.08)}
+        footer a{color:var(--neon);text-decoration:none}
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>NEURO-TRAP THREAT INTEL</h1>
-        <p><span class="live-indicator"></span>LIVE HONEYPOT CAPTURES FROM AROUND THE GLOBE</p>
-        <p id="last-updated" style="margin-top: 10px; font-size: 0.8rem; color: #555;">Last Updated: Loading...</p>
-    </header>
+<!-- NAV -->
+<nav>
+    <div class="nav-brand">🕸️ NEURO-TRAP</div>
+    <div class="nav-tabs">
+        <div class="nav-tab active" onclick="showTab('core')">🎯 Core Intel</div>
+        <div class="nav-tab" onclick="showTab('immune')">🧬 Cyber Immune</div>
+        <div class="nav-tab" onclick="showTab('replay')">🔁 Attack Replay</div>
+        <div class="nav-tab" onclick="showTab('logs')">📜 Raw Logs</div>
+    </div>
+    <div class="nav-live"><span class="live-dot"></span> <span id="nav-time">LOADING</span></div>
+</nav>
 
-    <div class="container">
-        
-        <!-- Total Attacks -->
-        <div class="panel">
-            <div class="panel-title">TOTAL INCIDENTS TRACKED</div>
-            <div class="stat-value" id="val-total">0</div>
-        </div>
+<!-- HERO -->
+<div class="hero">
+    <h1>NEURO-TRAP</h1>
+    <p>AI-Powered <span style="color:var(--cyan)">Cyber Immune System</span> — Threat Intelligence Network</p>
+    <div class="badge"><span class="live-dot" style="display:inline-block;width:5px;height:5px;margin-right:5px;vertical-align:middle"></span> SYSTEM ACTIVE — ALL SENSORS ONLINE</div>
+</div>
 
-        <!-- Threat Distribution Chart -->
-        <div class="panel">
-            <div class="panel-title">THREAT LEVEL CLASSIFICATION</div>
-            <canvas id="chart-threats" height="200"></canvas>
-        </div>
-
-        <!-- Attack Volume Over Time (wide) -->
-        <div class="panel full-width">
-            <div class="panel-title">ATTACK VOLUME (LAST 24 HOURS)</div>
-            <canvas id="chart-time" height="100"></canvas>
-        </div>
-
-        <!-- Top IPs Chart -->
-        <div class="panel">
-            <div class="panel-title">TOP ATTACKING IP ADDRESSES</div>
-            <canvas id="chart-ips" height="200"></canvas>
-        </div>
-
-        <!-- Top Countries -->
-        <div class="panel">
-            <div class="panel-title">GLOBAL ATTACK ORIGINS</div>
-            <canvas id="chart-countries" height="200"></canvas>
-        </div>
-
-        <!-- Top Credentials Chart -->
-        <div class="panel">
-            <div class="panel-title">MOST COMMON CREDENTIALS USED</div>
-            <canvas id="chart-creds" height="200"></canvas>
-        </div>
-
-        <!-- Recent Events Table -->
-        <div class="panel full-width">
-            <div class="panel-title">LIVE INCIDENT LOG</div>
-            <div style="max-height: 400px; overflow-y: auto;">
-                <table id="table-recent">
-                    <thead>
-                        <tr>
-                            <th>Time (UTC)</th>
-                            <th>Attacker IP</th>
-                            <th>Attack Type</th>
-                            <th>Command / Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Populated by JS -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
+<!-- TAB 1: CORE INTELLIGENCE -->
+<div class="page active" id="page-core">
+    <!-- METRICS -->
+    <div class="grid g4" style="margin-top:16px">
+        <div class="metric"><div class="label">Critical Incidents</div><div class="value" id="m-attacks">—</div><div class="sub">Active Threats</div></div>
+        <div class="metric"><div class="label">Unique Adversaries</div><div class="value" id="m-ips">—</div><div class="sub">Tracking</div></div>
+        <div class="metric"><div class="label">Top Target Vector</div><div class="value" id="m-user">—</div><div class="sub">Username</div></div>
+        <div class="metric"><div class="label">Most Breached Key</div><div class="value" id="m-pass">—</div><div class="sub">Password</div></div>
     </div>
 
-    <script>
-        // Set Chart.js Defaults for Cyberpunk Theme
-        Chart.defaults.color = '#707070';
-        Chart.defaults.font.family = "'JetBrains Mono', monospace";
-        
-        async function fetchThreatData() {
-            try {
-                // Fetch the JSON dynamically generated by GitHub Actions
-                const response = await fetch('./data.json?t=' + new Date().getTime());
-                if (!response.ok) throw new Error("Data not found");
-                const data = await response.json();
-                renderDashboard(data);
-            } catch (err) {
-                console.error("Error fetching threat data:", err);
-                document.getElementById('last-updated').innerText = "System Offline or Data Not Uploaded Yet";
-            }
-        }
+    <!-- CHARTS ROW 1 -->
+    <div class="grid g2 section">
+        <div class="panel"><div class="panel-title"><span class="icon">📊</span> THREAT VECTORS (Event Types)</div><canvas id="c-events" height="180"></canvas></div>
+        <div class="panel"><div class="panel-title"><span class="icon">🌍</span> GLOBAL ATTACK ORIGINS</div><canvas id="c-countries" height="180"></canvas></div>
+    </div>
 
-        function renderDashboard(data) {
-            // Update Text
-            document.getElementById('val-total').innerText = data.total_attacks.toLocaleString();
-            document.getElementById('last-updated').innerText = "Last Updated: " + new Date(data.last_updated).toLocaleString();
+    <!-- TIMELINE -->
+    <div class="grid g1 section">
+        <div class="panel"><div class="panel-title"><span class="icon">📈</span> ATTACK VELOCITY (LAST 24 HOURS)</div><canvas id="c-timeline" height="80"></canvas></div>
+    </div>
 
-            // Render Threat Level Chart
-            if (data.threat_distribution) {
-                const threatCtx = document.getElementById('chart-threats').getContext('2d');
-                const tLabels = Object.keys(data.threat_distribution);
-                const tData = Object.values(data.threat_distribution);
-                // Color map based on threat level
-                const tColors = tLabels.map(l => {
-                    if (l === 'CRITICAL') return '#ff003c';
-                    if (l === 'HIGH') return '#ff6600';
-                    if (l === 'MEDIUM') return '#ffcc00';
-                    return '#00ffcc';
-                });
+    <!-- CHARTS ROW 2 -->
+    <div class="grid g3 section">
+        <div class="panel"><div class="panel-title"><span class="icon">🎯</span> TOP ATTACKING IPs</div><canvas id="c-ips" height="200"></canvas></div>
+        <div class="panel"><div class="panel-title"><span class="icon">🔑</span> BREACHED CREDENTIALS</div><canvas id="c-creds" height="200"></canvas></div>
+        <div class="panel"><div class="panel-title"><span class="icon">🔐</span> TOP PASSWORDS</div><canvas id="c-passwords" height="200"></canvas></div>
+    </div>
+</div>
 
-                new Chart(threatCtx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: tLabels,
-                        datasets: [{
-                            data: tData,
-                            backgroundColor: tColors,
-                            borderWidth: 0
-                        }]
-                    },
-                    options: { responsive: true, plugins: { legend: { position: 'right', labels: { color: '#e0e0e0' } } } }
-                });
-            }
+<!-- TAB 2: CYBER IMMUNE SYSTEM -->
+<div class="page" id="page-immune">
+    <div class="section-title" style="margin-top:16px">🧬 CYBER IMMUNE SYSTEM</div>
+    <p style="font-size:.78rem;color:var(--dim);margin-bottom:14px;font-family:'JetBrains Mono',monospace">Biological defense: Antibodies → Counter-Intel | White Blood Cells → Auto-Firewall | Immune Memory → AI Psychology</p>
 
-            // Render Time Series Chart
-            if (data.attacks_over_time) {
-                const timeCtx = document.getElementById('chart-time').getContext('2d');
-                new Chart(timeCtx, {
-                    type: 'line',
-                    data: {
-                        labels: data.attacks_over_time.map(t => t.time.split(' ')[1]), // Just show HH:00
-                        datasets: [{
-                            label: 'Attacks per Hour',
-                            data: data.attacks_over_time.map(t => t.count),
-                            borderColor: '#a855f7',
-                            backgroundColor: 'rgba(168, 85, 247, 0.2)',
-                            fill: true,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' } },
-                            x: { grid: { display: false } }
-                        }
-                    }
-                });
-            }
+    <!-- Threat Level -->
+    <div class="grid g2">
+        <div class="panel"><div class="panel-title"><span class="icon">⚠️</span> THREAT LEVEL DISTRIBUTION</div><canvas id="c-threats" height="180"></canvas></div>
+        <div class="panel"><div class="panel-title"><span class="icon">🔧</span> DETECTED HACKING TOOLS</div><canvas id="c-tools" height="180"></canvas></div>
+    </div>
 
-            // Render IP Chart
-            const ipCtx = document.getElementById('chart-ips').getContext('2d');
-            new Chart(ipCtx, {
-                type: 'bar',
-                data: {
-                    labels: data.top_ips.map(i => i.ip),
-                    datasets: [{
-                        label: 'Attack Count',
-                        data: data.top_ips.map(i => i.count),
-                        backgroundColor: 'rgba(0, 255, 204, 0.5)',
-                        borderColor: '#00ffcc',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' } },
-                        x: { grid: { display: false } }
-                    }
-                }
-            });
+    <!-- Attacker Profiles -->
+    <div class="section">
+        <div class="section-title">🔬 ATTACKER INTELLIGENCE PROFILES</div>
+        <div class="panel" style="overflow-x:auto"><table id="t-profiles"><thead><tr><th>IP</th><th>SSH Client</th><th>OS</th><th>DNA Hash</th><th>Bio-Hash</th><th>Threat</th><th>Class</th><th>Auto?</th><th>Cmds</th></tr></thead><tbody></tbody></table></div>
+    </div>
 
-            // Render Countries Chart
-            if (data.top_countries) {
-                const countryCtx = document.getElementById('chart-countries').getContext('2d');
-                new Chart(countryCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: data.top_countries.map(c => c.country),
-                        datasets: [{
-                            label: 'Origin Count',
-                            data: data.top_countries.map(c => c.count),
-                            backgroundColor: 'rgba(0, 255, 204, 0.8)',
-                            borderColor: '#00ccaa',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        indexAxis: 'y', // horizontal bar chart
-                        responsive: true,
-                        scales: {
-                            x: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' } },
-                            y: { grid: { display: false } }
-                        }
-                    }
-                });
-            }
+    <!-- Firewall -->
+    <div class="section">
+        <div class="section-title">🛡️ AUTO-FIREWALL STATUS</div>
+        <div class="grid g2">
+            <div class="metric"><div class="label">🔴 Blocked IPs</div><div class="value" id="m-blocked">0</div><div class="sub">3+ Failed Logins</div></div>
+            <div class="metric"><div class="label">🟡 Monitored IPs</div><div class="value" id="m-monitored">0</div><div class="sub">Under Watch</div></div>
+        </div>
+        <div class="panel" style="margin-top:10px"><table id="t-firewall"><thead><tr><th>IP Address</th><th>Attempts</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+    </div>
+</div>
 
-            // Render Creds Chart
-            const credCtx = document.getElementById('chart-creds').getContext('2d');
-            new Chart(credCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: data.top_creds.map(c => c.cred),
-                    datasets: [{
-                        data: data.top_creds.map(c => c.count),
-                        backgroundColor: [
-                            '#ff003c', '#ff0066', '#ff3385', '#ff66a3', '#ff99c2',
-                            '#00ffcc', '#33ffd6', '#66ffe0', '#99ffeb', '#ccfff5'
-                        ],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: { legend: { position: 'right', labels: { color: '#e0e0e0' } } }
-                }
-            });
+<!-- TAB 3: ATTACK REPLAY -->
+<div class="page" id="page-replay">
+    <div class="section-title" style="margin-top:16px">🔁 LIVE ATTACK REPLAY</div>
+    <p style="font-size:.78rem;color:var(--dim);margin-bottom:14px;font-family:'JetBrains Mono',monospace">Watch a hacker's session unfold command by command — like watching a movie of the break-in.</p>
+    <div style="margin-bottom:10px">
+        <label style="font-size:.75rem;color:var(--dim);font-family:'JetBrains Mono',monospace">SELECT ATTACKER SESSION: </label>
+        <select id="replay-select" style="background:#111;color:var(--neon);border:1px solid var(--border);padding:5px 10px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:.78rem"></select>
+    </div>
+    <div class="terminal" id="replay-terminal"><span style="color:#555">No session data yet. Attack the honeypot to generate replay data.</span></div>
+</div>
 
-            // Populate Table
-            const tbody = document.querySelector('#table-recent tbody');
-            tbody.innerHTML = '';
-            data.recent_events.forEach(ev => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${new Date(ev.timestamp).toLocaleTimeString()}</td>
-                    <td class="ip-col">${ev.ip}</td>
-                    <td class="type-col">${ev.type}</td>
-                    <td>${ev.details}</td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
+<!-- TAB 4: RAW LOGS -->
+<div class="page" id="page-logs">
+    <div class="section-title" style="margin-top:16px">📜 TERMINAL INTERCEPT LOGS</div>
+    <div class="panel" style="overflow-x:auto;max-height:600px;overflow-y:auto">
+        <table id="t-logs"><thead><tr><th>Timestamp</th><th>Event</th><th>IP</th><th>Message</th><th>Details</th></tr></thead><tbody></tbody></table>
+    </div>
+</div>
 
-        // Initialize
-        fetchThreatData();
-    </script>
+<footer>Neuro-Trap v2.0 — AI-Powered Cyber Immune System | <a href="https://github.com/probal08/neuro-trap" target="_blank">GitHub</a> | Auto-updated hourly via GitHub Actions</footer>
+
+<script>
+Chart.defaults.color='#6a737d';Chart.defaults.font.family="'JetBrains Mono',monospace";Chart.defaults.font.size=10;
+const NEON=['#00ff41','#00ffff','#ff003c','#ff6600','#a855f7','#f43f5e','#fbbf24','#06b6d4','#10b981','#ec4899'];
+
+let DATA=null, charts={};
+
+function showTab(id){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+    document.getElementById('page-'+id).classList.add('active');
+    event.target.classList.add('active');
+}
+
+async function load(){
+    try{
+        const r=await fetch('./data.json?t='+Date.now());
+        if(!r.ok) throw new Error('No data');
+        DATA=await r.json();
+        render();
+    }catch(e){
+        document.getElementById('nav-time').textContent='OFFLINE';
+    }
+}
+
+function makeChart(id,cfg){
+    if(charts[id]) charts[id].destroy();
+    charts[id]=new Chart(document.getElementById(id).getContext('2d'),cfg);
+}
+
+function render(){
+    const d=DATA;
+    // Nav
+    document.getElementById('nav-time').textContent=new Date(d.last_updated).toLocaleString();
+
+    // Metrics
+    document.getElementById('m-attacks').textContent=(d.total_attacks||0).toLocaleString();
+    document.getElementById('m-ips').textContent=(d.unique_ips||0).toLocaleString();
+    document.getElementById('m-user').textContent=d.top_user||'—';
+    document.getElementById('m-pass').textContent=d.top_pass||'—';
+
+    // Event Distribution
+    if(d.event_distribution){
+        const labels=Object.keys(d.event_distribution), vals=Object.values(d.event_distribution);
+        makeChart('c-events',{type:'bar',data:{labels,datasets:[{data:vals,backgroundColor:NEON.slice(0,labels.length),borderWidth:0}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},x:{grid:{display:false}}}}});
+    }
+
+    // Countries
+    if(d.top_countries&&d.top_countries.length){
+        makeChart('c-countries',{type:'bar',data:{labels:d.top_countries.map(c=>c.country),datasets:[{data:d.top_countries.map(c=>c.count),backgroundColor:'rgba(0,255,204,.7)',borderWidth:0}]},options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},y:{grid:{display:false}}}}});
+    }
+
+    // Timeline
+    if(d.attacks_over_time&&d.attacks_over_time.length){
+        makeChart('c-timeline',{type:'line',data:{labels:d.attacks_over_time.map(t=>t.time.split(' ')[1]||t.time),datasets:[{label:'Attacks/Hour',data:d.attacks_over_time.map(t=>t.count),borderColor:'#a855f7',backgroundColor:'rgba(168,85,247,.15)',fill:true,tension:.4,pointRadius:3,pointBackgroundColor:'#ff003c'}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},x:{grid:{display:false}}}}});
+    }
+
+    // Top IPs
+    if(d.top_ips&&d.top_ips.length){
+        makeChart('c-ips',{type:'bar',data:{labels:d.top_ips.map(i=>i.ip),datasets:[{data:d.top_ips.map(i=>i.count),backgroundColor:'rgba(0,255,204,.45)',borderColor:'#00ffcc',borderWidth:1}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},x:{grid:{display:false},ticks:{maxRotation:45}}}}});
+    }
+
+    // Creds
+    if(d.top_creds&&d.top_creds.length){
+        makeChart('c-creds',{type:'doughnut',data:{labels:d.top_creds.map(c=>c.cred),datasets:[{data:d.top_creds.map(c=>c.count),backgroundColor:NEON,borderWidth:0}]},options:{responsive:true,plugins:{legend:{position:'right',labels:{color:'#c9d1d9',font:{size:9}}}}}});
+    }
+
+    // Passwords
+    if(d.top_passwords&&d.top_passwords.length){
+        makeChart('c-passwords',{type:'doughnut',data:{labels:d.top_passwords.map(p=>p.password),datasets:[{data:d.top_passwords.map(p=>p.count),backgroundColor:['#a855f7','#8b5cf6','#7c3aed','#6d28d9','#5b21b6','#4c1d95','#ec4899','#f43f5e'],borderWidth:0}]},options:{responsive:true,plugins:{legend:{position:'right',labels:{color:'#c9d1d9',font:{size:9}}}}}});
+    }
+
+    // Threat Distribution
+    if(d.threat_distribution){
+        const tl=Object.keys(d.threat_distribution),td=Object.values(d.threat_distribution);
+        const tc=tl.map(l=>l==='CRITICAL'?'#ff003c':l==='HIGH'?'#ff6600':l==='MEDIUM'?'#ffcc00':'#00ffcc');
+        makeChart('c-threats',{type:'doughnut',data:{labels:tl,datasets:[{data:td,backgroundColor:tc,borderWidth:0}]},options:{responsive:true,plugins:{legend:{position:'right',labels:{color:'#c9d1d9'}}}}});
+    }
+
+    // Tools
+    if(d.tools_detected&&Object.keys(d.tools_detected).length){
+        const tl=Object.keys(d.tools_detected),td=Object.values(d.tools_detected);
+        makeChart('c-tools',{type:'bar',data:{labels:tl,datasets:[{data:td,backgroundColor:'rgba(255,0,60,.6)',borderWidth:0}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},x:{grid:{display:false}}}}});
+    }
+
+    // Profiles Table
+    const ptb=document.querySelector('#t-profiles tbody');ptb.innerHTML='';
+    (d.profiles||[]).forEach(p=>{
+        const tc=p.threat==='CRITICAL'?'threat-crit':p.threat==='HIGH'?'threat-high':p.threat==='MEDIUM'?'threat-med':'threat-low';
+        ptb.innerHTML+=`<tr><td class="ip">${p.ip}</td><td>${p.ssh_client}</td><td>${p.os}</td><td style="color:var(--cyan)">${p.dna}…</td><td style="color:var(--purple)">${p.bio_hash}</td><td class="${tc}">${p.threat}</td><td>${p.classification}</td><td>${p.automated}</td><td>${p.commands}</td></tr>`;
+    });
+    if(!d.profiles||!d.profiles.length) ptb.innerHTML='<tr><td colspan="9" style="color:var(--dim);text-align:center;padding:20px">No attacker profiles yet. SSH into the honeypot to generate profiles.</td></tr>';
+
+    // Firewall
+    document.getElementById('m-blocked').textContent=(d.blocked_ips||[]).length;
+    document.getElementById('m-monitored').textContent=d.monitored_ips_count||0;
+    const ftb=document.querySelector('#t-firewall tbody');ftb.innerHTML='';
+    (d.blocked_ips||[]).forEach(b=>{
+        ftb.innerHTML+=`<tr><td class="ip">${b.ip}</td><td>${b.attempts}</td><td><span class="badge-blocked">BLOCKED</span></td></tr>`;
+    });
+    if(!d.blocked_ips||!d.blocked_ips.length) ftb.innerHTML='<tr><td colspan="3" style="color:var(--dim);text-align:center;padding:16px">No blocked IPs yet.</td></tr>';
+
+    // Replay
+    const sel=document.getElementById('replay-select');sel.innerHTML='';
+    (d.replay_sessions||[]).forEach((s,i)=>{
+        const opt=document.createElement('option');opt.value=i;opt.textContent=`${s.ip} (${s.commands.length} cmds)`;sel.appendChild(opt);
+    });
+    sel.onchange=()=>renderReplay(d.replay_sessions[sel.value]);
+    if(d.replay_sessions&&d.replay_sessions.length) renderReplay(d.replay_sessions[0]);
+
+    // Logs Table
+    const ltb=document.querySelector('#t-logs tbody');ltb.innerHTML='';
+    (d.recent_events||[]).forEach(e=>{
+        const tc=e.type==='AUTH_LOGIN'?'color:var(--red)':e.type==='COMMAND'?'color:var(--neon)':'color:var(--cyan)';
+        ltb.innerHTML+=`<tr><td style="color:var(--dim)">${e.timestamp?new Date(e.timestamp).toLocaleString():'—'}</td><td style="${tc}">${e.type}</td><td class="ip">${e.ip}</td><td>${e.message||''}</td><td style="color:var(--dim)">${e.details||''}</td></tr>`;
+    });
+}
+
+function renderReplay(session){
+    if(!session){document.getElementById('replay-terminal').innerHTML='<span style="color:#555">No data.</span>';return;}
+    let html=`<span class="t-session">═══ SESSION START: ${session.ip} ═══</span>\n<span style="color:#555">Welcome to Ubuntu 22.04.3 LTS</span>\n\n`;
+    session.commands.forEach(c=>{
+        const ts=c.time?new Date(c.time).toLocaleTimeString():'??:??';
+        html+=`<span class="t-ts">[${ts}]</span> <span class="t-prompt">root@production-server:~#</span> <span class="t-cmd">${c.command}</span>\n`;
+    });
+    html+=`\n<span class="t-session">═══ SESSION END ═══</span>`;
+    document.getElementById('replay-terminal').innerHTML=html;
+}
+
+load();
+</script>
 </body>
 </html>
