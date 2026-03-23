@@ -215,7 +215,7 @@ function makeChart(id,cfg){
 function render(){
     const d=DATA;
     // Nav
-    document.getElementById('nav-time').textContent=new Date(d.last_updated).toLocaleString();
+    document.getElementById('nav-time').textContent='Last Sync: ' + new Date(d.last_updated).toLocaleString();
 
     // Metrics
     document.getElementById('m-attacks').textContent=(d.total_attacks||0).toLocaleString();
