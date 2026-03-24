@@ -188,6 +188,7 @@ def _fetch_from_mongo(uri):
             'tools_detected': tools_count,
             'blocked_ips': blocked_ips,
             'monitored_ips_count': len(monitored_ips),
+            'monitored_ips': monitored_ips,
             'replay_sessions': replay_sessions,
             'recent_events': recent_events,
         }
@@ -217,6 +218,7 @@ def _sample_data():
         'tools_detected': {},
         'blocked_ips': [],
         'monitored_ips_count': 0,
+        'monitored_ips': [],
         'replay_sessions': [],
         'recent_events': [],
     }
