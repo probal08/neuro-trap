@@ -83,9 +83,10 @@
         .modal-btn:hover{background:rgba(0,255,65,.15);border-color:var(--neon);box-shadow:0 0 10px rgba(0,255,65,.15)}
 
         /* TERMINAL */
-        .terminal{background:rgba(0,0,0,.7);border:1px solid rgba(0,255,65,.22);border-radius:10px;padding:16px;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--neon);max-height:380px;overflow-y:auto;line-height:1.8;box-shadow:inset 0 0 25px rgba(0,0,0,.5);scroll-behavior:smooth}
+        .terminal{background:rgba(0,0,0,.7);border:1px solid rgba(0,255,65,.22);border-radius:10px;padding:16px;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--neon);max-height:380px;overflow-y:auto;line-height:1.8;box-shadow:inset 0 0 25px rgba(0,0,0,.5);scroll-behavior:smooth;white-space:pre-wrap;word-break:break-word}
         .terminal::before{content:'● ● ●';display:block;color:var(--red);font-size:.55rem;letter-spacing:4px;padding-bottom:8px;border-bottom:1px solid rgba(0,255,65,.08);margin-bottom:8px}
         .t-ts{color:#555}.t-prompt{color:var(--red)}.t-cmd{color:var(--neon)}.t-session{color:#ffcc00;font-weight:bold}
+        .empty-state{text-align:center;padding:30px 10px;color:var(--dim);font-family:'JetBrains Mono',monospace;font-size:.78rem}
 
         /* BADGES */
         .badge-blocked{display:inline-block;padding:3px 10px;border-radius:4px;font-size:.7rem;font-weight:700;background:rgba(255,0,60,.15);color:var(--red);border:1px solid rgba(255,0,60,.3)}
@@ -239,7 +240,7 @@ function openIPModal(ip){
     modal.classList.add('open');
     body.innerHTML='<div class="modal-loading">⏳ Querying Global Threat Intelligence for <span style="color:var(--cyan)">'+ip+'</span>...</div>';
 
-    fetch('https://ipapi.co/'+ip+'/json/')
+    fetch('https://ipapi.co/'+ip+'/json/',{headers:{'Accept':'application/json'}})
     .then(r=>r.json())
     .then(d=>{
         if(d.error || d.reserved){
@@ -309,18 +310,18 @@ function render(){
     document.getElementById('m-user').textContent=d.top_user||'—';
     document.getElementById('m-pass').textContent=d.top_pass||'—';
 
-    if(d.event_distribution){
+    if(d.event_distribution && Object.keys(d.event_distribution).length){
         const labels=Object.keys(d.event_distribution), vals=Object.values(d.event_distribution);
         makeChart('c-events',{type:'bar',data:{labels,datasets:[{data:vals,backgroundColor:NEON.slice(0,labels.length),borderWidth:0}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},x:{grid:{display:false}}}}});
-    }
+    } else { document.getElementById('c-events').parentElement.innerHTML+='<div class="empty-state">No event data yet. Waiting for attacks...</div>'; }
 
     if(d.top_countries&&d.top_countries.length){
         makeChart('c-countries',{type:'bar',data:{labels:d.top_countries.map(c=>c.country),datasets:[{data:d.top_countries.map(c=>c.count),backgroundColor:'rgba(0,255,204,.7)',borderWidth:0}]},options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},y:{grid:{display:false}}}}});
-    }
+    } else { document.getElementById('c-countries').parentElement.innerHTML+='<div class="empty-state">🌍 Country data requires public internet attackers. Local testing IPs (127.0.0.1) have no geolocation.</div>'; }
 
     if(d.attacks_over_time&&d.attacks_over_time.length){
         makeChart('c-timeline',{type:'line',data:{labels:d.attacks_over_time.map(t=>t.time.split(' ')[1]||t.time),datasets:[{label:'Attacks/Hour',data:d.attacks_over_time.map(t=>t.count),borderColor:'#a855f7',backgroundColor:'rgba(168,85,247,.15)',fill:true,tension:.4,pointRadius:3,pointBackgroundColor:'#ff003c'}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},x:{grid:{display:false}}}}});
-    }
+    } else { document.getElementById('c-timeline').parentElement.innerHTML+='<div class="empty-state">No timeline data yet.</div>'; }
 
     const ipList=document.getElementById('ip-list');
     if(d.top_ips&&d.top_ips.length){
@@ -349,12 +350,12 @@ function render(){
         const tl=Object.keys(d.threat_distribution),td=Object.values(d.threat_distribution);
         const tc=tl.map(l=>l==='CRITICAL'?'#ff003c':l==='HIGH'?'#ff6600':l==='MEDIUM'?'#ffcc00':'#00ffcc');
         makeChart('c-threats',{type:'doughnut',data:{labels:tl,datasets:[{data:td,backgroundColor:tc,borderWidth:0}]},options:{responsive:true,plugins:{legend:{position:'right',labels:{color:'#c9d1d9'}}}}});
-    }
+    } else { document.getElementById('c-threats').parentElement.innerHTML+='<div class="empty-state">No threat classification data yet. Profiles generate threat levels automatically.</div>'; }
 
     if(d.tools_detected&&Object.keys(d.tools_detected).length){
         const tl=Object.keys(d.tools_detected),td=Object.values(d.tools_detected);
         makeChart('c-tools',{type:'bar',data:{labels:tl,datasets:[{data:td,backgroundColor:'rgba(255,0,60,.6)',borderWidth:0}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},x:{grid:{display:false}}}}});
-    }
+    } else { document.getElementById('c-tools').parentElement.innerHTML+='<div class="empty-state">No hacking tools detected yet. The AI engine identifies tools like nmap, hydra, metasploit, etc.</div>'; }
 
     const ptb=document.querySelector('#t-profiles tbody');ptb.innerHTML='';
     (d.profiles||[]).forEach(p=>{
