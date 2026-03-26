@@ -10,6 +10,7 @@ services:
   honeypot:
     build: .
     container_name: neuro-trap-honeypot
+    env_file: .env
     ports:
       - "2222:2222"
     volumes:
@@ -22,6 +23,7 @@ services:
   dashboard:
     build: .
     container_name: neuro-trap-dashboard
+    env_file: .env
     ports:
       - "8501:8501"
     volumes:
@@ -35,6 +37,7 @@ services:
   threat-feed:
     build: .
     container_name: neuro-trap-feed
+    env_file: .env
     volumes:
       - ./logs:/app/logs
       - ./threat_feed:/app/threat_feed
