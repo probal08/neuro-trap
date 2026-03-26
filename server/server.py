@@ -20,7 +20,7 @@ import sentry_sdk
 
 # Phase 2: Sentry Error Tracking (Centralized crash reporting)
 sentry_sdk.init(
-    dsn="https://e9fb21868f9563c4613b6202972d3cc2@o4511889686151168.ingest.us.sentry.io/4511889698348864",
+    dsn="https://e9fb21060f9563c4613b6202972d3cc2@o4511889686151168.ingest.us.sentry.io/4511889698348864",
     traces_sample_rate=1.0,
     profiles_sample_rate=1.0,
 )
