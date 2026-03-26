@@ -9,7 +9,12 @@ import random # <--- NEW: For response jitter
 import os
 import sys
 import select # <--- NEW: For non-blocking accept
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
+
+# Indian Standard Time (UTC+5:30)
+IST = timezone(timedelta(hours=5, minutes=30))
+def now_ist():
+    return datetime.now(IST)
 import paramiko
 import sentry_sdk
 
@@ -133,7 +138,7 @@ def handle_connection(client_socket, client_addr):
         channel.send(" * Management:     https://landscape.canonical.com\r\n")
         channel.send(" * Support:        https://ubuntu.com/advantage\r\n")
         channel.send("\r\n")
-        channel.send(f"Last login: {datetime.now().strftime('%a %b %d %H:%M:%S %Y')} from 10.0.0.1\r\n")
+        channel.send(f"Last login: {now_ist().strftime('%a %b %d %H:%M:%S %Y')} from 10.0.0.1\r\n")
         
         # Initialize Virtual Filesystem for this session
         fs = virtual_fs.VirtualFS()
@@ -390,9 +395,9 @@ def handle_connection(client_socket, client_addr):
                                 else:
                                     response = "production-server"
                             elif base_cmd == 'date':
-                                response = datetime.now().strftime('%a %b %d %H:%M:%S UTC %Y')
+                                response = now_ist().strftime('%a %b %d %H:%M:%S UTC %Y')
                             elif base_cmd == 'uptime':
-                                response = f" {datetime.now().strftime('%H:%M:%S')} up 47 days,  3:22,  1 user,  load average: 0.08, 0.03, 0.01"
+                                response = f" {now_ist().strftime('%H:%M:%S')} up 47 days,  3:22,  1 user,  load average: 0.08, 0.03, 0.01"
                             elif base_cmd == 'ps':
                                 response = "PID TTY          TIME CMD\n    1 ?        00:00:02 systemd\n  500 ?        00:00:00 sshd\n  501 pts/0    00:00:00 bash\n  502 pts/0    00:00:00 ps"
                                 if args and 'a' in args:
@@ -420,7 +425,7 @@ def handle_connection(client_socket, client_addr):
                             elif base_cmd == 'free':
                                 response = "               total        used        free      shared  buff/cache   available\nMem:         8154320     2345128     3456780      123456     2352412     5432100\nSwap:        2097148           0     2097148"
                             elif base_cmd == 'top':
-                                response = f"top - {datetime.now().strftime('%H:%M:%S')} up 47 days,  3:22,  1 user,  load average: 0.08, 0.03, 0.01\nTasks: 127 total,   1 running, 126 sleeping,   0 stopped,   0 zombie\n%Cpu(s):  1.3 us,  0.7 sy,  0.0 ni, 97.8 id,  0.2 wa,  0.0 hi,  0.0 si,  0.0 st\nMiB Mem :   7963.2 total,   3376.5 free,   2290.1 used,   2296.5 buff/cache\nMiB Swap:   2048.0 total,   2048.0 free,      0.0 used.   5308.7 avail Mem\n\n    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND\n    310 mysql     20   0 1789456 207648  36224 S   0.3   2.5   5:32.15 mysqld\n    450 www-data  20   0  214432  25800   8452 S   0.1   0.3   0:44.23 apache2\n      1 root      20   0  167576  11200   8400 S   0.0   0.1   0:02.34 systemd\n    189 root      20   0   72300   6168   5400 S   0.0   0.1   0:03.12 sshd"
+                                response = f"top - {now_ist().strftime('%H:%M:%S')} up 47 days,  3:22,  1 user,  load average: 0.08, 0.03, 0.01\nTasks: 127 total,   1 running, 126 sleeping,   0 stopped,   0 zombie\n%Cpu(s):  1.3 us,  0.7 sy,  0.0 ni, 97.8 id,  0.2 wa,  0.0 hi,  0.0 si,  0.0 st\nMiB Mem :   7963.2 total,   3376.5 free,   2290.1 used,   2296.5 buff/cache\nMiB Swap:   2048.0 total,   2048.0 free,      0.0 used.   5308.7 avail Mem\n\n    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND\n    310 mysql     20   0 1789456 207648  36224 S   0.3   2.5   5:32.15 mysqld\n    450 www-data  20   0  214432  25800   8452 S   0.1   0.3   0:44.23 apache2\n      1 root      20   0  167576  11200   8400 S   0.0   0.1   0:02.34 systemd\n    189 root      20   0   72300   6168   5400 S   0.0   0.1   0:03.12 sshd"
                             elif base_cmd == 'htop':
                                 response = f"  CPU[||                       1.3%]   Tasks: 127, 1 running\n  Mem[||||||||            2290M/7963M]   Load average: 0.08 0.03 0.01\n  Swp[                    0K/2048M]   Uptime: 47 days, 03:22:15\n\n  PID USER      PRI  NI  VIRT   RES   SHR S CPU% MEM%   TIME+  Command\n  310 mysql      20   0 1789M  207M 36224 S  0.3  2.5  5:32.15 /usr/sbin/mysqld\n  450 www-data   20   0  214M 25800  8452 S  0.1  0.3  0:44.23 /usr/sbin/apache2\n    1 root       20   0  167M 11200  8400 S  0.0  0.1  0:02.34 /sbin/init"
                             elif base_cmd == 'df':
@@ -435,9 +440,9 @@ def handle_connection(client_socket, client_addr):
                             elif base_cmd == 'lsblk':
                                 response = "NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT\nsda      8:0    0   50G  0 disk \n├─sda1   8:1    0 49.1G  0 part /\n├─sda14  8:14   0    4M  0 part \n└─sda15  8:15   0  106M  0 part /boot/efi\nsr0     11:0    1 1024M  0 rom"
                             elif base_cmd in ('w', 'who'):
-                                response = f" {datetime.now().strftime('%H:%M:%S')} up 47 days,  3:22,  1 user,  load average: 0.08, 0.03, 0.01\nUSER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT\nroot     pts/0    {ip:<16} {datetime.now().strftime('%H:%M')}    0.00s  0.04s  0.00s w"
+                                response = f" {now_ist().strftime('%H:%M:%S')} up 47 days,  3:22,  1 user,  load average: 0.08, 0.03, 0.01\nUSER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT\nroot     pts/0    {ip:<16} {now_ist().strftime('%H:%M')}    0.00s  0.04s  0.00s w"
                             elif base_cmd == 'last':
-                                response = f"root     pts/0        {ip:<16} {datetime.now().strftime('%a %b %d %H:%M')}   still logged in\nroot     pts/0        10.0.0.1         Wed Feb 10 14:20 - 14:35  (00:15)\nroot     pts/0        10.0.0.1         Tue Feb  9 09:10 - 10:30  (01:20)\nreboot   system boot  5.15.0-91-generi Wed Feb  3 10:00   still running\n\nwtmp begins Wed Feb  3 10:00:00 2024"
+                                response = f"root     pts/0        {ip:<16} {now_ist().strftime('%a %b %d %H:%M')}   still logged in\nroot     pts/0        10.0.0.1         Wed Feb 10 14:20 - 14:35  (00:15)\nroot     pts/0        10.0.0.1         Tue Feb  9 09:10 - 10:30  (01:20)\nreboot   system boot  5.15.0-91-generi Wed Feb  3 10:00   still running\n\nwtmp begins Wed Feb  3 10:00:00 2024"
                             elif base_cmd in ('env', 'printenv'):
                                 response = "SHELL=/bin/bash\nPATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\nHOME=/root\nLOGNAME=root\nUSER=root\nLANG=en_US.UTF-8\nTERM=xterm-256color\nSSH_CONNECTION={ip} 54321 10.0.0.45 22\nSSH_CLIENT={ip} 54321 22\nSSH_TTY=/dev/pts/0\nHOSTNAME=production-server\nOLDPWD=/root"
                             elif base_cmd == 'export':
@@ -469,7 +474,7 @@ def handle_connection(client_socket, client_addr):
                             elif base_cmd == 'nmap':
                                 if args:
                                     target_host = args.split()[-1]
-                                    response = f"Starting Nmap 7.80 ( https://nmap.org ) at {datetime.now().strftime('%Y-%m-%d %H:%M')} UTC\nNmap scan report for {target_host}\nHost is up (0.0012s latency).\nNot shown: 997 closed ports\nPORT     STATE SERVICE\n22/tcp   open  ssh\n80/tcp   open  http\n3306/tcp open  mysql\n\nNmap done: 1 IP address (1 host up) scanned in 1.45 seconds"
+                                    response = f"Starting Nmap 7.80 ( https://nmap.org ) at {now_ist().strftime('%Y-%m-%d %H:%M')} UTC\nNmap scan report for {target_host}\nHost is up (0.0012s latency).\nNot shown: 997 closed ports\nPORT     STATE SERVICE\n22/tcp   open  ssh\n80/tcp   open  http\n3306/tcp open  mysql\n\nNmap done: 1 IP address (1 host up) scanned in 1.45 seconds"
                                 else:
                                     response = "Nmap 7.80 ( https://nmap.org )\nUsage: nmap [Scan Type(s)] [Options] {target specification}"
                             elif base_cmd == 'head':
@@ -690,7 +695,7 @@ def handle_connection(client_socket, client_addr):
                                         current_fake_server = fake_host
                                         response = f"{fake_user}@{target_ip}'s password: \n"
                                         response += f"Welcome to Ubuntu 22.04.3 LTS — {fake_desc}\n"
-                                        response += f"Last login: {datetime.now().strftime('%a %b %d %H:%M:%S %Y')} from 10.0.0.45\n"
+                                        response += f"Last login: {now_ist().strftime('%a %b %d %H:%M:%S %Y')} from 10.0.0.45\n"
                                         # Switch prompt to fake server
                                         if response is not None:
                                             # Module 22: Anti-Fingerprinting (Response Jitter)
@@ -828,7 +833,7 @@ def handle_connection(client_socket, client_addr):
                 # Write blocklist
                 blocklist = generate_blocklist(events)
                 with open(os.path.join(feed_dir, 'blocklist.txt'), 'w') as f:
-                    f.write(f"# Neuro-Trap IP Blocklist\n# Auto-generated: {datetime.now().isoformat()}\n")
+                    f.write(f"# Neuro-Trap IP Blocklist\n# Auto-generated: {now_ist().isoformat()}\n")
                     for blocked_ip in blocklist:
                         f.write(blocked_ip + '\n')
                 # Write report

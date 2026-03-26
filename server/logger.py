@@ -6,7 +6,14 @@ Crucial for Phase 5 (Dashboard).
 import logging
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
+
+# Indian Standard Time (UTC+5:30)
+IST = timezone(timedelta(hours=5, minutes=30))
+
+def now_ist():
+    """Return current time in IST."""
+    return datetime.now(IST)
 
 # Setup log directory
 LOG_DIR = os.path.join(os.path.dirname(__file__), '..', 'logs')
@@ -19,7 +26,7 @@ class JsonFormatter(logging.Formatter):
     """Format log records as JSON objects"""
     def format(self, record):
         log_record = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": now_ist().isoformat(),
             "level": record.levelname,
             "event_type": getattr(record, "event_type", "SYSTEM"),
             "ip": getattr(record, "ip", "local"),
@@ -47,7 +54,7 @@ class ConsoleFormatter(logging.Formatter):
     RESET = '\033[0m'
     
     def format(self, record):
-        timestamp = datetime.now().strftime('%H:%M:%S')
+        timestamp = now_ist().strftime('%H:%M:%S')
         level_color = {
             'INFO': self.GREEN,
             'WARNING': self.YELLOW,
@@ -92,7 +99,7 @@ def log_event(level, event_type, message, ip=None, details=None):
             if events_col is not None:
                 # Create a structured dict for MongoDB
                 mongo_record = {
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": now_ist().isoformat(),
                     "level": level,
                     "event_type": event_type,
                     "ip": ip if ip else "local",
