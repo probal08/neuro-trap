@@ -574,15 +574,19 @@ def check_health():
     except Exception:
         status['Cloud Database (MongoDB)'] = ('🔴', 'ERROR')
 
-    # SSH Server
-    try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.settimeout(1)
-        s.connect(('127.0.0.1', 2222))
-        s.close()
-        status['SSH Server'] = ('🟢', 'ONLINE')
-    except:
-        status['SSH Server'] = ('🔴', 'OFFLINE')
+    # SSH Server (try Docker service name first, then localhost)
+    ssh_online = False
+    for host in ['honeypot', '127.0.0.1']:
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.settimeout(2)
+            s.connect((host, 2222))
+            s.close()
+            ssh_online = True
+            break
+        except:
+            continue
+    status['SSH Server'] = ('🟢', 'ONLINE') if ssh_online else ('🔴', 'OFFLINE')
     
     # AI Engine Health (Groq Cloud + Ollama)
     try:
@@ -614,16 +618,19 @@ def check_health():
     except:
         status['AI Engine'] = ('🔴', 'OFFLINE')
     
-    # Docker
-    try:
-        import subprocess
-        result = subprocess.run(['docker', '--version'], capture_output=True, timeout=3)
-        if result.returncode == 0:
-            status['Docker Sandbox'] = ('🟢', 'AVAILABLE')
-        else:
-            status['Docker Sandbox'] = ('🔴', 'UNAVAILABLE')
-    except:
-        status['Docker Sandbox'] = ('🔴', 'NOT INSTALLED')
+    # Docker (detect if we're running inside a container)
+    if os.path.exists('/.dockerenv') or os.environ.get('DOCKER_CONTAINER'):
+        status['Docker Sandbox'] = ('🟢', 'CONTAINERIZED')
+    else:
+        try:
+            import subprocess
+            result = subprocess.run(['docker', '--version'], capture_output=True, timeout=3)
+            if result.returncode == 0:
+                status['Docker Sandbox'] = ('🟢', 'AVAILABLE')
+            else:
+                status['Docker Sandbox'] = ('🔴', 'UNAVAILABLE')
+        except:
+            status['Docker Sandbox'] = ('🔴', 'NOT INSTALLED')
     
     # Log File
     if os.path.exists(LOG_FILE):
