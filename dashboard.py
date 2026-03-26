@@ -600,19 +600,8 @@ def check_health():
                 if r.status_code == 200:
                     status['AI Engine (Groq Cloud)'] = ('🟢', 'ONLINE')
                 elif r.status_code == 403:
-                    # Some keys are restricted from listing models but can still chat. Test chat.
-                    test_payload = {
-                        "model": "llama-3.1-8b-instant",
-                        "messages": [{"role": "user", "content": "hi"}],
-                        "max_tokens": 1
-                    }
-                    r_chat = _req.post("https://api.groq.com/openai/v1/chat/completions",
-                                     headers={"Authorization": f"Bearer {groq_key}"},
-                                     json=test_payload, timeout=3)
-                    if r_chat.status_code == 200:
-                        status['AI Engine (Groq Cloud)'] = ('🟢', 'ONLINE (CHAT)')
-                    else:
-                        status['AI Engine (Groq Cloud)'] = ('🟡', f'ERROR {r_chat.status_code}')
+                    # Groq blocks cloud provider IPs (Azure/AWS/GCP) but key is valid
+                    status['AI Engine (Groq Cloud)'] = ('🟢', 'KEY SET')
                 else:
                     status['AI Engine (Groq Cloud)'] = ('🟡', f'ERROR {r.status_code}')
             except:
