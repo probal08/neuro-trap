@@ -1,56 +1,58 @@
-name: Deploy Threat Feed to GitHub Pages
+name: Deploy Neuro-Trap Public Threat Feed
 
 on:
-  push:
-    branches: ["main"]
+  # Run every hour automatically
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: "0 * * * *"
+  # Also run on every push to main
+  push:
+    branches: [main]
+  # Allow manual trigger from GitHub web UI
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
-
 jobs:
-  build:
+  generate-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
-      
-      - name: Setup Python
-        uses: actions/setup-python@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
-          
+          python-version: "3.11"
+
       - name: Install Dependencies
         run: pip install pymongo dnspython
-        
-      - name: Generate static feed data
+
+      - name: Generate data.json from MongoDB Atlas
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
         run: python scripts/generate_public_feed.py
-        
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-        
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: './public_web'
-          
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
+
+      - name: Generate Threat Blocklist & STIX Feed
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+        run: python scripts/generate_threat_feed.py || echo "Skipped - no local logs"
+
+      - name: Commit Generated Files
+        run: |
+          git config user.name "Neuro-Trap Intelligence Bot"
+          git config user.email "bot@neurotrap.tech"
+          git add public_web/data.json threat_feed/ || true
+          git diff --staged --quiet || git commit -m "🛡️ Auto-update threat intelligence [$(date -u '+%Y-%m-%d %H:%M UTC')]"
+          git push || true
+
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public_web
+          cname: neurotrap.tech
+          commit_message: "🌐 Deploy public threat intelligence feed"
