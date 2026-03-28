@@ -448,7 +448,10 @@ def load_data():
             mongo_data = list(events_col.find({}, {"_id": 0}))
             if mongo_data:
                 df = pd.DataFrame(mongo_data)
-                df['timestamp'] = pd.to_datetime(df['timestamp'], utc=True)
+                df['timestamp'] = pd.to_datetime(
+                    df['timestamp'].astype(str).str.replace(r'[+-]\d{2}:\d{2}$', '', regex=True),
+                    errors='coerce'
+                )
                 return df
     except Exception as e:
         st.warning(f"MongoDB connection failed: {e}. Falling back to local JSON logs.")
@@ -472,7 +475,10 @@ def load_data():
         return pd.DataFrame()
 
     df = pd.DataFrame(data)
-    df['timestamp'] = pd.to_datetime(df['timestamp'], utc=True)
+    df['timestamp'] = pd.to_datetime(
+        df['timestamp'].astype(str).str.replace(r'[+-]\d{2}:\d{2}$', '', regex=True),
+        errors='coerce'
+    )
     return df
 
 def load_profiles():
