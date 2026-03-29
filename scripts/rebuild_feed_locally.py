@@ -16,8 +16,11 @@ print("  LOCAL FEED REBUILDER (with GeoIP)")
 print("=" * 50)
 
 # --- 1. Connect to MongoDB ---
-uri = os.environ.get('MONGODB_URI', 
-    'mongodb+srv://ptalukdar632_db_user:PATHSALA890@neurotrap.tbtmk51.mongodb.net/?appName=neurotrap')
+uri = os.environ.get('MONGODB_URI', '')
+if not uri:
+    print("[!] Set MONGODB_URI environment variable first!")
+    print("    Example: set MONGODB_URI=mongodb+srv://user:pass@host/db")
+    sys.exit(1)
 client = MongoClient(uri, serverSelectionTimeoutMS=5000, tlsCAFile=certifi.where())
 db = client['neurotrap']
 events = list(db.events.find({}, {'_id': 0}))
