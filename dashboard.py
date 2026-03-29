@@ -517,20 +517,43 @@ def get_stats(df):
         
     return total_attacks, unique_ips, top_user, top_pass
 
-def get_geoip(ip):
-    """Innovation 2: Real GeoIP lookup using free ip-api.com"""
+@st.cache_data(ttl=3600, show_spinner=False)
+def batch_geoip_lookup(ips):
+    """Batch GeoIP lookup (cached for 1 hour) to avoid API rate limits."""
+    results = {}
+    if not ips:
+        return results
+        
+    public_ips = [ip for ip in ips if ip and not str(ip).startswith(('127.', '10.', '192.168.', '172.', '0.', 'unknown', 'local')) and ip != 'N/A']
+    
+    import requests
+    for i in range(0, min(len(public_ips), 300), 100):  # limit to 300 for dashboard
+        batch = public_ips[i:i+100]
+        try:
+            payload = [{'query': ip, 'fields': 'query,status,country,city,lat,lon'} for ip in batch]
+            resp = requests.post('http://ip-api.com/batch', json=payload, timeout=5)
+            if resp.status_code == 200:
+                for entry in resp.json():
+                    if entry.get('status') == 'success':
+                        results[entry['query']] = {
+                            'lat': entry.get('lat', 0),
+                            'lon': entry.get('lon', 0),
+                            'origin': f"{entry.get('country','?')} ({entry.get('city','?')})"
+                        }
+        except Exception as e:
+            pass
+            
+    return results
+
+def get_geo_for_ip(ip, geo_dict):
+    """Helper to map a single IP from the cached batch results or generate fake if local."""
     if not isinstance(ip, str) or not ip or ip in ('127.0.0.1', 'localhost', 'N/A', 'local'):
-        # Local IP — use fake hotspot for demo
         return generate_fake_geo(ip)
-    try:
-        import requests
-        resp = requests.get(f'http://ip-api.com/json/{ip}', timeout=3)
-        if resp.status_code == 200:
-            data = resp.json()
-            if data.get('status') == 'success':
-                return pd.Series([data['lat'], data['lon'], f"{data.get('country','?')} ({data.get('city','?')})"])
-    except:
-        pass
+        
+    if ip in geo_dict:
+        g = geo_dict[ip]
+        return pd.Series([g['lat'], g['lon'], g['origin']])
+        
     return generate_fake_geo(ip)
 
 def generate_fake_geo(ip):
@@ -745,8 +768,10 @@ if not df.empty:
             st.subheader("🌍 LIVE GLOBAL THREAT MAP")
             unique_ips_df = df.drop_duplicates(subset=['ip']).copy()
             if not unique_ips_df.empty and 'ip' in unique_ips_df.columns:
-                # Innovation 2: GeoIP (real for public, fake for local)
-                unique_ips_df[['lat', 'lon', 'origin']] = unique_ips_df['ip'].apply(get_geoip)
+                # Innovation 2: Fast Batched GeoIP caching real locations
+                ip_list = unique_ips_df['ip'].tolist()
+                geo_dict = batch_geoip_lookup(ip_list)
+                unique_ips_df[['lat', 'lon', 'origin']] = unique_ips_df['ip'].apply(lambda x: get_geo_for_ip(x, geo_dict))
                 
                 # Bug 8 fix: use scatter_map instead of deprecated scatter_mapbox
                 fig_map = px.scatter_map(
