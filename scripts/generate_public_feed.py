@@ -37,11 +37,38 @@ def get_events_from_mongo():
         return []
 
 
-def get_country_from_ip(ip):
-    """Best-effort country detection from IP range (no API needed)."""
-    if not ip or ip.startswith(('127.', '10.', '192.168.', '172.')):
-        return "Local"
-    return "Unknown"
+def batch_geoip_lookup(ips):
+    """Batch GeoIP lookup using ip-api.com (free, no key, 45 req/min).
+    Returns dict of ip -> {lat, lng, country, city, isp}"""
+    import urllib.request
+    results = {}
+    # Filter out private/local IPs
+    public_ips = [ip for ip in ips if ip and not ip.startswith(('127.', '10.', '192.168.', '172.', '0.', 'unknown'))]
+    # ip-api.com supports batch of up to 100 IPs per request
+    for i in range(0, min(len(public_ips), 100), 100):
+        batch = public_ips[i:i+100]
+        try:
+            payload = json.dumps([{'query': ip, 'fields': 'query,status,country,city,lat,lon,isp'} for ip in batch])
+            req = urllib.request.Request(
+                'http://ip-api.com/batch',
+                data=payload.encode(),
+                headers={'Content-Type': 'application/json'}
+            )
+            resp = urllib.request.urlopen(req, timeout=10)
+            data = json.loads(resp.read().decode())
+            for entry in data:
+                if entry.get('status') == 'success':
+                    results[entry['query']] = {
+                        'lat': entry.get('lat', 0),
+                        'lng': entry.get('lon', 0),
+                        'country': entry.get('country', 'Unknown'),
+                        'city': entry.get('city', 'Unknown'),
+                        'isp': entry.get('isp', 'Unknown')
+                    }
+            print(f"[+] GeoIP resolved {len(results)}/{len(public_ips)} IPs")
+        except Exception as e:
+            print(f"[!] GeoIP batch lookup failed: {e}")
+    return results
 
 
 def mask_ip(ip):
@@ -123,10 +150,27 @@ def build_data_json(events):
             except Exception:
                 pass
 
-    # Country data via ipapi.co would need API calls - we skip for simplicity
-    # and just show IP rankings
+    # GeoIP lookup for globe visualization
+    unique_ips_list = list(ip_counter.keys())
+    geo_data = batch_geoip_lookup(unique_ips_list[:100])  # Lookup top 100 IPs
 
-    # Top IPs - mask for privacy
+    # Build globe points for 3D visualization
+    globe_points = []
+    for ip_addr, count in ip_counter.most_common(100):
+        if ip_addr in geo_data:
+            g = geo_data[ip_addr]
+            globe_points.append({
+                'lat': g['lat'],
+                'lng': g['lng'],
+                'country': g['country'],
+                'city': g['city'],
+                'ip': ip_addr,
+                'count': count,
+                'size': min(count / 3, 1.5)  # Scale for globe
+            })
+            country_counter[g['country']] += count
+
+    # Top IPs
     top_ips = [{'ip': ip, 'count': c} for ip, c in ip_counter.most_common(10)]
 
     # Recent events (last 200, sanitised)
@@ -206,7 +250,8 @@ def build_data_json(events):
         'top_user': username_counter.most_common(1)[0][0] if username_counter else '—',
         'top_pass': password_counter.most_common(1)[0][0] if password_counter else '—',
         'event_distribution': dict(event_type_counter.most_common(8)),
-        'top_countries': [{'country': 'SSH Brute-force', 'count': len(events)}],
+        'top_countries': [{'country': c, 'count': n} for c, n in country_counter.most_common(10)] or [{'country': 'Scanning...', 'count': 0}],
+        'globe_points': globe_points,
         'attacks_over_time': attacks_over_time,
         'top_ips': top_ips,
         'top_creds': top_creds,
@@ -258,7 +303,8 @@ def main():
             'monitored_ips_count': 0,
             'monitored_ips': [],
             'replay_sessions': [],
-            'recent_events': []
+            'recent_events': [],
+            'globe_points': []
         }
     else:
         data = build_data_json(events)
