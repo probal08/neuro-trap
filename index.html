@@ -156,17 +156,17 @@
         <div class="metric"><div class="label">Most Breached Key</div><div class="value" id="m-pass">—</div><div class="sub">Password</div></div>
     </div>
     <div class="grid g2 section">
-        <div class="panel"><div class="panel-title"><span class="icon">📊</span> THREAT VECTORS (Event Types)</div><canvas id="c-events" height="180"></canvas></div>
-        <div class="panel" style="position:relative;overflow:hidden"><div class="panel-title"><span class="icon">🌍</span> GLOBAL ATTACK ORIGINS <span style="font-size:.6rem;color:var(--dim);margin-left:5px">(3D INTERACTIVE — DRAG TO ROTATE)</span></div>
-            <div id="globe-container" style="width:100%;height:340px;cursor:grab"></div>
+        <div class="panel"><div class="panel-title"><span class="icon">📊</span> THREAT VECTORS (Event Types)</div><p style="font-size:.7rem;color:var(--dim);margin:-4px 0 10px;font-family:'JetBrains Mono',monospace">Real-time classification of every intercepted event — connections, login attempts, commands, and system alerts.</p><canvas id="c-events" height="180"></canvas></div>
+        <div class="panel" style="position:relative;overflow:hidden"><div class="panel-title"><span class="icon">🌍</span> GLOBAL ATTACK ORIGINS <span style="font-size:.6rem;color:var(--dim);margin-left:5px">(3D INTERACTIVE • SCROLL ZOOM • CLICK ATTACKERS)</span></div>
+            <div id="globe-container" style="width:100%;height:420px;cursor:grab"></div>
             <div id="globe-stats" style="position:absolute;bottom:12px;left:16px;font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--neon);text-shadow:0 0 8px rgba(0,255,65,.5)"></div>
         </div>
     </div>
     <div class="grid g1 section">
-        <div class="panel"><div class="panel-title"><span class="icon">🗺️</span> TOP ATTACKING COUNTRIES</div><canvas id="c-countries" height="80"></canvas></div>
+        <div class="panel"><div class="panel-title"><span class="icon">🗺️</span> TOP ATTACKING COUNTRIES</div><p style="font-size:.7rem;color:var(--dim);margin:-4px 0 10px;font-family:'JetBrains Mono',monospace">GeoIP-resolved origins of attackers — showing which nations generate the most hostile traffic against the honeypot.</p><canvas id="c-countries" height="80"></canvas></div>
     </div>
     <div class="grid g1 section">
-        <div class="panel"><div class="panel-title"><span class="icon">📈</span> ATTACK VELOCITY (LAST 24 HOURS)</div><canvas id="c-timeline" height="80"></canvas></div>
+        <div class="panel"><div class="panel-title"><span class="icon">📈</span> ATTACK VELOCITY (LAST 24 HOURS)</div><p style="font-size:.7rem;color:var(--dim);margin:-4px 0 10px;font-family:'JetBrains Mono',monospace">Hourly attack frequency showing when adversaries are most active — spikes indicate coordinated scanning campaigns.</p><canvas id="c-timeline" height="80"></canvas></div>
     </div>
     <div class="grid g3 section">
         <div class="panel"><div class="panel-title"><span class="icon">🎯</span> TOP ATTACKING IPs — <span style="font-size:.65rem;color:var(--dim);margin-left:5px">(Click any IP to Inspect)</span></div><div id="ip-list"></div></div>
@@ -328,9 +328,12 @@ function render(){
         const container = document.getElementById('globe-container');
         container.innerHTML = '';
         const w = container.offsetWidth;
-        const h = 340;
+        const h = 420;
         const honeypotLat = 20.5937; // India
         const honeypotLng = 78.9629;
+
+        // Add honeypot location as a special green point
+        const allPoints = [...d.globe_points, {lat:honeypotLat, lng:honeypotLng, ip:'HONEYPOT', city:'India', country:'Neuro-Trap Server', count:0, size:2, isHoneypot:true}];
 
         const globe = Globe()
             .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-night.jpg')
@@ -338,44 +341,39 @@ function render(){
             .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
             .width(w).height(h)
             .atmosphereColor('#00ff41')
-            .atmosphereAltitude(0.2)
-            // Points = attacker locations
-            .pointsData(d.globe_points)
+            .atmosphereAltitude(0.25)
+            .pointsData(allPoints)
             .pointLat(p => p.lat)
             .pointLng(p => p.lng)
-            .pointAltitude(p => Math.min(p.count * 0.01, 0.3))
-            .pointRadius(p => Math.max(p.size * 0.3, 0.15))
-            .pointColor(() => '#ff003c')
-            .pointLabel(p => `<div style="background:rgba(0,0,0,.85);padding:8px 12px;border-radius:6px;border:1px solid #ff003c;font-family:JetBrains Mono,monospace;font-size:11px;color:#fff">
-                <b style="color:#ff003c">${p.ip}</b><br>
-                ${p.city}, ${p.country}<br>
-                <span style="color:#00ff41">${p.count} attacks</span>
-            </div>`)
-            // Arcs = attack paths to honeypot
-            .arcsData(d.globe_points.slice(0, 20))
+            .pointAltitude(p => p.isHoneypot ? 0.06 : Math.min(p.count * 0.015, 0.35))
+            .pointRadius(p => p.isHoneypot ? 0.6 : Math.max(p.size * 0.45, 0.25))
+            .pointColor(p => p.isHoneypot ? '#00ff41' : '#ff003c')
+            .pointLabel(p => p.isHoneypot
+                ? `<div style="background:rgba(0,0,0,.9);padding:10px 14px;border-radius:8px;border:1px solid #00ff41;font-family:JetBrains Mono,monospace;font-size:12px;color:#00ff41;text-align:center"><b>🕸️ NEURO-TRAP HONEYPOT</b><br>Click to view server info</div>`
+                : `<div style="background:rgba(0,0,0,.9);padding:10px 14px;border-radius:8px;border:1px solid #ff003c;font-family:JetBrains Mono,monospace;font-size:12px;color:#fff"><b style="color:#ff003c">⚠️ ${p.ip}</b><br>${p.city}, ${p.country}<br><span style="color:#00ff41">${p.count} attacks</span><br><span style="color:#00ffff;font-size:10px">🔍 Click to inspect</span></div>`)
+            .onPointClick(p => { if(!p.isHoneypot) openIPModal(p.ip); })
+            .arcsData(d.globe_points.slice(0, 25))
             .arcStartLat(a => a.lat)
             .arcStartLng(a => a.lng)
             .arcEndLat(() => honeypotLat)
             .arcEndLng(() => honeypotLng)
-            .arcColor(() => ['rgba(255,0,60,0.6)', 'rgba(0,255,65,0.6)'])
-            .arcAltitude(0.3)
-            .arcStroke(0.4)
-            .arcDashLength(0.5)
-            .arcDashGap(0.3)
-            .arcDashAnimateTime(2000)
+            .arcColor(() => ['rgba(255,0,60,0.7)', 'rgba(0,255,65,0.7)'])
+            .arcAltitude(0.35)
+            .arcStroke(0.5)
+            .arcDashLength(0.6)
+            .arcDashGap(0.2)
+            .arcDashAnimateTime(1800)
             (container);
 
-        // Auto-rotate
         globe.controls().autoRotate = true;
-        globe.controls().autoRotateSpeed = 0.8;
-        globe.controls().enableZoom = false;
+        globe.controls().autoRotateSpeed = 0.6;
+        globe.controls().enableZoom = true;
+        globe.controls().minDistance = 120;
+        globe.controls().maxDistance = 500;
+        globe.pointOfView({ lat: 20, lng: 78, altitude: 2.2 }, 1500);
 
-        // Point camera at India (honeypot location)
-        globe.pointOfView({ lat: 20, lng: 78, altitude: 2.2 }, 1000);
-
-        // Stats overlay
         const countries = [...new Set(d.globe_points.map(p => p.country))];
-        document.getElementById('globe-stats').innerHTML = `${d.globe_points.length} SOURCES | ${countries.length} COUNTRIES | LIVE`;
+        document.getElementById('globe-stats').innerHTML = `🔴 ${d.globe_points.length} ATTACK SOURCES | 🌍 ${countries.length} COUNTRIES | 🟢 HONEYPOT ACTIVE | <span style="color:var(--cyan)">SCROLL TO ZOOM • CLICK POINTS TO INSPECT</span>`;
     } else {
         document.getElementById('globe-container').innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--dim);font-size:.8rem">Awaiting GeoIP data from public attackers...</div>';
     }
