@@ -367,6 +367,7 @@ function render(){
             .arcDashLength(0.6)
             .arcDashGap(0.2)
             .arcDashAnimateTime(1800)
+            .onGlobeClick(() => { globe.controls().autoRotate = false; })
             (container);
 
         globe.controls().autoRotate = true;
