@@ -230,15 +230,28 @@
 
 <!-- TAB 3: ATTACK REPLAY -->
 <div class="page" id="page-replay">
-    <div class="section-title" style="margin-top:16px">🔁 LIVE ATTACK REPLAY <span style="font-size:.7rem;color:var(--neon);margin-left:10px">(FULLY INTERACTIVE)</span></div>
-    <p style="font-size:.78rem;color:var(--dim);margin-bottom:14px;font-family:'JetBrains Mono',monospace">Watch a hacker's session unfold command by command — like watching a movie of the break-in.</p>
-    <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
-        <select id="replay-select" class="custom-select"></select>
-        <button class="modal-btn" onclick="playReplay()" id="btn-play">▶ AUTO-PLAY REC</button>
-        <button class="modal-btn" onclick="stopReplay()" style="border-color:var(--red);color:var(--red);background:rgba(255,0,60,.1)">⏹ STOP</button>
-        <span id="replay-status" style="font-size:.75rem;color:var(--dim);font-family:'JetBrains Mono',monospace;font-weight:bold;margin-left:10px"></span>
+    <div class="section-title" style="margin-top:16px">🔁 LIVE ATTACK REPLAY <span style="font-size:.7rem;color:var(--neon);margin-left:10px">(FORENSIC EVIDENCE PLAYBACK)</span></div>
+    <p style="font-size:.78rem;color:var(--dim);margin-bottom:14px;font-family:'JetBrains Mono',monospace">Watch exactly what the hacker typed, command by command, in real-time. Every keystroke was captured by Neuro-Trap's deception engine. Click any IP in the session to run a full OSINT intelligence scan.</p>
+    
+    <!-- Session Selector & Controls -->
+    <div class="panel" style="margin-bottom:12px;padding:16px">
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+            <div style="flex:1;min-width:200px">
+                <div style="font-size:.65rem;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Select Evidence Recording</div>
+                <select id="replay-select" class="custom-select" style="width:100%"></select>
+            </div>
+            <button class="modal-btn" onclick="playReplay()" id="btn-play">▶ PLAY RECORDING</button>
+            <button class="modal-btn" onclick="stopReplay()" style="border-color:var(--red);color:var(--red);background:rgba(255,0,60,.1)">⏹ STOP</button>
+            <button class="modal-btn" onclick="stepReplay()" style="border-color:var(--purple);color:var(--purple);background:rgba(168,85,247,.1)">⏭ STEP</button>
+        </div>
+        <!-- Session Info Bar -->
+        <div id="replay-info" style="margin-top:10px;display:flex;gap:16px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:.72rem"></div>
+        <!-- Progress Bar -->
+        <div style="margin-top:8px;height:3px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden"><div id="replay-progress" style="height:100%;width:0%;background:linear-gradient(90deg,var(--neon),var(--cyan));border-radius:2px;transition:width .3s"></div></div>
+        <div id="replay-status" style="font-size:.68rem;color:var(--dim);font-family:'JetBrains Mono',monospace;margin-top:4px"></div>
     </div>
-    <div class="terminal" id="replay-terminal"><span style="color:#555">No session data yet.</span></div>
+    
+    <div class="terminal" id="replay-terminal"><span style="color:#555">Select an evidence recording above and press ▶ PLAY to begin forensic playback.</span></div>
 </div>
 
 <!-- TAB 4: RAW LOGS -->
@@ -556,48 +569,76 @@ function filterLogs(){
 
 function renderReplay(session){
     if(!session){document.getElementById('replay-terminal').innerHTML='<span style="color:#555">No data.</span>';return;}
+    const info = document.getElementById('replay-info');
+    if(info) info.innerHTML = `<span style="color:var(--cyan)">🎯 IP: <b>${session.ip}</b></span><span style="color:var(--neon)">📟 Commands: <b>${session.commands.length}</b></span><span><span class="ip-link" onclick="openIPModal('${session.ip}')">🔍 Run OSINT Scan</span></span>`;
+    document.getElementById('replay-progress').style.width = '0%';
     let html=`<span class="t-session">═══ SESSION START: ${session.ip} ═══</span>\n<span style="color:#555">Welcome to Ubuntu 22.04.3 LTS</span>\n\n`;
     session.commands.forEach(c=>{
         const ts=c.time?new Date(c.time).toLocaleTimeString():'??:??';
         html+=`<span class="t-ts">[${ts}]</span> <span class="t-prompt">root@production-server:~#</span> <span class="t-cmd">${c.command}</span>\n`;
     });
-    html+=`\n<span class="t-session">═══ SESSION END ═══</span>`;
+    html+=`\n<span class="t-session">═══ SESSION END — ${session.commands.length} COMMANDS CAPTURED ═══</span>`;
     document.getElementById('replay-terminal').innerHTML=html;
 }
+
+let replayStep = 0, replaySession = null;
 
 function playReplay(){
     stopReplay();
     const idx=document.getElementById('replay-select').value;
-    const session=DATA?.replay_sessions?.[idx];
-    if(!session) return;
+    replaySession=DATA?.replay_sessions?.[idx];
+    if(!replaySession) return;
     const term=document.getElementById('replay-terminal');
-    const status=document.getElementById('replay-status');
     document.getElementById('btn-play').innerHTML = '⏸ PLAYING...';
-    term.innerHTML=`<span class="t-session">═══ SESSION START: ${session.ip} ═══</span>\n<span style="color:#555">Welcome to Ubuntu 22.04.3 LTS</span>\n\n`;
-    let i=0;
-    status.textContent=`▶ Processing ${session.commands.length} Commands...`;
-    
+    term.innerHTML=`<span class="t-session">═══ SESSION START: ${replaySession.ip} ═══</span>\n<span style="color:#555">Welcome to Ubuntu 22.04.3 LTS</span>\n\n`;
+    replayStep=0;
+    document.getElementById('replay-status').textContent=`▶ Playing ${replaySession.commands.length} intercepted commands...`;
     replayInterval=setInterval(()=>{
-        if(i>=session.commands.length){
-            term.innerHTML+=`\n<span class="t-session">═══ SESSION END ═══</span>`;
-            status.textContent='✓ REPLAY COMPLETE';
-            document.getElementById('btn-play').innerHTML = '▶ AUTO-PLAY REC';
-            stopReplay();
-            return;
+        if(replayStep>=replaySession.commands.length){
+            term.innerHTML+=`\n<span class="t-session">═══ SESSION END — ${replaySession.commands.length} COMMANDS CAPTURED ═══</span>`;
+            document.getElementById('replay-status').innerHTML='<span style="color:var(--neon)">✓ FORENSIC PLAYBACK COMPLETE</span>';
+            document.getElementById('btn-play').innerHTML = '▶ PLAY RECORDING';
+            document.getElementById('replay-progress').style.width = '100%';
+            stopReplay(); return;
         }
-        const c=session.commands[i];
+        const c=replaySession.commands[replayStep];
         const ts=c.time?new Date(c.time).toLocaleTimeString():'??:??';
-        term.innerHTML+=`<span class="t-ts">[${ts}]</span> <span class="t-prompt">root@production-server:~#</span> <span class="t-cmd">${c.command}</span>\n`;
+        const isDangerous = /wget|curl|chmod|rm\s|nc\s|bash\s-i|\/dev\/tcp|base64/i.test(c.command);
+        const cmdColor = isDangerous ? 'color:var(--red);font-weight:bold' : 'color:var(--neon)';
+        term.innerHTML+=`<span class="t-ts">[${ts}]</span> <span class="t-prompt">root@production-server:~#</span> <span style="${cmdColor}">${c.command}</span>${isDangerous?' <span style="color:var(--red);font-size:.65rem">⚠️ DANGEROUS</span>':''}\n`;
         term.scrollTop=term.scrollHeight;
-        i++;
+        document.getElementById('replay-progress').style.width = ((replayStep+1)/replaySession.commands.length*100)+'%';
+        document.getElementById('replay-status').textContent=`▶ Command ${replayStep+1}/${replaySession.commands.length}`;
+        replayStep++;
     }, 700);
 }
+
+function stepReplay(){
+    if(!replaySession){
+        const idx=document.getElementById('replay-select').value;
+        replaySession=DATA?.replay_sessions?.[idx];
+        replayStep=0;
+        if(!replaySession) return;
+        document.getElementById('replay-terminal').innerHTML=`<span class="t-session">═══ SESSION START: ${replaySession.ip} ═══</span>\n<span style="color:#555">Welcome to Ubuntu 22.04.3 LTS</span>\n\n`;
+    }
+    stopReplay();
+    if(replayStep>=replaySession.commands.length) return;
+    const c=replaySession.commands[replayStep];
+    const ts=c.time?new Date(c.time).toLocaleTimeString():'??:??';
+    const isDangerous = /wget|curl|chmod|rm\s|nc\s|bash\s-i/i.test(c.command);
+    const cmdColor = isDangerous ? 'color:var(--red);font-weight:bold' : 'color:var(--neon)';
+    document.getElementById('replay-terminal').innerHTML+=`<span class="t-ts">[${ts}]</span> <span class="t-prompt">root@production-server:~#</span> <span style="${cmdColor}">${c.command}</span>${isDangerous?' <span style="color:var(--red);font-size:.65rem">⚠️ DANGEROUS</span>':''}\n`;
+    document.getElementById('replay-terminal').scrollTop=document.getElementById('replay-terminal').scrollHeight;
+    document.getElementById('replay-progress').style.width = ((replayStep+1)/replaySession.commands.length*100)+'%';
+    document.getElementById('replay-status').textContent=`⏭ Step ${replayStep+1}/${replaySession.commands.length}`;
+    replayStep++;
+}
+
 function stopReplay(){ 
     if(replayInterval){
         clearInterval(replayInterval);
         replayInterval=null;
-        document.getElementById('btn-play').innerHTML = '▶ AUTO-PLAY REC';
-        document.getElementById('replay-status').textContent='';
+        document.getElementById('btn-play').innerHTML = '▶ PLAY RECORDING';
     } 
 }
 
