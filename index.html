@@ -161,19 +161,27 @@
 </nav>
 
 <!-- LIVE ATTACK TICKER -->
-<div id="attack-ticker" style="background:rgba(255,0,60,.08);border-bottom:1px solid rgba(255,0,60,.2);padding:6px 0;overflow:hidden;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--dim);cursor:pointer" title="Click to pause / resume">
-    <div id="ticker-content" style="display:inline-block;padding-left:100%;animation:tickerScroll 120s linear infinite">Loading live threat feed...</div>
+<div id="attack-ticker" style="background:rgba(255,0,60,.08);border-bottom:1px solid rgba(255,0,60,.2);padding:6px 0;overflow:hidden;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--dim);cursor:pointer;position:relative" title="Hover or click to pause">
+    <div id="ticker-content" style="display:inline-block;position:relative;left:100%">Loading live threat feed...</div>
 </div>
-<style>
-@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
-#attack-ticker:hover #ticker-content{animation-play-state:paused}
-</style>
 <script>
-document.getElementById('attack-ticker').addEventListener('click',function(){
-    var t=document.getElementById('ticker-content');
-    if(t.style.animationPlayState==='paused'){t.style.animationPlayState='running';}
-    else{t.style.animationPlayState='paused';}
-});
+(function(){
+    var ticker=document.getElementById('ticker-content');
+    var paused=false, hovered=false, pos=window.innerWidth;
+    function step(){
+        if(!paused && !hovered){
+            pos -= 0.5;
+            if(pos < -ticker.offsetWidth) pos = window.innerWidth;
+            ticker.style.left = pos + 'px';
+        }
+        requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+    var wrap=document.getElementById('attack-ticker');
+    wrap.addEventListener('mouseenter',function(){hovered=true;});
+    wrap.addEventListener('mouseleave',function(){hovered=false;});
+    wrap.addEventListener('click',function(){paused=!paused;});
+})();
 </script>
 
 <!-- HERO -->
