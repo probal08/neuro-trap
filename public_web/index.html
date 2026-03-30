@@ -161,10 +161,10 @@
 </nav>
 
 <!-- LIVE ATTACK TICKER -->
-<div id="attack-ticker" style="background:rgba(255,0,60,.08);border-bottom:1px solid rgba(255,0,60,.2);padding:6px 0;overflow:hidden;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--dim)">
-    <div id="ticker-content" style="display:inline-block;animation:tickerScroll 30s linear infinite">Loading live threat feed...</div>
+<div id="attack-ticker" style="background:rgba(255,0,60,.08);border-bottom:1px solid rgba(255,0,60,.2);padding:6px 0;overflow:hidden;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--dim);cursor:pointer" onclick="this.classList.toggle('paused')" title="Click to pause/resume">
+    <div id="ticker-content" style="display:inline-block;animation:tickerScroll 60s linear infinite;padding-left:100%">Loading live threat feed...</div>
 </div>
-<style>@keyframes tickerScroll{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}</style>
+<style>@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}#attack-ticker:hover #ticker-content,#attack-ticker.paused #ticker-content{animation-play-state:paused}</style>
 
 <!-- HERO -->
 <div class="hero">
