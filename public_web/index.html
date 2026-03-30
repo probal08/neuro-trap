@@ -180,7 +180,7 @@
     var wrap=document.getElementById('attack-ticker');
     wrap.addEventListener('mouseenter',function(){hovered=true;});
     wrap.addEventListener('mouseleave',function(){hovered=false;});
-    wrap.addEventListener('click',function(){paused=!paused;});
+    wrap.addEventListener('click',function(ev){if(ev.target.classList.contains('ticker-ip'))return;paused=!paused;});
 })();
 </script>
 
@@ -414,7 +414,7 @@ function render(){
     if(d.recent_events && d.recent_events.length) {
         const tickerItems = d.recent_events.slice(0, 15).map(e => {
             const icon = e.type==='AUTH_LOGIN' ? '🔐' : e.type==='COMMAND' ? '💻' : e.type==='CONNECTION' ? '🔌' : e.type==='FIREWALL' ? '🛡️' : '📡';
-            return `${icon} <span style="color:var(--cyan)">${e.ip}</span> → <span style="color:${e.type==='AUTH_LOGIN'?'var(--red)':'var(--neon)'}">${e.type}</span> ${e.message ? '— '+e.message.slice(0,40) : ''}`;
+            return `${icon} <span class="ticker-ip" onclick="openIPModal('${e.ip}')" style="color:var(--cyan);text-decoration:underline;cursor:pointer">${e.ip}</span> → <span style="color:${e.type==='AUTH_LOGIN'?'var(--red)':'var(--neon)'}">${e.type}</span> ${e.message ? '— '+e.message.slice(0,40) : ''}`;
         });
         document.getElementById('ticker-content').innerHTML = tickerItems.join('&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;');
     }
