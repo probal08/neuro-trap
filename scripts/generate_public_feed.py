@@ -243,6 +243,157 @@ def build_data_json(events):
         for t, c in sorted(timeline.items())[-24:]
     ]
 
+    # ===== ENTERPRISE INTEL FEATURES =====
+
+    # FEATURE: Reverse DNS Lookup — classify attacker infrastructure
+    def reverse_dns_lookup(ip):
+        """Classify attacker by PTR record."""
+        try:
+            import socket as _socket
+            host = _socket.gethostbyaddr(ip)[0]
+            if any(x in host.lower() for x in ['vpn', 'tor', 'proxy', 'exit']):
+                return 'VPN/Proxy'
+            elif any(x in host.lower() for x in ['amazon', 'aws', 'ec2', 'compute', 'cloud', 'azure', 'google', 'digital']):
+                return 'Cloud Server'
+            elif any(x in host.lower() for x in ['static', 'dynamic', 'dsl', 'cable', 'broadband', 'residential']):
+                return 'Residential'
+            else:
+                return 'Hosting'
+        except Exception:
+            return 'Unknown'
+
+    infra_types = Counter()
+    for ip_addr in list(ip_counter.keys())[:30]:  # Top 30 only to stay fast
+        infra_type = reverse_dns_lookup(ip_addr)
+        infra_types[infra_type] += 1
+    # Add infra_type to profiles
+    for p in profiles:
+        p['infra_type'] = reverse_dns_lookup(p['ip'])
+    print(f"[+] Reverse DNS classified {len(infra_types)} infrastructure types")
+
+    # FEATURE: Session Duration — how long each attacker stays
+    ip_first_seen = {}
+    ip_last_seen = {}
+    for e in events:
+        ip = e.get('ip', 'unknown') or 'unknown'
+        ts = e.get('timestamp', '')
+        if ts and ip != 'unknown':
+            try:
+                dt = datetime.fromisoformat(str(ts).replace('Z', '+00:00'))
+                if ip not in ip_first_seen or dt < ip_first_seen[ip]:
+                    ip_first_seen[ip] = dt
+                if ip not in ip_last_seen or dt > ip_last_seen[ip]:
+                    ip_last_seen[ip] = dt
+            except Exception:
+                pass
+    for p in profiles:
+        ip = p['ip']
+        if ip in ip_first_seen and ip in ip_last_seen:
+            duration = (ip_last_seen[ip] - ip_first_seen[ip]).total_seconds()
+            p['session_duration'] = int(duration)
+        else:
+            p['session_duration'] = 0
+    avg_session = int(sum(p['session_duration'] for p in profiles) / max(len(profiles), 1))
+    max_session = max((p['session_duration'] for p in profiles), default=0)
+
+    # FEATURE: MITRE ATT&CK Kill Chain Mapping
+    MITRE_MAP = {
+        'Reconnaissance': ['whoami', 'id', 'uname', 'hostname', 'ifconfig', 'ip a', 'cat /etc/passwd', 'ls', 'pwd', 'ps', 'netstat', 'ss', 'w', 'last', 'env'],
+        'Credential Access': ['cat /etc/shadow', 'password', 'credential', 'hash', 'passwd', '.ssh'],
+        'Discovery': ['nmap', 'ping', 'traceroute', 'find', 'locate', 'grep'],
+        'Lateral Movement': ['ssh ', 'scp', 'rsync', 'telnet'],
+        'Exfiltration': ['wget', 'curl', 'nc ', 'base64', 'tar ', 'zip ', 'scp'],
+        'Persistence': ['crontab', 'chmod', 'chown', '.bashrc', 'useradd', 'adduser'],
+        'Execution': ['python', 'perl', 'bash', 'sh ', 'ruby', './'],
+    }
+    kill_chain_counts = Counter()
+    for cmd, count in command_counter.items():
+        for stage, keywords in MITRE_MAP.items():
+            if any(kw in cmd.lower() for kw in keywords):
+                kill_chain_counts[stage] += count
+                break
+    # Per-profile kill chain stage (highest stage reached)
+    STAGE_ORDER = ['Reconnaissance', 'Credential Access', 'Discovery', 'Lateral Movement', 'Execution', 'Persistence', 'Exfiltration']
+    for p in profiles:
+        ip = p['ip']
+        ip_cmds = [c['command'] for c in sessions.get(ip, [])]
+        max_stage = 0
+        for cmd in ip_cmds:
+            for idx, stage in enumerate(STAGE_ORDER):
+                if any(kw in cmd.lower() for kw in MITRE_MAP.get(stage, [])):
+                    max_stage = max(max_stage, idx + 1)
+        p['kill_chain_stage'] = max_stage
+        p['kill_chain_label'] = STAGE_ORDER[max_stage - 1] if max_stage > 0 else 'None'
+
+    # FEATURE: Paste Detection
+    for p in profiles:
+        ip = p['ip']
+        ip_cmds = sessions.get(ip, [])
+        if len(ip_cmds) >= 2:
+            paste_count = 0
+            for i in range(1, len(ip_cmds)):
+                try:
+                    t1 = datetime.fromisoformat(str(ip_cmds[i-1].get('time', '')).replace('Z', '+00:00'))
+                    t2 = datetime.fromisoformat(str(ip_cmds[i].get('time', '')).replace('Z', '+00:00'))
+                    if (t2 - t1).total_seconds() < 2:
+                        paste_count += 1
+                except Exception:
+                    pass
+            total = max(len(ip_cmds) - 1, 1)
+            p['paste_ratio'] = round(paste_count / total * 100)
+            p['input_method'] = 'Pasted Script' if p['paste_ratio'] > 60 else 'Manual Typing' if p['paste_ratio'] < 20 else 'Mixed'
+        else:
+            p['paste_ratio'] = 0
+            p['input_method'] = 'Unknown'
+
+    # FEATURE: Language/Origin Profiling
+    CN_KEYWORDS = ['baidu', '微信', 'wget', 'base64', '/dev/tcp', 'crontab']
+    RU_KEYWORDS = ['кошелек', 'yandex', 'passwd', 'shadow']
+    for p in profiles:
+        ip_cmds = ' '.join(c['command'] for c in sessions.get(p['ip'], []))
+        if any(kw in ip_cmds.lower() for kw in CN_KEYWORDS):
+            p['origin_hint'] = '🇨🇳 CN-Pattern'
+        elif any(kw in ip_cmds.lower() for kw in RU_KEYWORDS):
+            p['origin_hint'] = '🇷🇺 RU-Pattern'
+        elif 'whoami' in ip_cmds and 'uname' in ip_cmds:
+            p['origin_hint'] = '🏴‍☠️ Recon-Heavy'
+        elif p['commands'] > 20:
+            p['origin_hint'] = '🎯 Persistent'
+        else:
+            p['origin_hint'] = '🤖 Automated'
+
+    # FEATURE: Top ISPs (from geo_data)
+    isp_counter = Counter()
+    for ip_addr in list(ip_counter.keys())[:100]:
+        if ip_addr in geo_data and geo_data[ip_addr].get('isp'):
+            isp_counter[geo_data[ip_addr]['isp']] += ip_counter[ip_addr]
+    top_isps = [{'isp': isp, 'count': c} for isp, c in isp_counter.most_common(8)]
+
+    # FEATURE: Timezone Inference (from activity hours)
+    ip_hours = {}
+    for e in events:
+        ip = e.get('ip', 'unknown')
+        ts = e.get('timestamp', '')
+        if ts and ip != 'unknown':
+            try:
+                dt = datetime.fromisoformat(str(ts).replace('Z', '+00:00'))
+                if ip not in ip_hours:
+                    ip_hours[ip] = []
+                ip_hours[ip].append(dt.hour)
+            except Exception:
+                pass
+    for p in profiles:
+        hours = ip_hours.get(p['ip'], [])
+        if hours:
+            avg_hour = sum(hours) / len(hours)
+            # Guess timezone offset: if avg activity hour is around 4 UTC, they're probably UTC+8 (working at noon)
+            tz_guess = int((12 - avg_hour) % 24 - 12)
+            p['tz_guess'] = f"UTC{'+' if tz_guess >= 0 else ''}{tz_guess}"
+        else:
+            p['tz_guess'] = 'Unknown'
+
+    print(f"[+] Enterprise intel: {len(profiles)} profiles enriched with kill chain, paste detection, origin profiling")
+
     data = {
         'last_updated': datetime.now(IST).isoformat(),
         'total_attacks': len(events),
@@ -255,7 +406,7 @@ def build_data_json(events):
         'attacks_over_time': attacks_over_time,
         'top_ips': top_ips,
         'top_creds': top_creds,
-        'top_passwords': [{'password': p, 'count': c} for p, c in password_counter.most_common(8)],
+        'top_passwords': [{'password': p, 'count': c} for p, c in password_counter.most_common(15)],
         'threat_distribution': dict(threat_dist) if threat_dist else {'HIGH': 1},
         'tools_detected': dict(tools_detected),
         'profiles': profiles,
@@ -263,7 +414,13 @@ def build_data_json(events):
         'monitored_ips_count': len(blocked_ips),
         'monitored_ips': blocked_ips,
         'replay_sessions': replay_sessions,
-        'recent_events': recent_events
+        'recent_events': recent_events,
+        # Enterprise intel
+        'top_isps': top_isps,
+        'infra_types': dict(infra_types),
+        'kill_chain': dict(kill_chain_counts),
+        'avg_session_duration': avg_session,
+        'max_session_duration': max_session,
     }
 
     return data

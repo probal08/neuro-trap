@@ -124,6 +124,26 @@ def handle_connection(client_socket, client_addr):
         
         logger.log_event('INFO', 'AUTH_SUCCESS', f"User {server.username} authenticated", ip=ip, details={'username': server.username})
         
+        # ENTERPRISE: HASSH Fingerprinting — capture client's SSH algorithm preferences
+        hassh = ''
+        remote_version = ''
+        try:
+            remote_version = transport.remote_version or ''
+            # HASSH = MD5 of kex_algorithms;encryption;mac;compression from client
+            import hashlib
+            sec_opts = transport.get_security_options()
+            hassh_raw = ';'.join([
+                ','.join(sec_opts.kex) if sec_opts.kex else '',
+                ','.join(sec_opts.ciphers) if sec_opts.ciphers else '',
+                ','.join(sec_opts.digests) if sec_opts.digests else '',
+                ','.join(sec_opts.compression) if sec_opts.compression else ''
+            ])
+            hassh = hashlib.md5(hassh_raw.encode()).hexdigest()
+            logger.log_event('INFO', 'FINGERPRINT', f"HASSH: {hassh} | Client: {remote_version}", ip=ip, 
+                           details={'hassh': hassh, 'ssh_version': remote_version, 'hassh_raw': hassh_raw})
+        except Exception as e:
+            pass  # Non-critical — don't crash if fingerprinting fails
+        
         # Wait for shell request
         server.event.wait(30)
         if not server.event.is_set():

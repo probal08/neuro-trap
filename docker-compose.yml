@@ -45,3 +45,31 @@ services:
       - honeypot
     # Runs once, generates the feed, and exits
     command: python scripts/generate_threat_feed.py
+
+  # --- Enterprise: HTTP Honeypot (Web Scanner Trap) ---
+  http-honeypot:
+    build: .
+    container_name: neuro-trap-http
+    env_file: .env
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      - honeypot
+    restart: unless-stopped
+    command: python server/http_honeypot.py
+
+  # --- Enterprise: Telnet Honeypot (IoT Botnet Trap) ---
+  telnet-honeypot:
+    build: .
+    container_name: neuro-trap-telnet
+    env_file: .env
+    ports:
+      - "2323:2323"
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      - honeypot
+    restart: unless-stopped
+    command: python server/telnet_honeypot.py

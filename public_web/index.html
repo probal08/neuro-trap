@@ -157,7 +157,7 @@
         <div class="nav-tab" onclick="showTab('replay',this)">🔁 Attack Replay</div>
         <div class="nav-tab" onclick="showTab('logs',this)">📜 Raw Logs</div>
     </div>
-    <div class="nav-live"><span class="live-dot"></span> <span id="nav-time">LOADING</span></div>
+    <div class="nav-live"><button id="sound-toggle" onclick="toggleSound()" style="background:none;border:1px solid var(--dim);color:var(--dim);padding:2px 8px;border-radius:4px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.55rem;margin-right:8px" title="Toggle attack sounds">🔇 SOUND</button><span class="live-dot"></span> <span id="nav-time">LOADING</span></div>
 </nav>
 
 <!-- LIVE ATTACK TICKER -->
@@ -222,6 +222,17 @@
         <div class="panel"><div class="panel-title"><span class="icon">🔑</span> BREACHED CREDENTIALS</div><canvas id="c-creds" height="200"></canvas></div>
         <div class="panel"><div class="panel-title"><span class="icon">🔐</span> TOP PASSWORDS</div><canvas id="c-passwords" height="200"></canvas></div>
     </div>
+    <!-- ENTERPRISE: Password Wordcloud -->
+    <div class="grid g1 section">
+        <div class="panel"><div class="panel-title"><span class="icon">☁️</span> CREDENTIAL WORDCLOUD <span style="font-size:.6rem;color:var(--dim);margin-left:5px">(Size = frequency of password attempts)</span></div>
+        <div id="wordcloud" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 12px;padding:15px;min-height:80px"></div></div>
+    </div>
+    <!-- ENTERPRISE: ISP + Kill Chain + Heatmap Row -->
+    <div class="grid g3 section">
+        <div class="panel"><div class="panel-title"><span class="icon">🏢</span> TOP ISPs ATTACKING</div><canvas id="c-isps" height="200"></canvas></div>
+        <div class="panel"><div class="panel-title"><span class="icon">⚔️</span> MITRE ATT&CK STAGES</div><canvas id="c-killchain" height="200"></canvas></div>
+        <div class="panel"><div class="panel-title"><span class="icon">🏗️</span> INFRA CLASSIFICATION</div><canvas id="c-infra" height="200"></canvas></div>
+    </div>
 </div>
 
 <!-- TAB 2: CYBER IMMUNE SYSTEM -->
@@ -234,7 +245,7 @@
         <div class="metric" style="border-color:rgba(255,0,60,.3);background:linear-gradient(135deg,rgba(255,0,60,.06),rgba(255,0,60,.02))"><div class="label" style="color:var(--red)">🦠 Pathogens Detected</div><div class="value" id="m-pathogens" style="color:var(--red)">0</div><div class="sub">Unique Threat Actors</div></div>
         <div class="metric" style="border-color:rgba(0,255,65,.3)"><div class="label" style="color:var(--neon)">💉 Antibodies Active</div><div class="value" id="m-antibodies" style="color:var(--neon)">0</div><div class="sub">Counter-Intel Profiles</div></div>
         <div class="metric" style="border-color:rgba(255,102,0,.3);background:linear-gradient(135deg,rgba(255,102,0,.06),rgba(255,102,0,.02))"><div class="label" style="color:var(--orange)">🔴 Quarantined</div><div class="value" id="m-blocked">0</div><div class="sub">Auto-Firewall Blocks</div></div>
-        <div class="metric" style="border-color:rgba(168,85,247,.3);background:linear-gradient(135deg,rgba(168,85,247,.06),rgba(168,85,247,.02))"><div class="label" style="color:var(--purple)">🧠 Immune Memory</div><div class="value" id="m-monitored">0</div><div class="sub">Patterns Learned</div></div>
+        <div class="metric" style="border-color:rgba(168,85,247,.3);background:linear-gradient(135deg,rgba(168,85,247,.06),rgba(168,85,247,.02))"><div class="label" style="color:var(--purple)">⏱ Avg Session</div><div class="value" id="m-avgsession" style="color:var(--purple)">0s</div><div class="sub">Deception Hold Time</div></div>
     </div>
 
     <div class="grid g2">
@@ -513,8 +524,41 @@ function render(){
     }
 
     if(d.top_passwords&&d.top_passwords.length){
-        makeChart('c-passwords',{type:'doughnut',data:{labels:d.top_passwords.map(p=>p.password),datasets:[{data:d.top_passwords.map(p=>p.count),backgroundColor:['#a855f7','#8b5cf6','#7c3aed','#6d28d9','#5b21b6','#4c1d95','#ec4899','#f43f5e'],borderWidth:0}]},options:{responsive:true,plugins:{legend:{position:'right',labels:{color:'#c9d1d9',font:{size:9}}}}}});
+        makeChart('c-passwords',{type:'doughnut',data:{labels:d.top_passwords.map(p=>p.password),datasets:[{data:d.top_passwords.map(p=>p.count),backgroundColor:['#a855f7','#8b5cf6','#7c3aed','#6d28d9','#5b21b6','#4c1d95','#ec4899','#f43f5e','#ef4444','#f97316','#eab308','#22c55e','#06b6d4','#3b82f6','#6366f1'],borderWidth:0}]},options:{responsive:true,plugins:{legend:{position:'right',labels:{color:'#c9d1d9',font:{size:9}}}}}});
     }
+
+    // ENTERPRISE: Credential Wordcloud
+    if(d.top_passwords&&d.top_passwords.length){
+        const wc=document.getElementById('wordcloud');
+        if(wc){
+            const maxC=d.top_passwords[0].count;
+            wc.innerHTML=d.top_passwords.map(p=>{
+                const ratio=p.count/maxC;
+                const size=Math.max(0.7,ratio*2.4);
+                const hue=ratio>0.7?0:ratio>0.4?40:140;
+                return `<span style="font-size:${size}rem;color:hsl(${hue},90%,55%);font-family:'Orbitron',sans-serif;opacity:${0.5+ratio*0.5};cursor:default;transition:transform .2s" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'" title="${p.count} attempts">${p.password}</span>`;
+            }).join('');
+        }
+    }
+
+    // ENTERPRISE: ISP Chart
+    if(d.top_isps&&d.top_isps.length){
+        makeChart('c-isps',{type:'bar',data:{labels:d.top_isps.map(i=>i.isp.length>20?i.isp.slice(0,20)+'…':i.isp),datasets:[{data:d.top_isps.map(i=>i.count),backgroundColor:'rgba(168,85,247,.6)',borderWidth:0}]},options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},y:{grid:{display:false},ticks:{font:{size:9}}}}}});
+    } else { document.getElementById('c-isps').parentElement.innerHTML+='<div class="empty-state">ISP data loading...</div>'; }
+
+    // ENTERPRISE: Kill Chain Chart
+    if(d.kill_chain&&Object.keys(d.kill_chain).length){
+        const stages=Object.keys(d.kill_chain),vals=Object.values(d.kill_chain);
+        const stageColors=['#22c55e','#eab308','#f97316','#ef4444','#a855f7','#ec4899','#ff003c'];
+        makeChart('c-killchain',{type:'bar',data:{labels:stages.map(s=>s.length>12?s.slice(0,12)+'…':s),datasets:[{data:vals,backgroundColor:stageColors.slice(0,stages.length),borderWidth:0}]},options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},y:{grid:{display:false},ticks:{font:{size:9}}}}}});
+    } else { document.getElementById('c-killchain').parentElement.innerHTML+='<div class="empty-state">Kill chain data loading...</div>'; }
+
+    // ENTERPRISE: Infrastructure Classification
+    if(d.infra_types&&Object.keys(d.infra_types).length){
+        const il=Object.keys(d.infra_types),iv=Object.values(d.infra_types);
+        const ic=['#06b6d4','#a855f7','#22c55e','#ef4444','#eab308'];
+        makeChart('c-infra',{type:'doughnut',data:{labels:il,datasets:[{data:iv,backgroundColor:ic.slice(0,il.length),borderWidth:0}]},options:{responsive:true,plugins:{legend:{position:'right',labels:{color:'#c9d1d9',font:{size:10}}}}}});
+    } else { document.getElementById('c-infra').parentElement.innerHTML+='<div class="empty-state">Infrastructure data loading...</div>'; }
 
     if(d.threat_distribution&&Object.keys(d.threat_distribution).length){
         const tl=Object.keys(d.threat_distribution),td=Object.values(d.threat_distribution);
@@ -527,7 +571,7 @@ function render(){
         makeChart('c-tools',{type:'bar',data:{labels:tl,datasets:[{data:td,backgroundColor:'rgba(255,0,60,.6)',borderWidth:0}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},x:{grid:{display:false}}}}});
     } else { document.getElementById('c-tools').parentElement.innerHTML+='<div class="empty-state">No hacking tools detected yet. The AI engine identifies tools like nmap, hydra, metasploit, etc.</div>'; }
 
-    // --- PATHOGEN BIO-CARDS ---
+    // --- PATHOGEN BIO-CARDS (ENHANCED with kill chain, paste, origin, session) ---
     const cardsContainer = document.getElementById('pathogen-cards');
     if(cardsContainer) {
         cardsContainer.innerHTML = '';
@@ -536,12 +580,21 @@ function render(){
         document.getElementById('m-pathogens').textContent = profiles.length;
         document.getElementById('m-antibodies').textContent = profiles.length;
         document.getElementById('m-blocked').textContent = (d.blocked_ips||[]).length;
-        document.getElementById('m-monitored').textContent = d.monitored_ips_count||0;
+        // Session duration metric
+        if(d.avg_session_duration){
+            const mins=Math.floor(d.avg_session_duration/60);
+            const secs=d.avg_session_duration%60;
+            document.getElementById('m-avgsession').textContent = mins>0?`${mins}m ${secs}s`:`${secs}s`;
+        }
         
         if(profiles.length) {
             profiles.forEach(p => {
                 const threat = p.threat || 'LOW';
                 const pathogenType = p.commands > 10 ? '🕷️ Parasite' : p.commands > 5 ? '🦠 Virus' : p.automated === 'YES' ? '🧫 Bacteria' : '🧪 Prion';
+                const dur = p.session_duration||0;
+                const durStr = dur>60?Math.floor(dur/60)+'m '+dur%60+'s':dur+'s';
+                const kcPct = Math.round(((p.kill_chain_stage||0)/7)*100);
+                const kcColor = kcPct>70?'var(--red)':kcPct>40?'var(--orange)':'var(--neon)';
                 const card = document.createElement('div');
                 card.className = `bio-card threat-${threat}`;
                 card.onclick = () => openIPModal(p.ip);
@@ -554,9 +607,12 @@ function render(){
                     <div class="bc-row"><span class="bc-label">Classification</span><span class="bc-val">${p.classification || 'Scanner'}</span></div>
                     <div class="bc-row"><span class="bc-label">🧬 DNA Hash</span><span class="bc-val bc-dna">${p.dna || '—'}…</span></div>
                     <div class="bc-row"><span class="bc-label">🔬 Bio-Hash</span><span class="bc-val bc-bio">${p.bio_hash || '—'}</span></div>
-                    <div class="bc-row"><span class="bc-label">SSH Client</span><span class="bc-val">${(p.ssh_client||'Unknown').slice(0,25)}</span></div>
-                    <div class="bc-row"><span class="bc-label">OS Fingerprint</span><span class="bc-val">${p.os || 'Unknown'}</span></div>
-                    <div class="bc-row"><span class="bc-label">Automated?</span><span class="bc-val" style="color:${p.automated==='YES'?'var(--red)':'var(--neon)'}">${p.automated}</span></div>
+                    <div class="bc-row"><span class="bc-label">⚔️ Kill Chain</span><span class="bc-val"><div style="display:flex;align-items:center;gap:4px"><div style="flex:1;height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden"><div style="width:${kcPct}%;height:100%;background:${kcColor};border-radius:3px"></div></div><span style="font-size:.55rem;color:${kcColor}">${p.kill_chain_label||'—'}</span></div></span></div>
+                    <div class="bc-row"><span class="bc-label">⌨️ Input</span><span class="bc-val" style="color:${p.input_method==='Pasted Script'?'var(--red)':p.input_method==='Manual Typing'?'var(--neon)':'var(--dim)'}">${p.input_method||'—'} ${p.paste_ratio?'('+p.paste_ratio+'%)':''}</span></div>
+                    <div class="bc-row"><span class="bc-label">🏷️ Origin</span><span class="bc-val">${p.origin_hint||'—'}</span></div>
+                    <div class="bc-row"><span class="bc-label">🕐 Session</span><span class="bc-val" style="color:var(--cyan)">${durStr}</span></div>
+                    <div class="bc-row"><span class="bc-label">🌐 Infra</span><span class="bc-val">${p.infra_type||'Unknown'}</span></div>
+                    <div class="bc-row"><span class="bc-label">🕘 Timezone</span><span class="bc-val">${p.tz_guess||'—'}</span></div>
                     <div class="bc-row"><span class="bc-label">Commands</span><span class="bc-val" style="color:var(--cyan)">${p.commands}</span></div>
                     <div class="bc-footer">🔍 Click to run full OSINT scan</div>
                 `;
@@ -582,6 +638,12 @@ function render(){
 
     buildLogFilters();
     filterLogs();
+
+    // ENTERPRISE: Sound effect on new attacks
+    if(window._soundEnabled && d.total_attacks > (window._lastAttackCount||0)){
+        playAttackSound();
+    }
+    window._lastAttackCount = d.total_attacks||0;
 }
 
 function buildLogFilters(){
@@ -697,6 +759,34 @@ function stopReplay(){
         replayInterval=null;
         document.getElementById('btn-play').innerHTML = '▶ PLAY RECORDING';
     } 
+}
+
+// ENTERPRISE: Sound Effects
+window._soundEnabled = false;
+window._audioCtx = null;
+function toggleSound(){
+    window._soundEnabled = !window._soundEnabled;
+    const btn = document.getElementById('sound-toggle');
+    btn.textContent = window._soundEnabled ? '🔊 SOUND' : '🔇 SOUND';
+    btn.style.color = window._soundEnabled ? 'var(--neon)' : 'var(--dim)';
+    btn.style.borderColor = window._soundEnabled ? 'var(--neon)' : 'var(--dim)';
+    if(window._soundEnabled && !window._audioCtx) window._audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+    if(window._soundEnabled) playAttackSound();
+}
+function playAttackSound(){
+    if(!window._audioCtx) window._audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+    const ctx = window._audioCtx;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(880, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(220, ctx.currentTime + 0.3);
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.3);
 }
 
 load();
