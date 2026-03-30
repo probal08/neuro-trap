@@ -160,11 +160,22 @@
     <div class="nav-live"><span class="live-dot"></span> <span id="nav-time">LOADING</span></div>
 </nav>
 
+<!-- LIVE ATTACK TICKER -->
+<div id="attack-ticker" style="background:rgba(255,0,60,.08);border-bottom:1px solid rgba(255,0,60,.2);padding:6px 0;overflow:hidden;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--dim)">
+    <div id="ticker-content" style="display:inline-block;animation:tickerScroll 30s linear infinite">Loading live threat feed...</div>
+</div>
+<style>@keyframes tickerScroll{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}</style>
+
 <!-- HERO -->
 <div class="hero">
     <h1>NEURO-TRAP</h1>
     <p>AI-Powered <span style="color:var(--cyan)">Cyber Immune System</span> — Threat Intelligence Network</p>
     <div class="badge"><span class="live-dot" style="display:inline-block;width:5px;height:5px;margin-right:5px;vertical-align:middle"></span> SYSTEM ACTIVE — ALL SENSORS ONLINE</div>
+    <div style="margin-top:10px;display:flex;gap:20px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.7rem">
+        <span style="color:var(--red)">🔴 <span id="hero-attacks">—</span> ATTACKS INTERCEPTED</span>
+        <span style="color:var(--cyan)">🌍 <span id="hero-countries">—</span> COUNTRIES DETECTED</span>
+        <span style="color:var(--neon)">🕸️ <span id="hero-ips">—</span> UNIQUE ADVERSARIES</span>
+    </div>
 </div>
 
 <!-- TAB 1: CORE INTELLIGENCE -->
@@ -357,10 +368,38 @@ function ipHTML(ip){
 
 function render(){
     const d=DATA;
-    document.getElementById('m-attacks').textContent=(d.total_attacks||0).toLocaleString();
-    document.getElementById('m-ips').textContent=(d.unique_ips||0).toLocaleString();
+
+    // Animated count-up for metrics
+    function countUp(el, target, duration=1200){
+        const start = 0; const startTime = performance.now();
+        function update(currentTime){
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+            el.textContent = Math.floor(eased * target).toLocaleString();
+            if(progress < 1) requestAnimationFrame(update);
+        }
+        requestAnimationFrame(update);
+    }
+    countUp(document.getElementById('m-attacks'), d.total_attacks||0);
+    countUp(document.getElementById('m-ips'), d.unique_ips||0);
     document.getElementById('m-user').textContent=d.top_user||'—';
     document.getElementById('m-pass').textContent=d.top_pass||'—';
+
+    // Hero stats
+    const countryCount = d.top_countries ? d.top_countries.length : 0;
+    countUp(document.getElementById('hero-attacks'), d.total_attacks||0);
+    document.getElementById('hero-countries').textContent = countryCount;
+    countUp(document.getElementById('hero-ips'), d.unique_ips||0);
+
+    // Live attack ticker
+    if(d.recent_events && d.recent_events.length) {
+        const tickerItems = d.recent_events.slice(0, 15).map(e => {
+            const icon = e.type==='AUTH_LOGIN' ? '🔐' : e.type==='COMMAND' ? '💻' : e.type==='CONNECTION' ? '🔌' : e.type==='FIREWALL' ? '🛡️' : '📡';
+            return `${icon} <span style="color:var(--cyan)">${e.ip}</span> → <span style="color:${e.type==='AUTH_LOGIN'?'var(--red)':'var(--neon)'}">${e.type}</span> ${e.message ? '— '+e.message.slice(0,40) : ''}`;
+        });
+        document.getElementById('ticker-content').innerHTML = tickerItems.join('&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;');
+    }
 
     if(d.event_distribution && Object.keys(d.event_distribution).length){
         const labels=Object.keys(d.event_distribution), vals=Object.values(d.event_distribution);
