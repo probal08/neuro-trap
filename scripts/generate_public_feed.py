@@ -7,7 +7,7 @@ import json
 import os
 import sys
 from datetime import datetime, timezone, timedelta
-from collections import Counter
+from collections import Counter, defaultdict
 import hashlib
 import re
 

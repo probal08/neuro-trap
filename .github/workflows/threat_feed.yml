@@ -28,7 +28,12 @@ jobs:
               with:
                   python-version: "3.11"
 
+            - name: Install Dependencies
+              run: pip install pymongo dnspython certifi
+
             - name: Generate Threat Feed
+              env:
+                MONGODB_URI: ${{ secrets.MONGODB_URI }}
               run: python scripts/generate_threat_feed.py
 
             - name: Commit & Push Threat Feed
