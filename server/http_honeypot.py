@@ -87,12 +87,15 @@ class HoneypotHTTPHandler(http.server.BaseHTTPRequestHandler):
         log_http_event(ip, 'GET', self.path, self.headers)
         print(f"\033[93m[HTTP] GET {self.path} from {ip}\033[0m")
         
-        if self.path in ('/', '/login', '/phpmyadmin', '/admin'):
+        # Normalize path to ignore query parameters (?token=...)
+        clean_path = self.path.split('?')[0]
+        
+        if clean_path in ('/', '/login', '/phpmyadmin', '/admin', '/admin/login'):
             self.send_response(200)
             self.send_header('Content-Type', 'text/html')
             self.end_headers()
             self.wfile.write(FAKE_LOGIN_PAGE.encode())
-        elif '.env' in self.path or 'config' in self.path:
+        elif '.env' in clean_path or 'config' in clean_path:
             # Bait: return fake credentials
             self.send_response(200)
             self.send_header('Content-Type', 'text/plain')

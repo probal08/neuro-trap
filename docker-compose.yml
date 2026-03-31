@@ -73,3 +73,17 @@ services:
       - honeypot
     restart: unless-stopped
     command: python server/telnet_honeypot.py
+
+  # --- Enterprise: FTP Honeypot (File Exfiltration Trap) ---
+  ftp-honeypot:
+    build: .
+    container_name: neuro-trap-ftp
+    env_file: .env
+    ports:
+      - "2121:2121"
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      - honeypot
+    restart: unless-stopped
+    command: python server/ftp_honeypot.py

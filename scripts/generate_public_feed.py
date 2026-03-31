@@ -127,9 +127,23 @@ def build_data_json(events):
                     'command': cmd,
                     'time': e.get('timestamp', '')
                 })
-                # Detect tools
-                for tool in ['nmap', 'hydra', 'metasploit', 'masscan', 'sqlmap', 'curl', 'wget', 'nc', 'netcat']:
-                    if tool in cmd.lower():
+                # Detect tools with word-boundary matching to avoid false positives
+                TOOL_PATTERNS = {
+                    'nmap':       r'\bnmap\b',
+                    'hydra':      r'\bhydra\b',
+                    'metasploit': r'\bmetasploit\b|\bmsfconsole\b|\bmsfvenom\b',
+                    'masscan':    r'\bmasscan\b',
+                    'sqlmap':     r'\bsqlmap\b',
+                    'curl':       r'\bcurl\b',
+                    'wget':       r'\bwget\b',
+                    'netcat':     r'\bnc\s+-|\bnc\s+\d|\bnetcat\b|\bncat\b',
+                    'python':     r'\bpython[23]?\s+-c\b',
+                    'base64':     r'\bbase64\b',
+                    'chmod':      r'\bchmod\b.*\+x',
+                    'bash_rev':   r'/dev/tcp|bash\s+-i|\bsh\s+-i',
+                }
+                for tool, pattern in TOOL_PATTERNS.items():
+                    if re.search(pattern, cmd, re.IGNORECASE):
                         tools_detected[tool] += 1
 
             ssh_c = details.get('ssh_client', '')
@@ -195,11 +209,12 @@ def build_data_json(events):
                 'commands': cmds
             })
 
-    # Attacker profiles
-    profiles = []
+    # Attacker profiles — build from ALL events, enrich dynamically
     seen_ips = {}
     for e in events:
         ip = e.get('ip', 'unknown') or 'unknown'
+        if ip in ('unknown', 'N/A', ''):
+            continue
         details = e.get('details', {}) or {}
         if isinstance(details, str):
             try:
@@ -208,6 +223,8 @@ def build_data_json(events):
                 details = {}
         if not isinstance(details, dict):
             details = {}
+
+        etype = e.get('event_type') or e.get('type', '')
         if ip not in seen_ips:
             seen_ips[ip] = {
                 'ip': ip,
@@ -215,23 +232,48 @@ def build_data_json(events):
                 'os': details.get('os_fingerprint', 'Unknown'),
                 'dna': hashlib.sha256(ip.encode()).hexdigest()[:12],
                 'bio_hash': hashlib.md5(ip.encode()).hexdigest()[:8],
-                'threat': details.get('threat_level', 'MEDIUM'),
                 'classification': details.get('attacker_class', 'Scanner'),
-                'automated': details.get('is_automated', 'Unknown'),
-                'commands': 0
+                'is_automated_raw': details.get('is_automated', None),
+                'commands': 0,
+                'logins': 0,
+                'dangerous_cmds': 0,
             }
-        seen_ips[ip]['commands'] += 1
+        if etype in ('COMMAND', 'command'):
+            seen_ips[ip]['commands'] += 1
+            cmd = details.get('command', '')
+            DANGEROUS = ['wget', 'curl', '/dev/tcp', 'base64', 'chmod +x', 'rm -rf', 'bash -i', 'nc ', 'python -c', 'perl -e']
+            if any(d in cmd.lower() for d in DANGEROUS):
+                seen_ips[ip]['dangerous_cmds'] += 1
+        if etype in ('AUTH_LOGIN', 'AUTH_SUCCESS'):
+            seen_ips[ip]['logins'] += 1
 
-    profiles = list(seen_ips.values())[:20]
-    for p in profiles:
-        p['automated'] = 'YES' if p['automated'] else 'NO'
+    # Dynamic threat scoring from behaviour
+    def compute_threat(p):
+        score = 0
+        score += min(p['commands'] * 2, 40)        # up to 40 pts for commands
+        score += min(p['dangerous_cmds'] * 10, 40) # up to 40 pts for dangerous cmds
+        score += min(p['logins'] * 1, 20)           # up to 20 pts for login attempts
+        if score >= 60:   return 'CRITICAL'
+        elif score >= 30: return 'HIGH'
+        elif score >= 10: return 'MEDIUM'
+        else:             return 'LOW'
 
-    # Blocked IPs (those with 3+ failed logins)
+    profiles = []
+    for ip, p in list(seen_ips.items())[:20]:
+        p['threat'] = compute_threat(p)
+        auto = p.pop('is_automated_raw', None)
+        p['automated'] = 'YES' if (auto or p['dangerous_cmds'] > 0 or p['commands'] > 5) else 'NO'
+        profiles.append(p)
+
+    # Recompute threat_dist from dynamic profiles (accurate)
+    threat_dist = Counter(p['threat'] for p in profiles)
+
+    # Blocked IPs — those with high activity (proxy for blocked)
     blocked_ips = [
         {'ip': ip, 'attempts': count}
         for ip, count in ip_counter.most_common()
         if count >= 3
-    ][:10]
+    ][:15]
 
     # Top passwords and creds
     top_creds = [{'cred': f"{u}:{p}", 'count': 1}
@@ -407,11 +449,11 @@ def build_data_json(events):
         'top_ips': top_ips,
         'top_creds': top_creds,
         'top_passwords': [{'password': p, 'count': c} for p, c in password_counter.most_common(15)],
-        'threat_distribution': dict(threat_dist) if threat_dist else {'HIGH': 1},
-        'tools_detected': dict(tools_detected),
+        'threat_distribution': dict(threat_dist),
+        'tools_detected': dict(tools_detected.most_common(10)),
         'profiles': profiles,
         'blocked_ips': blocked_ips,
-        'monitored_ips_count': len(blocked_ips),
+        'monitored_ips_count': len(ip_counter),
         'monitored_ips': blocked_ips,
         'replay_sessions': replay_sessions,
         'recent_events': recent_events,
@@ -431,11 +473,21 @@ def main():
     print("  NEURO-TRAP PUBLIC FEED GENERATOR")
     print("=" * 50)
 
+    # Load local .env file manually if running locally
+    env_path = os.path.join(_PROJECT_ROOT, '.env')
+    if os.path.exists(env_path):
+        with open(env_path, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith('#') and '=' in line:
+                    k, v = line.split('=', 1)
+                    os.environ[k.strip()] = v.strip()
+        print("[+] Loaded environment variables from .env")
+
     # Get MongoDB URI from environment
     mongo_uri = os.environ.get('MONGODB_URI', '')
     if mongo_uri:
-        os.environ['MONGODB_URI'] = mongo_uri
-        print("[+] MongoDB URI loaded from environment")
+        print("[+] MongoDB URI found in environment")
 
     events = get_events_from_mongo()
 
