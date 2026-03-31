@@ -305,7 +305,7 @@
     <div style="margin-top:8px;font-size:.7rem;color:var(--neon);font-family:'JetBrains Mono',monospace" id="log-count"></div>
 </div>
 
-<footer>Neuro-Trap v2.0 — AI-Powered Cyber Immune System | <a href="https://github.com/probal08/neuro-trap" target="_blank">GitHub</a> | Auto-updated every 5 min via GitHub Actions</footer>
+    <footer>Neuro-Trap v2.0 — AI-Powered Cyber Immune System | Classified Threat Intelligence Gateway</footer>
 
 <script>
 Chart.defaults.color='#6a737d';Chart.defaults.font.family="'JetBrains Mono',monospace";Chart.defaults.font.size=10;
@@ -394,8 +394,12 @@ window.applyBioCardFilter = function(type, value) {
         if (!type || !value) {
             c.style.display = 'flex';
         } else {
-            const cardValue = c.getAttribute('data-' + type);
-            c.style.display = (cardValue === value) ? 'flex' : 'none';
+            const cardValue = c.getAttribute('data-' + type) || '';
+            if (type === 'tools') {
+               c.style.display = cardValue.includes(value) ? 'flex' : 'none';
+            } else {
+               c.style.display = (cardValue === value) ? 'flex' : 'none';
+            }
         }
     });
     
@@ -465,10 +469,18 @@ function render(){
         document.getElementById('ticker-content').innerHTML = tickerItems.join('&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;');
     }
 
+    // Helper to remove empty states
+    function clearEmpty(id) {
+        const p = document.getElementById(id).parentElement;
+        const e = p.querySelector('.empty-state');
+        if(e) e.remove();
+    }
+
     if(d.event_distribution && Object.keys(d.event_distribution).length){
+        clearEmpty('c-events');
         const labels=Object.keys(d.event_distribution), vals=Object.values(d.event_distribution);
         makeChart('c-events',{type:'bar',data:{labels,datasets:[{data:vals,backgroundColor:NEON.slice(0,labels.length),borderWidth:0}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},x:{grid:{display:false}}}}});
-    } else { document.getElementById('c-events').parentElement.innerHTML+='<div class="empty-state">No event data yet. Waiting for attacks...</div>'; }
+    } else { clearEmpty('c-events'); document.getElementById('c-events').parentElement.innerHTML+='<div class="empty-state">No event data yet. Waiting for attacks...</div>'; }
 
     // --- 3D GLOBE ---
     if(d.globe_points && d.globe_points.length) {
@@ -578,33 +590,38 @@ function render(){
 
     // ENTERPRISE: ISP Chart
     if(d.top_isps&&d.top_isps.length){
-        makeChart('c-isps',{type:'bar',data:{labels:d.top_isps.map(i=>i.isp.length>20?i.isp.slice(0,20)+'…':i.isp),datasets:[{data:d.top_isps.map(i=>i.count),backgroundColor:'rgba(168,85,247,.6)',borderWidth:0}]},options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},y:{grid:{display:false},ticks:{font:{size:9}}}}}});
-    } else { document.getElementById('c-isps').parentElement.innerHTML+='<div class="empty-state">ISP data loading...</div>'; }
+        clearEmpty('c-isps');
+        makeChart('c-isps',{type:'bar',data:{labels:d.top_isps.map(i=>i.isp.length>20?i.isp.slice(0,20)+'…':i.isp),datasets:[{data:d.top_isps.map(i=>i.count),backgroundColor:'rgba(168,85,247,.6)',borderWidth:0}]},options:{onClick: (e, elements) => { if(elements.length) window.applyBioCardFilter('isp', d.top_isps[elements[0].index].isp); }, indexAxis:'y',responsive:true,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},y:{grid:{display:false},ticks:{font:{size:9}}}}}});
+    } else { clearEmpty('c-isps'); document.getElementById('c-isps').parentElement.innerHTML+='<div class="empty-state">ISP data loading...</div>'; }
 
     // ENTERPRISE: Kill Chain Chart
     if(d.kill_chain&&Object.keys(d.kill_chain).length){
+        clearEmpty('c-killchain');
         const stages=Object.keys(d.kill_chain),vals=Object.values(d.kill_chain);
         const stageColors=['#22c55e','#eab308','#f97316','#ef4444','#a855f7','#ec4899','#ff003c'];
-        makeChart('c-killchain',{type:'bar',data:{labels:stages.map(s=>s.length>12?s.slice(0,12)+'…':s),datasets:[{data:vals,backgroundColor:stageColors.slice(0,stages.length),borderWidth:0}]},options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},y:{grid:{display:false},ticks:{font:{size:9}}}}}});
-    } else { document.getElementById('c-killchain').parentElement.innerHTML+='<div class="empty-state">Kill chain data loading...</div>'; }
+        makeChart('c-killchain',{type:'bar',data:{labels:stages.map(s=>s.length>12?s.slice(0,12)+'…':s),datasets:[{data:vals,backgroundColor:stageColors.slice(0,stages.length),borderWidth:0}]},options:{onClick: (e, elements) => { if(elements.length) window.applyBioCardFilter('killchain', stages[elements[0].index]); }, indexAxis:'y',responsive:true,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},y:{grid:{display:false},ticks:{font:{size:9}}}}}});
+    } else { clearEmpty('c-killchain'); document.getElementById('c-killchain').parentElement.innerHTML+='<div class="empty-state">Kill chain data loading...</div>'; }
 
     // ENTERPRISE: Infrastructure Classification
     if(d.infra_types&&Object.keys(d.infra_types).length){
+        clearEmpty('c-infra');
         const il=Object.keys(d.infra_types),iv=Object.values(d.infra_types);
         const ic=['#06b6d4','#a855f7','#22c55e','#ef4444','#eab308'];
         makeChart('c-infra',{type:'doughnut',data:{labels:il,datasets:[{data:iv,backgroundColor:ic.slice(0,il.length),borderWidth:0}]},options:{onClick: (e, elements) => { if(elements.length) window.applyBioCardFilter('infra', il[elements[0].index]); }, responsive:true,plugins:{legend:{position:'right',labels:{color:'#c9d1d9',font:{size:10}}}}}});
-    } else { document.getElementById('c-infra').parentElement.innerHTML+='<div class="empty-state">Infrastructure data loading...</div>'; }
+    } else { clearEmpty('c-infra'); document.getElementById('c-infra').parentElement.innerHTML+='<div class="empty-state">Infrastructure data loading...</div>'; }
 
     if(d.threat_distribution&&Object.keys(d.threat_distribution).length){
+        clearEmpty('c-threats');
         const tl=Object.keys(d.threat_distribution),td=Object.values(d.threat_distribution);
         const tc=tl.map(l=>l==='CRITICAL'?'#ff003c':l==='HIGH'?'#ff6600':l==='MEDIUM'?'#ffcc00':'#00ffcc');
         makeChart('c-threats',{type:'doughnut',data:{labels:tl,datasets:[{data:td,backgroundColor:tc,borderWidth:0}]},options:{onClick: (e, elements) => { if(elements.length) window.applyBioCardFilter('threat', tl[elements[0].index]); }, responsive:true,plugins:{legend:{position:'right',labels:{color:'#c9d1d9'}}}}});
-    } else { document.getElementById('c-threats').parentElement.innerHTML+='<div class="empty-state">No threat classification data yet. Profiles generate threat levels automatically.</div>'; }
+    } else { clearEmpty('c-threats'); document.getElementById('c-threats').parentElement.innerHTML+='<div class="empty-state">No threat classification data yet. Profiles generate threat levels automatically.</div>'; }
 
     if(d.tools_detected&&Object.keys(d.tools_detected).length){
+        clearEmpty('c-tools');
         const tl=Object.keys(d.tools_detected),td=Object.values(d.tools_detected);
-        makeChart('c-tools',{type:'bar',data:{labels:tl,datasets:[{data:td,backgroundColor:'rgba(255,0,60,.6)',borderWidth:0}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},x:{grid:{display:false}}}}});
-    } else { document.getElementById('c-tools').parentElement.innerHTML+='<div class="empty-state">No hacking tools detected yet. The AI engine identifies tools like nmap, hydra, metasploit, etc.</div>'; }
+        makeChart('c-tools',{type:'bar',data:{labels:tl,datasets:[{data:td,backgroundColor:'rgba(255,0,60,.6)',borderWidth:0}]},options:{onClick: (e, elements) => { if(elements.length) window.applyBioCardFilter('tools', tl[elements[0].index]); }, responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},x:{grid:{display:false}}}}});
+    } else { clearEmpty('c-tools'); document.getElementById('c-tools').parentElement.innerHTML+='<div class="empty-state">No hacking tools detected yet. The AI engine identifies tools like nmap, hydra, metasploit, etc.</div>'; }
 
     // --- PATHOGEN BIO-CARDS (ENHANCED with kill chain, paste, origin, session) ---
     const cardsContainer = document.getElementById('pathogen-cards');
@@ -634,6 +651,9 @@ function render(){
                 card.className = `bio-card threat-${threat}`;
                 card.setAttribute('data-threat', threat);
                 card.setAttribute('data-infra', p.infra_type || 'Unknown');
+                card.setAttribute('data-killchain', p.kill_chain_label || 'None');
+                card.setAttribute('data-isp', p.isp || 'Unknown');
+                card.setAttribute('data-tools', (p.tools || []).join(','));
                 card.onclick = () => openIPModal(p.ip);
                 card.innerHTML = `
                     <div class="bc-header">
