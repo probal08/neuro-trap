@@ -1,18 +1,18 @@
 {
-  "last_updated": "2026-04-01T00:28:22.344565+05:30",
-  "total_attacks": 2743,
-  "unique_ips": 185,
+  "last_updated": "2026-04-01T01:26:38.607469+05:30",
+  "total_attacks": 2795,
+  "unique_ips": 192,
   "top_user": "root",
   "top_pass": "admin",
   "event_distribution": {
-    "CONNECTION": 406,
-    "ERROR": 400,
-    "THREAT_FEED": 400,
-    "DISCONNECT": 400,
-    "REPORT": 400,
-    "FIREWALL": 360,
-    "AUTH_LOGIN": 130,
-    "HTTP_SCAN": 67
+    "CONNECTION": 411,
+    "ERROR": 405,
+    "THREAT_FEED": 405,
+    "DISCONNECT": 405,
+    "REPORT": 405,
+    "FIREWALL": 365,
+    "AUTH_LOGIN": 134,
+    "HTTP_SCAN": 69
   },
   "top_countries": [
     {
@@ -24,12 +24,12 @@
       "count": 231
     },
     {
-      "country": "United Kingdom",
-      "count": 199
-    },
-    {
       "country": "United States",
       "count": 198
+    },
+    {
+      "country": "United Kingdom",
+      "count": 192
     },
     {
       "country": "Seychelles",
@@ -596,31 +596,9 @@
       "ip": "14.103.117.97",
       "count": 7,
       "size": 1.5
-    },
-    {
-      "lat": 51.5081,
-      "lng": -0.1278,
-      "country": "United Kingdom",
-      "city": "London",
-      "ip": "82.24.64.32",
-      "count": 7,
-      "size": 1.5
-    },
-    {
-      "lat": 1.35208,
-      "lng": 103.82,
-      "country": "Singapore",
-      "city": "Singapore",
-      "ip": "47.236.76.100",
-      "count": 7,
-      "size": 1.5
     }
   ],
   "attacks_over_time": [
-    {
-      "time": "2026-03-30 16:00",
-      "count": 28
-    },
     {
       "time": "2026-03-30 19:00",
       "count": 31
@@ -711,7 +689,11 @@
     },
     {
       "time": "2026-04-01 00:00",
-      "count": 9
+      "count": 40
+    },
+    {
+      "time": "2026-04-01 01:00",
+      "count": 21
     }
   ],
   "top_ips": [
@@ -797,7 +779,7 @@
     },
     {
       "password": "1qaz@WSX",
-      "count": 14
+      "count": 15
     },
     {
       "password": "------fuck------",
@@ -844,12 +826,12 @@
       "count": 2
     },
     {
-      "password": "456",
-      "count": 1
+      "password": "345gs5662d34",
+      "count": 2
     },
     {
-      "password": "789",
-      "count": 1
+      "password": "3245gs5662d34",
+      "count": 2
     }
   ],
   "threat_distribution": {
@@ -1377,15 +1359,15 @@
       "attempts": 28
     },
     {
-      "ip": "2.228.129.230",
-      "attempts": 27
+      "ip": "80.94.95.118",
+      "attempts": 28
     },
     {
-      "ip": "139.199.80.137",
+      "ip": "2.228.129.230",
       "attempts": 27
     }
   ],
-  "monitored_ips_count": 185,
+  "monitored_ips_count": 192,
   "monitored_ips": [
     {
       "ip": "130.12.180.51",
@@ -1440,11 +1422,11 @@
       "attempts": 28
     },
     {
-      "ip": "2.228.129.230",
-      "attempts": 27
+      "ip": "80.94.95.118",
+      "attempts": 28
     },
     {
-      "ip": "139.199.80.137",
+      "ip": "2.228.129.230",
       "attempts": 27
     }
   ],
@@ -1580,9 +1562,398 @@
           "time": "2026-03-29T10:18:30.084268+05:30"
         }
       ]
+    },
+    {
+      "ip": "41.242.160.172",
+      "commands": [
+        {
+          "command": "toor",
+          "time": "2026-04-01T01:23:27.504209+05:30"
+        },
+        {
+          "command": "sh",
+          "time": "2026-04-01T01:23:27.746045+05:30"
+        },
+        {
+          "command": "shell",
+          "time": "2026-04-01T01:23:27.985814+05:30"
+        },
+        {
+          "command": "enable",
+          "time": "2026-04-01T01:23:28.078541+05:30"
+        },
+        {
+          "command": "system",
+          "time": "2026-04-01T01:23:28.171089+05:30"
+        }
+      ]
     }
   ],
   "recent_events": [
+    {
+      "timestamp": "2026-04-01T01:23:55.247426+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "45.150.109.155",
+      "message": "Telnet session ended: 45.150.109.155",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T01:23:30.246252+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "45.150.109.155",
+      "message": "cd /proc/; cat self/cmdline",
+      "details": "{\"command\": \"cd /proc/; cat self/cmdline\"}"
+    },
+    {
+      "timestamp": "2026-04-01T01:23:29.806640+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "45.150.109.155",
+      "message": "toor",
+      "details": "{\"command\": \"toor\"}"
+    },
+    {
+      "timestamp": "2026-04-01T01:23:28.908440+05:30",
+      "type": "TELNET_LOGIN",
+      "ip": "45.150.109.155",
+      "message": "Telnet login: root:",
+      "details": "{\"username\": \"root\", \"password\": \"\"}"
+    },
+    {
+      "timestamp": "2026-04-01T01:23:28.439947+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "45.150.109.155",
+      "message": "New Telnet connection from 45.150.109.155",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T01:23:28.263581+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "41.242.160.172",
+      "message": "Telnet session ended: 41.242.160.172",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T01:23:28.171089+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "41.242.160.172",
+      "message": "system",
+      "details": "{\"command\": \"system\"}"
+    },
+    {
+      "timestamp": "2026-04-01T01:23:28.078541+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "41.242.160.172",
+      "message": "enable",
+      "details": "{\"command\": \"enable\"}"
+    },
+    {
+      "timestamp": "2026-04-01T01:23:27.985814+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "41.242.160.172",
+      "message": "shell",
+      "details": "{\"command\": \"shell\"}"
+    },
+    {
+      "timestamp": "2026-04-01T01:23:27.746045+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "41.242.160.172",
+      "message": "sh",
+      "details": "{\"command\": \"sh\"}"
+    },
+    {
+      "timestamp": "2026-04-01T01:23:27.504209+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "41.242.160.172",
+      "message": "toor",
+      "details": "{\"command\": \"toor\"}"
+    },
+    {
+      "timestamp": "2026-04-01T01:23:26.627815+05:30",
+      "type": "TELNET_LOGIN",
+      "ip": "41.242.160.172",
+      "message": "Telnet login: root:",
+      "details": "{\"username\": \"root\", \"password\": \"\"}"
+    },
+    {
+      "timestamp": "2026-04-01T01:23:25.804960+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "41.242.160.172",
+      "message": "New Telnet connection from 41.242.160.172",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T01:23:04.729369+05:30",
+      "type": "REPORT",
+      "ip": "66.132.186.203",
+      "message": "AI incident report updated",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T01:23:04.267323+05:30",
+      "type": "DISCONNECT",
+      "ip": "66.132.186.203",
+      "message": "Connection closed from 66.132.186.203",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T01:23:04.174345+05:30",
+      "type": "THREAT_FEED",
+      "ip": "66.132.186.203",
+      "message": "Threat feed updated: 190 IPs, 2779 events",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T01:23:03.437178+05:30",
+      "type": "FIREWALL",
+      "ip": "66.132.186.203",
+      "message": "Auto-firewall rules updated: 11 IPs blocked",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T01:23:03.335592+05:30",
+      "type": "ERROR",
+      "ip": "66.132.186.203",
+      "message": "No channel requested (Auth Timeout)",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T01:22:47.559300+05:30",
+      "type": "CONNECTION",
+      "ip": "66.132.186.203",
+      "message": "New connection from 66.132.186.203",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T01:08:10.171187+05:30",
+      "type": "HTTP_SCAN",
+      "ip": "103.36.49.104",
+      "message": "GET / from 103.36.49.104",
+      "details": "{\"method\": \"GET\", \"path\": \"/\", \"user_agent\": \"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:77.0) Gecko/20100101 Firefox/7"
+    },
+    {
+      "timestamp": "2026-04-01T01:03:40.302582+05:30",
+      "type": "HTTP_SCAN",
+      "ip": "198.235.24.77",
+      "message": "GET / from 198.235.24.77",
+      "details": "{\"method\": \"GET\", \"path\": \"/\", \"user_agent\": \"Hello from Palo Alto Networks, find out more about our scans in https://do"
+    },
+    {
+      "timestamp": "2026-04-01T00:57:39.635983+05:30",
+      "type": "REPORT",
+      "ip": "164.90.138.136",
+      "message": "AI incident report updated",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:57:39.329377+05:30",
+      "type": "DISCONNECT",
+      "ip": "164.90.138.136",
+      "message": "Connection closed from 164.90.138.136",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:57:39.239409+05:30",
+      "type": "THREAT_FEED",
+      "ip": "164.90.138.136",
+      "message": "Threat feed updated: 187 IPs, 2771 events",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:57:38.529490+05:30",
+      "type": "FIREWALL",
+      "ip": "164.90.138.136",
+      "message": "Auto-firewall rules updated: 11 IPs blocked",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:57:38.432745+05:30",
+      "type": "ERROR",
+      "ip": "164.90.138.136",
+      "message": "No shell requested",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:57:15.471522+05:30",
+      "type": "REPORT",
+      "ip": "164.90.138.136",
+      "message": "AI incident report updated",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:57:15.170722+05:30",
+      "type": "DISCONNECT",
+      "ip": "164.90.138.136",
+      "message": "Connection closed from 164.90.138.136",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:57:15.079664+05:30",
+      "type": "THREAT_FEED",
+      "ip": "164.90.138.136",
+      "message": "Threat feed updated: 187 IPs, 2766 events",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:57:14.611609+05:30",
+      "type": "FIREWALL",
+      "ip": "164.90.138.136",
+      "message": "Auto-firewall rules updated: 11 IPs blocked",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:57:14.514461+05:30",
+      "type": "ERROR",
+      "ip": "164.90.138.136",
+      "message": "No channel requested (Auth Timeout)",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:57:13.474578+05:30",
+      "type": "AUTH_LOGIN",
+      "ip": "164.90.138.136",
+      "message": "Login attempt: root:3245gs5662d34",
+      "details": "{\"username\": \"root\", \"password\": \"3245gs5662d34\"}"
+    },
+    {
+      "timestamp": "2026-04-01T00:57:13.340183+05:30",
+      "type": "REPORT",
+      "ip": "164.90.138.136",
+      "message": "AI incident report updated",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:57:12.998557+05:30",
+      "type": "DISCONNECT",
+      "ip": "164.90.138.136",
+      "message": "Connection closed from 164.90.138.136",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:57:12.908315+05:30",
+      "type": "THREAT_FEED",
+      "ip": "164.90.138.136",
+      "message": "Threat feed updated: 187 IPs, 2760 events",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:57:12.309067+05:30",
+      "type": "CONNECTION",
+      "ip": "164.90.138.136",
+      "message": "New connection from 164.90.138.136",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:57:12.197244+05:30",
+      "type": "FIREWALL",
+      "ip": "164.90.138.136",
+      "message": "Auto-firewall rules updated: 10 IPs blocked",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:57:12.100410+05:30",
+      "type": "ERROR",
+      "ip": "164.90.138.136",
+      "message": "No channel requested (Auth Timeout)",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:57:11.035631+05:30",
+      "type": "AUTH_LOGIN",
+      "ip": "164.90.138.136",
+      "message": "Login attempt: 345gs5662d34:345gs5662d34",
+      "details": "{\"username\": \"345gs5662d34\", \"password\": \"345gs5662d34\"}"
+    },
+    {
+      "timestamp": "2026-04-01T00:57:09.876253+05:30",
+      "type": "CONNECTION",
+      "ip": "164.90.138.136",
+      "message": "New connection from 164.90.138.136",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:57:08.342171+05:30",
+      "type": "AUTH_SUCCESS",
+      "ip": "164.90.138.136",
+      "message": "User root authenticated",
+      "details": "{\"username\": \"root\"}"
+    },
+    {
+      "timestamp": "2026-04-01T00:57:07.226148+05:30",
+      "type": "AUTH_LOGIN",
+      "ip": "164.90.138.136",
+      "message": "Login attempt: root:qwe@#$123",
+      "details": "{\"username\": \"root\", \"password\": \"qwe@#$123\"}"
+    },
+    {
+      "timestamp": "2026-04-01T00:57:06.044371+05:30",
+      "type": "CONNECTION",
+      "ip": "164.90.138.136",
+      "message": "New connection from 164.90.138.136",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:54:41.082582+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "198.235.24.239",
+      "message": "Telnet session ended: 198.235.24.239",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:54:10.078378+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "198.235.24.239",
+      "message": "New Telnet connection from 198.235.24.239",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:36:18.333468+05:30",
+      "type": "REPORT",
+      "ip": "80.94.95.118",
+      "message": "AI incident report updated",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:36:17.802991+05:30",
+      "type": "DISCONNECT",
+      "ip": "80.94.95.118",
+      "message": "Connection closed from 80.94.95.118",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:36:17.708744+05:30",
+      "type": "THREAT_FEED",
+      "ip": "80.94.95.118",
+      "message": "Threat feed updated: 185 IPs, 2747 events",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:36:16.972775+05:30",
+      "type": "FIREWALL",
+      "ip": "80.94.95.118",
+      "message": "Auto-firewall rules updated: 10 IPs blocked",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:36:16.872257+05:30",
+      "type": "ERROR",
+      "ip": "80.94.95.118",
+      "message": "No channel requested (Auth Timeout)",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-01T00:35:52.069200+05:30",
+      "type": "AUTH_LOGIN",
+      "ip": "80.94.95.118",
+      "message": "Login attempt: root:1qaz@WSX",
+      "details": "{\"username\": \"root\", \"password\": \"1qaz@WSX\"}"
+    },
+    {
+      "timestamp": "2026-04-01T00:35:50.621775+05:30",
+      "type": "CONNECTION",
+      "ip": "80.94.95.118",
+      "message": "New connection from 80.94.95.118",
+      "details": ""
+    },
     {
       "timestamp": "2026-04-01T00:26:53.651570+05:30",
       "type": "TELNET_DISCONNECT",
@@ -2618,370 +2989,6 @@
       "ip": "139.199.80.137",
       "message": "User root authenticated",
       "details": "{\"username\": \"root\"}"
-    },
-    {
-      "timestamp": "2026-03-31T20:43:43.327214+05:30",
-      "type": "AUTH_LOGIN",
-      "ip": "139.199.80.137",
-      "message": "Login attempt: root:plm",
-      "details": "{\"username\": \"root\", \"password\": \"plm\"}"
-    },
-    {
-      "timestamp": "2026-03-31T20:43:41.122568+05:30",
-      "type": "CONNECTION",
-      "ip": "139.199.80.137",
-      "message": "New connection from 139.199.80.137",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:41:23.108343+05:30",
-      "type": "HTTP_SCAN",
-      "ip": "134.122.100.73",
-      "message": "GET /favicon.ico from 134.122.100.73",
-      "details": "{\"method\": \"GET\", \"path\": \"/favicon.ico\", \"user_agent\": \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like"
-    },
-    {
-      "timestamp": "2026-03-31T20:41:22.626254+05:30",
-      "type": "HTTP_SCAN",
-      "ip": "134.122.100.73",
-      "message": "GET / from 134.122.100.73",
-      "details": "{\"method\": \"GET\", \"path\": \"/\", \"user_agent\": \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chr"
-    },
-    {
-      "timestamp": "2026-03-31T20:40:02.058629+05:30",
-      "type": "REPORT",
-      "ip": "51.158.205.203",
-      "message": "AI incident report updated",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:40:01.742679+05:30",
-      "type": "DISCONNECT",
-      "ip": "51.158.205.203",
-      "message": "Connection closed from 51.158.205.203",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:40:01.648924+05:30",
-      "type": "THREAT_FEED",
-      "ip": "51.158.205.203",
-      "message": "Threat feed updated: 172 IPs, 2588 events",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:40:01.168816+05:30",
-      "type": "REPORT",
-      "ip": "51.158.205.203",
-      "message": "AI incident report updated",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:40:00.933642+05:30",
-      "type": "REPORT",
-      "ip": "51.158.205.203",
-      "message": "AI incident report updated",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:40:00.906724+05:30",
-      "type": "FIREWALL",
-      "ip": "51.158.205.203",
-      "message": "Auto-firewall rules updated: 8 IPs blocked",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:40:00.861728+05:30",
-      "type": "DISCONNECT",
-      "ip": "51.158.205.203",
-      "message": "Connection closed from 51.158.205.203",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:40:00.212235+05:30",
-      "type": "DISCONNECT",
-      "ip": "51.158.205.203",
-      "message": "Connection closed from 51.158.205.203",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:40:00.268798+05:30",
-      "type": "ERROR",
-      "ip": "51.158.205.203",
-      "message": "SSH negotiation failed: Incompatible ssh peer (no acceptable host key)",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:40:00.790521+05:30",
-      "type": "REPORT",
-      "ip": "51.158.205.203",
-      "message": "AI incident report updated",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:40:00.770357+05:30",
-      "type": "THREAT_FEED",
-      "ip": "51.158.205.203",
-      "message": "Threat feed updated: 172 IPs, 2576 events",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:40:00.674628+05:30",
-      "type": "REPORT",
-      "ip": "51.158.205.203",
-      "message": "AI incident report updated",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:40:00.612923+05:30",
-      "type": "DISCONNECT",
-      "ip": "51.158.205.203",
-      "message": "Connection closed from 51.158.205.203",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:40:00.520592+05:30",
-      "type": "THREAT_FEED",
-      "ip": "51.158.205.203",
-      "message": "Threat feed updated: 172 IPs, 2575 events",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:40:00.457890+05:30",
-      "type": "DISCONNECT",
-      "ip": "51.158.205.203",
-      "message": "Connection closed from 51.158.205.203",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:40:00.364032+05:30",
-      "type": "THREAT_FEED",
-      "ip": "51.158.205.203",
-      "message": "Threat feed updated: 172 IPs, 2572 events",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:40:00.123023+05:30",
-      "type": "FIREWALL",
-      "ip": "51.158.205.203",
-      "message": "Auto-firewall rules updated: 8 IPs blocked",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:40:00.114814+05:30",
-      "type": "THREAT_FEED",
-      "ip": "51.158.205.203",
-      "message": "Threat feed updated: 172 IPs, 2570 events",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:40:00.025318+05:30",
-      "type": "ERROR",
-      "ip": "51.158.205.203",
-      "message": "SSH negotiation failed: Incompatible ssh peer (no acceptable host key)",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:39:59.880346+05:30",
-      "type": "FIREWALL",
-      "ip": "51.158.205.203",
-      "message": "Auto-firewall rules updated: 8 IPs blocked",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:39:59.781377+05:30",
-      "type": "ERROR",
-      "ip": "51.158.205.203",
-      "message": "SSH negotiation failed: Incompatible ssh peer (no acceptable host key)",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:39:59.624998+05:30",
-      "type": "FIREWALL",
-      "ip": "51.158.205.203",
-      "message": "Auto-firewall rules updated: 8 IPs blocked",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:39:59.515257+05:30",
-      "type": "ERROR",
-      "ip": "51.158.205.203",
-      "message": "SSH negotiation failed: Incompatible ssh peer (no acceptable host key)",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:39:59.378363+05:30",
-      "type": "FIREWALL",
-      "ip": "51.158.205.203",
-      "message": "Auto-firewall rules updated: 8 IPs blocked",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:39:59.278574+05:30",
-      "type": "ERROR",
-      "ip": "51.158.205.203",
-      "message": "Connection error: ",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:39:58.411038+05:30",
-      "type": "CONNECTION",
-      "ip": "51.158.205.203",
-      "message": "New connection from 51.158.205.203",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:39:58.411787+05:30",
-      "type": "CONNECTION",
-      "ip": "51.158.205.203",
-      "message": "New connection from 51.158.205.203",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:39:58.415275+05:30",
-      "type": "CONNECTION",
-      "ip": "51.158.205.203",
-      "message": "New connection from 51.158.205.203",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:39:58.386998+05:30",
-      "type": "CONNECTION",
-      "ip": "51.158.205.203",
-      "message": "New connection from 51.158.205.203",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:39:58.341812+05:30",
-      "type": "CONNECTION",
-      "ip": "51.158.205.203",
-      "message": "New connection from 51.158.205.203",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:33:59.666285+05:30",
-      "type": "HTTP_SCAN",
-      "ip": "176.65.139.27",
-      "message": "GET /login from 176.65.139.27",
-      "details": "{\"method\": \"GET\", \"path\": \"/login\", \"user_agent\": \"Go-http-client/1.1\"}"
-    },
-    {
-      "timestamp": "2026-03-31T20:33:25.689069+05:30",
-      "type": "REPORT",
-      "ip": "51.158.205.203",
-      "message": "AI incident report updated",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:33:25.205828+05:30",
-      "type": "DISCONNECT",
-      "ip": "51.158.205.203",
-      "message": "Connection closed from 51.158.205.203",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:33:25.112870+05:30",
-      "type": "THREAT_FEED",
-      "ip": "51.158.205.203",
-      "message": "Threat feed updated: 171 IPs, 2557 events",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:33:24.473922+05:30",
-      "type": "FIREWALL",
-      "ip": "51.158.205.203",
-      "message": "Auto-firewall rules updated: 8 IPs blocked",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:33:24.373891+05:30",
-      "type": "ERROR",
-      "ip": "51.158.205.203",
-      "message": "SSH negotiation failed: Error reading SSH protocol banner",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:33:23.960172+05:30",
-      "type": "CONNECTION",
-      "ip": "51.158.205.203",
-      "message": "New connection from 51.158.205.203",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:29:44.009488+05:30",
-      "type": "HTTP_SCAN",
-      "ip": "45.153.34.169",
-      "message": "GET /login from 45.153.34.169",
-      "details": "{\"method\": \"GET\", \"path\": \"/login\", \"user_agent\": \"Go-http-client/1.1\"}"
-    },
-    {
-      "timestamp": "2026-03-31T20:27:12.921060+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "172.104.11.42",
-      "message": "Telnet session ended: 172.104.11.42",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:26:40.878397+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "172.104.11.42",
-      "message": "New Telnet connection from 172.104.11.42",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T20:04:09.924202+05:30",
-      "type": "HTTP_SCAN",
-      "ip": "5.61.209.107",
-      "message": "GET /SDK/webLanguage from 5.61.209.107",
-      "details": "{\"method\": \"GET\", \"path\": \"/SDK/webLanguage\", \"user_agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.3"
-    },
-    {
-      "timestamp": "2026-03-31T19:57:34.014139+05:30",
-      "type": "HTTP_SCAN",
-      "ip": "79.124.40.174",
-      "message": "POST / from 79.124.40.174",
-      "details": "{\"method\": \"POST\", \"path\": \"/\", \"user_agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like"
-    },
-    {
-      "timestamp": "2026-03-31T19:52:32.162751+05:30",
-      "type": "HTTP_SCAN",
-      "ip": "79.124.40.174",
-      "message": "GET /geoserver from 79.124.40.174",
-      "details": "{\"method\": \"GET\", \"path\": \"/geoserver\", \"user_agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHT"
-    },
-    {
-      "timestamp": "2026-03-31T19:43:50.143050+05:30",
-      "type": "HTTP_SCAN",
-      "ip": "79.124.40.174",
-      "message": "GET /actuator/gateway/routes from 79.124.40.174",
-      "details": "{\"method\": \"GET\", \"path\": \"/actuator/gateway/routes\", \"user_agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebK"
-    },
-    {
-      "timestamp": "2026-03-31T19:39:50.764774+05:30",
-      "type": "HTTP_SCAN",
-      "ip": "167.94.146.62",
-      "message": "GET /wiki from 167.94.146.62",
-      "details": "{\"method\": \"GET\", \"path\": \"/wiki\", \"user_agent\": \"Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)"
-    },
-    {
-      "timestamp": "2026-03-31T19:39:43.923431+05:30",
-      "type": "HTTP_SCAN",
-      "ip": "167.94.146.62",
-      "message": "GET / from 167.94.146.62",
-      "details": "{\"method\": \"GET\", \"path\": \"/\", \"user_agent\": \"Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)\"}"
-    },
-    {
-      "timestamp": "2026-03-31T19:39:40.190763+05:30",
-      "type": "HTTP_SCAN",
-      "ip": "167.94.146.62",
-      "message": "GET /favicon.ico from 167.94.146.62",
-      "details": "{\"method\": \"GET\", \"path\": \"/favicon.ico\", \"user_agent\": \"Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.cens"
-    },
-    {
-      "timestamp": "2026-03-31T19:39:39.323414+05:30",
-      "type": "HTTP_SCAN",
-      "ip": "167.94.146.62",
-      "message": "GET / from 167.94.146.62",
-      "details": "{\"method\": \"GET\", \"path\": \"/\", \"user_agent\": \"Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)\"}"
     }
   ],
   "top_isps": [
