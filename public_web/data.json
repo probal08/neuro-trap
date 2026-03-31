@@ -1,7 +1,7 @@
 {
-  "last_updated": "2026-03-31T15:55:56.315677+05:30",
-  "total_attacks": 2476,
-  "unique_ips": 157,
+  "last_updated": "2026-03-31T16:41:31.318794+05:30",
+  "total_attacks": 2483,
+  "unique_ips": 159,
   "top_user": "root",
   "top_pass": "admin",
   "event_distribution": {
@@ -627,10 +627,6 @@
   ],
   "attacks_over_time": [
     {
-      "time": "2026-03-30 04:00",
-      "count": 28
-    },
-    {
       "time": "2026-03-30 08:00",
       "count": 7
     },
@@ -721,6 +717,10 @@
     {
       "time": "2026-03-31 14:00",
       "count": 11
+    },
+    {
+      "time": "2026-03-31 16:00",
+      "count": 7
     }
   ],
   "top_ips": [
@@ -866,7 +866,9 @@
     "HIGH": 1,
     "MEDIUM": 2
   },
-  "tools_detected": {},
+  "tools_detected": {
+    "ZGrab (Scanner)": 1
+  },
   "profiles": [
     {
       "ip": "local",
@@ -1351,7 +1353,7 @@
       "attempts": 25
     }
   ],
-  "monitored_ips_count": 157,
+  "monitored_ips_count": 159,
   "monitored_ips": [
     {
       "ip": "130.12.180.51",
@@ -1549,6 +1551,55 @@
     }
   ],
   "recent_events": [
+    {
+      "timestamp": "2026-03-31T16:39:38.447851+05:30",
+      "type": "HTTP_SCAN",
+      "ip": "216.180.246.239",
+      "message": "GET /admin/index.html from 216.180.246.239",
+      "details": "{\"method\": \"GET\", \"path\": \"/admin/index.html\", \"user_agent\": \"Mozilla/5.0 (compatible; GenomeCrawlerd/1.0; +https://www."
+    },
+    {
+      "timestamp": "2026-03-31T16:39:37.812755+05:30",
+      "type": "HTTP_SCAN",
+      "ip": "216.180.246.239",
+      "message": "GET /manage/account/login from 216.180.246.239",
+      "details": "{\"method\": \"GET\", \"path\": \"/manage/account/login\", \"user_agent\": \"Mozilla/5.0 (compatible; GenomeCrawlerd/1.0; +https://"
+    },
+    {
+      "timestamp": "2026-03-31T16:39:37.034798+05:30",
+      "type": "HTTP_SCAN",
+      "ip": "216.180.246.239",
+      "message": "GET / from 216.180.246.239",
+      "details": "{\"method\": \"GET\", \"path\": \"/\", \"user_agent\": \"Mozilla/5.0 (compatible; GenomeCrawlerd/1.0; +https://www.nokia.com/genome"
+    },
+    {
+      "timestamp": "2026-03-31T16:39:22.979142+05:30",
+      "type": "HTTP_SCAN",
+      "ip": "216.180.246.239",
+      "message": "GET / from 216.180.246.239",
+      "details": "{\"method\": \"GET\", \"path\": \"/\", \"user_agent\": \"Mozilla/5.0 (compatible; GenomeCrawlerd/1.0; +https://www.nokia.com/genome"
+    },
+    {
+      "timestamp": "2026-03-31T16:38:12.153958+05:30",
+      "type": "HTTP_SCAN",
+      "ip": "216.180.246.239",
+      "message": "GET / from 216.180.246.239",
+      "details": "{\"method\": \"GET\", \"path\": \"/\", \"user_agent\": \"Mozilla/5.0 (compatible; GenomeCrawlerd/1.0; +https://www.nokia.com/genome"
+    },
+    {
+      "timestamp": "2026-03-31T16:26:40.248659+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "97.107.137.209",
+      "message": "Telnet session ended: 97.107.137.209",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-03-31T16:26:08.245984+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "97.107.137.209",
+      "message": "New Telnet connection from 97.107.137.209",
+      "details": ""
+    },
     {
       "timestamp": "2026-03-31T14:55:59.598848+05:30",
       "type": "HTTP_SCAN",
@@ -2898,55 +2949,6 @@
       "type": "ERROR",
       "ip": "172.202.118.20",
       "message": "SSH negotiation failed: Error reading SSH protocol banner",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T00:21:05.301665+05:30",
-      "type": "CONNECTION",
-      "ip": "172.202.118.20",
-      "message": "New connection from 172.202.118.20",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T00:21:05.248945+05:30",
-      "type": "FIREWALL",
-      "ip": "172.202.118.20",
-      "message": "Auto-firewall rules updated: 7 IPs blocked",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T00:21:05.151183+05:30",
-      "type": "ERROR",
-      "ip": "172.202.118.20",
-      "message": "SSH negotiation failed: Error reading SSH protocol banner",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-31T00:20:54.798410+05:30",
-      "type": "CONNECTION",
-      "ip": "172.202.118.20",
-      "message": "New connection from 172.202.118.20",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-30T23:54:35.419900+05:30",
-      "type": "REPORT",
-      "ip": "43.152.248.170",
-      "message": "AI incident report updated",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-30T23:54:35.109696+05:30",
-      "type": "DISCONNECT",
-      "ip": "43.152.248.170",
-      "message": "Connection closed from 43.152.248.170",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-03-30T23:54:35.016943+05:30",
-      "type": "THREAT_FEED",
-      "ip": "43.152.248.170",
-      "message": "Threat feed updated: 140 IPs, 2276 events",
       "details": ""
     }
   ],
