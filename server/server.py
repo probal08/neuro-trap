@@ -44,6 +44,13 @@ HOST = '0.0.0.0'  # Listen on all interfaces
 PORT = 2222       # Use 2222 to avoid conflicts with real SSH (port 22)
 KEY_PATH = os.path.join(os.path.dirname(__file__), '..', 'keys', 'server_key')
 
+# Fetch public IP for Canary Token (fallback to localhost)
+try:
+    import urllib.request
+    PUBLIC_IP = urllib.request.urlopen('https://api.ipify.org', timeout=5).read().decode('utf-8')
+except Exception:
+    PUBLIC_IP = '127.0.0.1'
+
 # Console colors
 class Colors:
     RED = '\033[91m'
@@ -79,8 +86,29 @@ class HoneypotServer(paramiko.ServerInterface):
         firewall.alert_login(self.client_addr[0], username, password)
         return paramiko.AUTH_SUCCESSFUL
     
+    def check_auth_publickey(self, username, key):
+        """Capture attacker's SSH public key fingerprint"""
+        try:
+            import hashlib
+            import base64
+            # Get the exact base64 public key
+            key_b64 = key.get_base64()
+            # Calculate SHA256 fingerprint (standard format)
+            key_bytes = key.asbytes()
+            fingerprint = hashlib.sha256(key_bytes).digest()
+            fingerprint_b64 = base64.b64encode(fingerprint).decode('utf-8').rstrip('=')
+            key_fp = f"SHA256:{fingerprint_b64}"
+            
+            logger.log_event('WARNING', 'SSH_KEY_CAPTURE', f"Captured SSH Key: {key_fp}",
+                           ip=self.client_addr[0],
+                           details={'username': username, 'key_type': key.get_name(), 'fingerprint': key_fp, 'public_key': key_b64})
+            # Still reject the key so they fall back to password auth and we get them in the shell
+            return paramiko.AUTH_FAILED
+        except Exception:
+            return paramiko.AUTH_FAILED
+
     def get_allowed_auths(self, username):
-        return 'password'
+        return 'publickey,password'
     
     def check_channel_shell_request(self, channel):
         self.event.set()
@@ -345,11 +373,13 @@ def handle_connection(client_socket, client_addr):
                                     if any(bait in args.lower() for bait in bait_keywords) and 'log' not in args.lower():
                                         # Check if file exists in virtual FS first
                                         content = fs.read_file(args)
+                                        # Append radioactive token with host IP for canary tracking
+                                        token = counter_intel.RADIOACTIVE_TOKEN_CONTENT.format(host_ip=PUBLIC_IP)
+                                        content = fs.read_file(args)
                                         if content is not None:
-                                            # Append radioactive token to real bait file content
-                                            response = content + "\n" + counter_intel.RADIOACTIVE_TOKEN_CONTENT
+                                            response = content + "\n" + token
                                         else:
-                                            response = counter_intel.RADIOACTIVE_TOKEN_CONTENT
+                                            response = token
                                         # Alert on bait access
                                         firewall.alert_danger(ip, f"BAIT FILE ACCESSED: {args}")
                                     else:

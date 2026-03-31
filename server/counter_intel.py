@@ -237,6 +237,11 @@ RADIOACTIVE_TOKEN_CONTENT = """
   System: production-server
   Last Updated: 2026-01-15
 
+  --- Admin Portal (VPN BYPASS) ---
+  URL: http://{host_ip}:8080/admin/login?token=sess_8f934jd023md
+  User: superadmin
+  Pass: P@ssw0rd2025!
+
   --- Service Credentials ---
   MySQL Root:     admin / Tr0ub4dor&3
   Redis:          default / s3cur3R3d1s!
