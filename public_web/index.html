@@ -394,11 +394,11 @@ window.applyBioCardFilter = function(type, value) {
         if (!type || !value) {
             c.style.display = 'flex';
         } else {
-            const cardValue = c.getAttribute('data-' + type);
-            if (type === 'tool') {
-                c.style.display = (cardValue && cardValue.split(',').includes(value)) ? 'flex' : 'none';
+            const cardValue = c.getAttribute('data-' + type) || '';
+            if (type === 'tools') {
+               c.style.display = cardValue.includes(value) ? 'flex' : 'none';
             } else {
-                c.style.display = (cardValue === value) ? 'flex' : 'none';
+               c.style.display = (cardValue === value) ? 'flex' : 'none';
             }
         }
     });
@@ -591,7 +591,7 @@ function render(){
     // ENTERPRISE: ISP Chart
     if(d.top_isps&&d.top_isps.length){
         clearEmpty('c-isps');
-        makeChart('c-isps',{type:'bar',data:{labels:d.top_isps.map(i=>i.isp.length>20?i.isp.slice(0,20)+'…':i.isp),datasets:[{data:d.top_isps.map(i=>i.count),backgroundColor:'rgba(168,85,247,.6)',borderWidth:0}]},options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},y:{grid:{display:false},ticks:{font:{size:9}}}}}});
+        makeChart('c-isps',{type:'bar',data:{labels:d.top_isps.map(i=>i.isp.length>20?i.isp.slice(0,20)+'…':i.isp),datasets:[{data:d.top_isps.map(i=>i.count),backgroundColor:'rgba(168,85,247,.6)',borderWidth:0}]},options:{onClick: (e, elements) => { if(elements.length) window.applyBioCardFilter('isp', d.top_isps[elements[0].index].isp); }, indexAxis:'y',responsive:true,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},y:{grid:{display:false},ticks:{font:{size:9}}}}}});
     } else { clearEmpty('c-isps'); document.getElementById('c-isps').parentElement.innerHTML+='<div class="empty-state">ISP data loading...</div>'; }
 
     // ENTERPRISE: Kill Chain Chart
@@ -620,7 +620,7 @@ function render(){
     if(d.tools_detected&&Object.keys(d.tools_detected).length){
         clearEmpty('c-tools');
         const tl=Object.keys(d.tools_detected),td=Object.values(d.tools_detected);
-        makeChart('c-tools',{type:'bar',data:{labels:tl,datasets:[{data:td,backgroundColor:'rgba(255,0,60,.6)',borderWidth:0}]},options:{onClick: (e, elements) => { if(elements.length) window.applyBioCardFilter('tool', tl[elements[0].index]); }, responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},x:{grid:{display:false}}}}});
+        makeChart('c-tools',{type:'bar',data:{labels:tl,datasets:[{data:td,backgroundColor:'rgba(255,0,60,.6)',borderWidth:0}]},options:{onClick: (e, elements) => { if(elements.length) window.applyBioCardFilter('tools', tl[elements[0].index]); }, responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},x:{grid:{display:false}}}}});
     } else { clearEmpty('c-tools'); document.getElementById('c-tools').parentElement.innerHTML+='<div class="empty-state">No hacking tools detected yet. The AI engine identifies tools like nmap, hydra, metasploit, etc.</div>'; }
 
     // --- PATHOGEN BIO-CARDS (ENHANCED with kill chain, paste, origin, session) ---
@@ -651,8 +651,9 @@ function render(){
                 card.className = `bio-card threat-${threat}`;
                 card.setAttribute('data-threat', threat);
                 card.setAttribute('data-infra', p.infra_type || 'Unknown');
-                card.setAttribute('data-tool', (p.tools || []).join(','));
-                card.setAttribute('data-killchain', p.kill_chain_label || 'Unknown');
+                card.setAttribute('data-killchain', p.kill_chain_label || 'None');
+                card.setAttribute('data-isp', p.isp || 'Unknown');
+                card.setAttribute('data-tools', (p.tools || []).join(','));
                 card.onclick = () => openIPModal(p.ip);
                 card.innerHTML = `
                     <div class="bc-header">

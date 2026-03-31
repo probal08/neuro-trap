@@ -92,10 +92,11 @@ def build_data_json(events):
     ssh_client_counter = Counter()
     threat_dist = Counter()
     tools_detected = Counter()
-    ip_tools = collections.defaultdict(set)
     timeline = {}
-
-    sessions = {}  # ip -> list of commands for replay
+    sessions = {}
+    
+    # Track tools specifically by IP for cross-filtering in the dashboard
+    tools_by_ip = defaultdict(set)
 
     for e in events:
         ip = e.get('ip', 'unknown') or 'unknown'
@@ -147,7 +148,7 @@ def build_data_json(events):
                 for tool, pattern in TOOL_PATTERNS.items():
                     if re.search(pattern, cmd, re.IGNORECASE):
                         tools_detected[tool] += 1
-                        ip_tools[ip].add(tool)
+                        tools_by_ip[ip].add(tool)
 
             # ENTERPRISE: Broadened Tool Detection (Connection Layer)
             # Detect protocol scanners (SSH clients, HTTP User-Agents)
@@ -155,25 +156,40 @@ def build_data_json(events):
             if ssh_c:
                 ssh_client_counter[ssh_c] += 1
                 ssh_c_lower = ssh_c.lower()
-                
-                def add_tool(t):
-                    tools_detected[t] += 1
-                    ip_tools[ip].add(t)
-
-                if 'libssh' in ssh_c_lower: add_tool('libssh (Brute-forcer)')
-                elif 'putty' in ssh_c_lower and 'scanner' in ssh_c_lower: add_tool('putty-scanner')
-                elif 'go-http' in ssh_c_lower: add_tool('Go-http-client')
+                if 'libssh' in ssh_c_lower: 
+                    tools_detected['libssh (Brute-forcer)'] += 1
+                    tools_by_ip[ip].add('libssh (Brute-forcer)')
+                elif 'putty' in ssh_c_lower and 'scanner' in ssh_c_lower: 
+                    tools_detected['putty-scanner'] += 1
+                    tools_by_ip[ip].add('putty-scanner')
+                elif 'go-http' in ssh_c_lower: 
+                    tools_detected['Go-http-client'] += 1
+                    tools_by_ip[ip].add('Go-http-client')
 
             ua = details.get('user_agent', '')
             if ua:
                 ua_lower = ua.lower()
-                if 'masscan' in ua_lower: add_tool('Masscan (Scanner)')
-                elif 'zgrab' in ua_lower: add_tool('ZGrab (Scanner)')
-                elif 'sqlmap' in ua_lower: add_tool('SQLMap')
-                elif 'nmap' in ua_lower: add_tool('Nmap Scripting Engine')
-                elif 'nikto' in ua_lower: add_tool('Nikto (Web Scanner)')
-                elif 'python-requests' in ua_lower: add_tool('Python Scripts')
-                elif 'curl' in ua_lower: add_tool('curl (Web Probe)')
+                if 'masscan' in ua_lower: 
+                    tools_detected['Masscan (Scanner)'] += 1
+                    tools_by_ip[ip].add('Masscan (Scanner)')
+                elif 'zgrab' in ua_lower: 
+                    tools_detected['ZGrab (Scanner)'] += 1
+                    tools_by_ip[ip].add('ZGrab (Scanner)')
+                elif 'sqlmap' in ua_lower: 
+                    tools_detected['SQLMap'] += 1
+                    tools_by_ip[ip].add('SQLMap')
+                elif 'nmap' in ua_lower: 
+                    tools_detected['Nmap Scripting Engine'] += 1
+                    tools_by_ip[ip].add('Nmap Scripting Engine')
+                elif 'nikto' in ua_lower: 
+                    tools_detected['Nikto (Web Scanner)'] += 1
+                    tools_by_ip[ip].add('Nikto (Web Scanner)')
+                elif 'python-requests' in ua_lower: 
+                    tools_detected['Python Scripts'] += 1
+                    tools_by_ip[ip].add('Python Scripts')
+                elif 'curl' in ua_lower: 
+                    tools_detected['curl (Web Probe)'] += 1
+                    tools_by_ip[ip].add('curl (Web Probe)')
 
             threat = details.get('threat_level', '')
             if threat:
@@ -208,6 +224,13 @@ def build_data_json(events):
                 'size': min(count / 3, 1.5)  # Scale for globe
             })
             country_counter[g['country']] += count
+
+    # Top ISPs computation from GeoIP data
+    isp_counter = Counter()
+    for ip, count in ip_counter.items():
+        if ip in geo_data and geo_data[ip].get('isp') and geo_data[ip]['isp'] != 'Unknown':
+            isp_counter[geo_data[ip]['isp']] += count
+    top_isps = [{'isp': isp, 'count': c} for isp, c in isp_counter.most_common(8)]
 
     # Top IPs
     top_ips = [{'ip': ip, 'count': c} for ip, c in ip_counter.most_common(10)]
@@ -262,7 +285,6 @@ def build_data_json(events):
                 'commands': 0,
                 'logins': 0,
                 'dangerous_cmds': 0,
-                'tools': list(ip_tools.get(ip, set())),
             }
         if etype in ('COMMAND', 'command'):
             seen_ips[ip]['commands'] += 1
@@ -289,6 +311,8 @@ def build_data_json(events):
         p['threat'] = compute_threat(p)
         auto = p.pop('is_automated_raw', None)
         p['automated'] = 'YES' if (auto or p['dangerous_cmds'] > 0 or p['commands'] > 5) else 'NO'
+        p['tools'] = list(tools_by_ip.get(ip, set()))
+        p['isp'] = geo_data.get(ip, {}).get('isp', 'Unknown')
         profiles.append(p)
 
     # Recompute threat_dist from dynamic profiles (accurate)
@@ -486,7 +510,7 @@ def build_data_json(events):
         # Enterprise intel
         'top_isps': top_isps,
         'infra_types': dict(infra_types),
-        'kill_chain': dict(kill_chain_counts),
+        'kill_chain': kill_chain_counts,
         'avg_session_duration': avg_session,
         'max_session_duration': max_session,
     }
