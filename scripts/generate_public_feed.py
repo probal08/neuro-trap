@@ -128,6 +128,7 @@ def build_data_json(events):
                     'time': e.get('timestamp', '')
                 })
                 # Detect tools with word-boundary matching to avoid false positives
+                # (This applies to commands typed in the shell)
                 TOOL_PATTERNS = {
                     'nmap':       r'\bnmap\b',
                     'hydra':      r'\bhydra\b',
@@ -146,9 +147,26 @@ def build_data_json(events):
                     if re.search(pattern, cmd, re.IGNORECASE):
                         tools_detected[tool] += 1
 
+            # ENTERPRISE: Broadened Tool Detection (Connection Layer)
+            # Detect protocol scanners (SSH clients, HTTP User-Agents)
             ssh_c = details.get('ssh_client', '')
             if ssh_c:
                 ssh_client_counter[ssh_c] += 1
+                ssh_c_lower = ssh_c.lower()
+                if 'libssh' in ssh_c_lower: tools_detected['libssh (Brute-forcer)'] += 1
+                elif 'putty' in ssh_c_lower and 'scanner' in ssh_c_lower: tools_detected['putty-scanner'] += 1
+                elif 'go-http' in ssh_c_lower: tools_detected['Go-http-client'] += 1
+
+            ua = details.get('user_agent', '')
+            if ua:
+                ua_lower = ua.lower()
+                if 'masscan' in ua_lower: tools_detected['Masscan (Scanner)'] += 1
+                elif 'zgrab' in ua_lower: tools_detected['ZGrab (Scanner)'] += 1
+                elif 'sqlmap' in ua_lower: tools_detected['SQLMap'] += 1
+                elif 'nmap' in ua_lower: tools_detected['Nmap Scripting Engine'] += 1
+                elif 'nikto' in ua_lower: tools_detected['Nikto (Web Scanner)'] += 1
+                elif 'python-requests' in ua_lower: tools_detected['Python Scripts'] += 1
+                elif 'curl' in ua_lower: tools_detected['curl (Web Probe)'] += 1
 
             threat = details.get('threat_level', '')
             if threat:

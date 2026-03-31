@@ -386,6 +386,41 @@ async function load(){
 }
 setInterval(load, 300000);
 
+window.activeBioFilter = { type: null, value: null };
+window.applyBioCardFilter = function(type, value) {
+    window.activeBioFilter = { type, value };
+    const cards = document.querySelectorAll('.bio-card');
+    cards.forEach(c => {
+        if (!type || !value) {
+            c.style.display = 'flex';
+        } else {
+            const cardValue = c.getAttribute('data-' + type);
+            c.style.display = (cardValue === value) ? 'flex' : 'none';
+        }
+    });
+    
+    const container = document.getElementById('pathogen-cards');
+    let resetBtn = document.getElementById('filter-reset-btn');
+    if (type && value) {
+        if (!resetBtn && container) {
+            resetBtn = document.createElement('div');
+            resetBtn.id = 'filter-reset-btn';
+            resetBtn.innerHTML = `<button style="background:var(--red);color:#fff;border:none;padding:8px 15px;border-radius:4px;cursor:pointer;margin-bottom:15px;width:100%;font-family:'Orbitron',sans-serif;text-transform:uppercase;font-weight:bold;letter-spacing:1px;transition:0.3s;" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">❌ Clear Active Filter: ${type.toUpperCase()} = ${value}</button>`;
+            resetBtn.onclick = () => window.applyBioCardFilter(null, null);
+            container.parentNode.insertBefore(resetBtn, container);
+        } else if (resetBtn) {
+            resetBtn.innerHTML = `<button style="background:var(--red);color:#fff;border:none;padding:8px 15px;border-radius:4px;cursor:pointer;margin-bottom:15px;width:100%;font-family:'Orbitron',sans-serif;text-transform:uppercase;font-weight:bold;letter-spacing:1px;transition:0.3s;" onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">❌ Clear Active Filter: ${type.toUpperCase()} = ${value}</button>`;
+            resetBtn.onclick = () => window.applyBioCardFilter(null, null);
+        }
+        // Auto-scroll to profiles to see the filter taking effect
+        if(container && window.scrollY < container.offsetTop - 200) {
+            window.scrollTo({ top: container.offsetTop - 100, behavior: 'smooth' });
+        }
+    } else if (resetBtn) {
+        resetBtn.remove();
+    }
+}
+
 function makeChart(id,cfg){
     if(charts[id]) charts[id].destroy();
     charts[id]=new Chart(document.getElementById(id).getContext('2d'),cfg);
@@ -557,13 +592,13 @@ function render(){
     if(d.infra_types&&Object.keys(d.infra_types).length){
         const il=Object.keys(d.infra_types),iv=Object.values(d.infra_types);
         const ic=['#06b6d4','#a855f7','#22c55e','#ef4444','#eab308'];
-        makeChart('c-infra',{type:'doughnut',data:{labels:il,datasets:[{data:iv,backgroundColor:ic.slice(0,il.length),borderWidth:0}]},options:{responsive:true,plugins:{legend:{position:'right',labels:{color:'#c9d1d9',font:{size:10}}}}}});
+        makeChart('c-infra',{type:'doughnut',data:{labels:il,datasets:[{data:iv,backgroundColor:ic.slice(0,il.length),borderWidth:0}]},options:{onClick: (e, elements) => { if(elements.length) window.applyBioCardFilter('infra', il[elements[0].index]); }, responsive:true,plugins:{legend:{position:'right',labels:{color:'#c9d1d9',font:{size:10}}}}}});
     } else { document.getElementById('c-infra').parentElement.innerHTML+='<div class="empty-state">Infrastructure data loading...</div>'; }
 
     if(d.threat_distribution&&Object.keys(d.threat_distribution).length){
         const tl=Object.keys(d.threat_distribution),td=Object.values(d.threat_distribution);
         const tc=tl.map(l=>l==='CRITICAL'?'#ff003c':l==='HIGH'?'#ff6600':l==='MEDIUM'?'#ffcc00':'#00ffcc');
-        makeChart('c-threats',{type:'doughnut',data:{labels:tl,datasets:[{data:td,backgroundColor:tc,borderWidth:0}]},options:{responsive:true,plugins:{legend:{position:'right',labels:{color:'#c9d1d9'}}}}});
+        makeChart('c-threats',{type:'doughnut',data:{labels:tl,datasets:[{data:td,backgroundColor:tc,borderWidth:0}]},options:{onClick: (e, elements) => { if(elements.length) window.applyBioCardFilter('threat', tl[elements[0].index]); }, responsive:true,plugins:{legend:{position:'right',labels:{color:'#c9d1d9'}}}}});
     } else { document.getElementById('c-threats').parentElement.innerHTML+='<div class="empty-state">No threat classification data yet. Profiles generate threat levels automatically.</div>'; }
 
     if(d.tools_detected&&Object.keys(d.tools_detected).length){
@@ -597,6 +632,8 @@ function render(){
                 const kcColor = kcPct>70?'var(--red)':kcPct>40?'var(--orange)':'var(--neon)';
                 const card = document.createElement('div');
                 card.className = `bio-card threat-${threat}`;
+                card.setAttribute('data-threat', threat);
+                card.setAttribute('data-infra', p.infra_type || 'Unknown');
                 card.onclick = () => openIPModal(p.ip);
                 card.innerHTML = `
                     <div class="bc-header">
@@ -618,6 +655,10 @@ function render(){
                 `;
                 cardsContainer.appendChild(card);
             });
+            // Reapply any active filter 
+            if(window.activeBioFilter && window.activeBioFilter.type){
+                window.applyBioCardFilter(window.activeBioFilter.type, window.activeBioFilter.value);
+            }
         } else {
             cardsContainer.innerHTML = '<div class="empty-state" style="grid-column:1/-1">No pathogen profiles yet. Attackers are profiled the moment they interact with the honeypot shell.</div>';
         }
