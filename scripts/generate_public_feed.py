@@ -92,6 +92,7 @@ def build_data_json(events):
     ssh_client_counter = Counter()
     threat_dist = Counter()
     tools_detected = Counter()
+    ip_tools = collections.defaultdict(set)
     timeline = {}
 
     sessions = {}  # ip -> list of commands for replay
@@ -146,6 +147,7 @@ def build_data_json(events):
                 for tool, pattern in TOOL_PATTERNS.items():
                     if re.search(pattern, cmd, re.IGNORECASE):
                         tools_detected[tool] += 1
+                        ip_tools[ip].add(tool)
 
             # ENTERPRISE: Broadened Tool Detection (Connection Layer)
             # Detect protocol scanners (SSH clients, HTTP User-Agents)
@@ -153,20 +155,25 @@ def build_data_json(events):
             if ssh_c:
                 ssh_client_counter[ssh_c] += 1
                 ssh_c_lower = ssh_c.lower()
-                if 'libssh' in ssh_c_lower: tools_detected['libssh (Brute-forcer)'] += 1
-                elif 'putty' in ssh_c_lower and 'scanner' in ssh_c_lower: tools_detected['putty-scanner'] += 1
-                elif 'go-http' in ssh_c_lower: tools_detected['Go-http-client'] += 1
+                
+                def add_tool(t):
+                    tools_detected[t] += 1
+                    ip_tools[ip].add(t)
+
+                if 'libssh' in ssh_c_lower: add_tool('libssh (Brute-forcer)')
+                elif 'putty' in ssh_c_lower and 'scanner' in ssh_c_lower: add_tool('putty-scanner')
+                elif 'go-http' in ssh_c_lower: add_tool('Go-http-client')
 
             ua = details.get('user_agent', '')
             if ua:
                 ua_lower = ua.lower()
-                if 'masscan' in ua_lower: tools_detected['Masscan (Scanner)'] += 1
-                elif 'zgrab' in ua_lower: tools_detected['ZGrab (Scanner)'] += 1
-                elif 'sqlmap' in ua_lower: tools_detected['SQLMap'] += 1
-                elif 'nmap' in ua_lower: tools_detected['Nmap Scripting Engine'] += 1
-                elif 'nikto' in ua_lower: tools_detected['Nikto (Web Scanner)'] += 1
-                elif 'python-requests' in ua_lower: tools_detected['Python Scripts'] += 1
-                elif 'curl' in ua_lower: tools_detected['curl (Web Probe)'] += 1
+                if 'masscan' in ua_lower: add_tool('Masscan (Scanner)')
+                elif 'zgrab' in ua_lower: add_tool('ZGrab (Scanner)')
+                elif 'sqlmap' in ua_lower: add_tool('SQLMap')
+                elif 'nmap' in ua_lower: add_tool('Nmap Scripting Engine')
+                elif 'nikto' in ua_lower: add_tool('Nikto (Web Scanner)')
+                elif 'python-requests' in ua_lower: add_tool('Python Scripts')
+                elif 'curl' in ua_lower: add_tool('curl (Web Probe)')
 
             threat = details.get('threat_level', '')
             if threat:
@@ -255,6 +262,7 @@ def build_data_json(events):
                 'commands': 0,
                 'logins': 0,
                 'dangerous_cmds': 0,
+                'tools': list(ip_tools.get(ip, set())),
             }
         if etype in ('COMMAND', 'command'):
             seen_ips[ip]['commands'] += 1
