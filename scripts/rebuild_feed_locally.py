@@ -24,7 +24,7 @@ print("=" * 50)
 uri = os.environ.get('MONGODB_URI', '')
 if not uri:
     print("[!] Set MONGODB_URI environment variable first!")
-    print("    Example: set MONGODB_URI=<your_local_mongodb_connection_string>")
+    print("    Example: set MONGODB_URI=mongodb+srv://user:pass@host/db")
     sys.exit(1)
 client = MongoClient(uri, serverSelectionTimeoutMS=5000, tlsCAFile=certifi.where())
 db = client['neurotrap']

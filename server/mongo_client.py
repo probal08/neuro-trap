@@ -8,7 +8,10 @@ from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure, ConfigurationError
 
 # MongoDB Atlas Connection String
-MONGO_URI = os.environ.get("MONGODB_URI", "").strip()
+MONGO_URI = os.environ.get(
+    "MONGODB_URI", 
+    "mongodb+srv://placeholder:placeholder@neurotrap.tbtmk51.mongodb.net/?appName=neurotrap"
+)
 
 DB_NAME = "neurotrap"
 
@@ -18,8 +21,6 @@ _db = None
 def get_client():
     """Returns the MongoClient instance, initializing it if necessary."""
     global _client
-    if not MONGO_URI:
-        return None
     if _client is None:
         try:
             # certifi.where() fixes common SSL cert issues on Windows
