@@ -7,6 +7,11 @@ from collections import Counter
 from datetime import datetime, timezone, timedelta
 from pymongo import MongoClient
 
+try:
+    from public_feed_privacy import sanitize_public_payload, env_bool
+except ImportError:
+    from scripts.public_feed_privacy import sanitize_public_payload, env_bool
+
 IST = timezone(timedelta(hours=5, minutes=30))
 PROJECT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 OUTPUT = os.path.join(PROJECT, 'public_web', 'data.json')
@@ -208,6 +213,15 @@ data = {
     'replay_sessions': replay_sessions,
     'recent_events': recent_events
 }
+
+include_replay = env_bool(os.environ.get('NEUROTRAP_PUBLIC_INCLUDE_REPLAY'), default=False)
+include_event_details = env_bool(os.environ.get('NEUROTRAP_PUBLIC_INCLUDE_EVENT_DETAILS'), default=False)
+data = sanitize_public_payload(
+    data,
+    include_replay=include_replay,
+    include_event_details=include_event_details,
+)
+print(f"[+] Public feed privacy mode active (replay={include_replay}, event_details={include_event_details})")
 
 os.makedirs(os.path.dirname(OUTPUT), exist_ok=True)
 with open(OUTPUT, 'w') as f:

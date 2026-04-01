@@ -11,6 +11,11 @@ from collections import Counter, defaultdict
 import hashlib
 import re
 
+try:
+    from public_feed_privacy import sanitize_public_payload, env_bool
+except ImportError:
+    from scripts.public_feed_privacy import sanitize_public_payload, env_bool
+
 IST = timezone(timedelta(hours=5, minutes=30))
 
 # Setup path so we can import mongo_client from server/
@@ -69,16 +74,6 @@ def batch_geoip_lookup(ips):
         except Exception as e:
             print(f"[!] GeoIP batch lookup failed: {e}")
     return results
-
-
-def mask_ip(ip):
-    """Show first two octets only for partial privacy."""
-    parts = ip.split('.')
-    if len(parts) == 4:
-        return f"{parts[0]}.{parts[1]}.*.*"
-    return ip
-
-
 def build_data_json(events):
     if not events:
         return None
@@ -563,10 +558,21 @@ def main():
             'monitored_ips': [],
             'replay_sessions': [],
             'recent_events': [],
-            'globe_points': []
+            'globe_points': [],
+            'privacy_mode': 'sanitized',
+            'privacy_notice': 'Sensitive attacker identifiers and credentials are redacted for public display.'
         }
     else:
         data = build_data_json(events)
+
+    include_replay = env_bool(os.environ.get('NEUROTRAP_PUBLIC_INCLUDE_REPLAY'), default=False)
+    include_event_details = env_bool(os.environ.get('NEUROTRAP_PUBLIC_INCLUDE_EVENT_DETAILS'), default=False)
+    data = sanitize_public_payload(
+        data,
+        include_replay=include_replay,
+        include_event_details=include_event_details,
+    )
+    print(f"[+] Public feed privacy mode active (replay={include_replay}, event_details={include_event_details})")
 
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     with open(OUTPUT_PATH, 'w') as f:

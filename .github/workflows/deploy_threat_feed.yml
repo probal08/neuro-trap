@@ -34,6 +34,8 @@ jobs:
       - name: Generate data.json from MongoDB Atlas
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          NEUROTRAP_PUBLIC_INCLUDE_REPLAY: "false"
+          NEUROTRAP_PUBLIC_INCLUDE_EVENT_DETAILS: "false"
         run: python scripts/generate_public_feed.py
 
       - name: Generate Threat Blocklist & STIX Feed
