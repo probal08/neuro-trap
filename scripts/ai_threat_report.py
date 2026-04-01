@@ -11,21 +11,12 @@ from datetime import datetime
 from collections import Counter
 import sentry_sdk
 
-def _env_float(name, default):
-    try:
-        return float(os.environ.get(name, default))
-    except (TypeError, ValueError):
-        return default
-
-
-# Optional telemetry: configured only through environment variables.
-_SENTRY_DSN = os.environ.get("NEUROTRAP_SENTRY_DSN", "").strip()
-if _SENTRY_DSN:
-    sentry_sdk.init(
-        dsn=_SENTRY_DSN,
-        traces_sample_rate=_env_float("NEUROTRAP_SENTRY_TRACES_SAMPLE_RATE", 0.2),
-        profiles_sample_rate=_env_float("NEUROTRAP_SENTRY_PROFILES_SAMPLE_RATE", 0.2),
-    )
+# Phase 2: Sentry Error Tracking
+sentry_sdk.init(
+    dsn="https://e9fb21868f9563c4613b6202972d3cc2@o4511889686151168.ingest.us.sentry.io/4511889698348864",
+    traces_sample_rate=1.0,
+    profiles_sample_rate=1.0,
+)
 
 LOG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'logs', 'honeypot.json')
 PROFILES_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'logs', 'attacker_profiles.json')
