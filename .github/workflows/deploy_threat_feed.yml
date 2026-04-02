@@ -1,9 +1,9 @@
 name: Deploy Neuro-Trap Public Threat Feed
 
 on:
-  # Run every hour automatically
+  # Run every 30 minutes automatically
   schedule:
-    - cron: "0 * * * *"
+    - cron: "*/30 * * * *"
   # Also run on every push to main
   push:
     branches: [main]

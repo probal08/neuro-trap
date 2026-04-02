@@ -207,11 +207,12 @@ def build_data_json(events):
 
     # GeoIP lookup for globe visualization
     unique_ips_list = list(ip_counter.keys())
-    geo_data = batch_geoip_lookup(unique_ips_list[:100])  # Lookup top 100 IPs
+    # INCREASED: Lookup top 300 IPs instead of 100 for better coverage
+    geo_data = batch_geoip_lookup(unique_ips_list[:300])
 
     # Build globe points for 3D visualization
     globe_points = []
-    for ip_addr, count in ip_counter.most_common(100):
+    for ip_addr, count in ip_counter.most_common(300):
         if ip_addr in geo_data:
             g = geo_data[ip_addr]
             globe_points.append({
@@ -235,9 +236,9 @@ def build_data_json(events):
     # Top IPs
     top_ips = [{'ip': ip, 'count': c} for ip, c in ip_counter.most_common(10)]
 
-    # Recent events (last 200, sanitised)
+    # INCREASED: Recent events (last 1000, sanitised)
     recent_events = []
-    for e in events[-200:]:
+    for e in events[-1000:]:
         ip = e.get('ip', 'N/A')
         recent_events.append({
             'timestamp': e.get('timestamp', ''),
@@ -248,9 +249,16 @@ def build_data_json(events):
         })
     recent_events.reverse()
 
-    # Build replay sessions (up to 5 most interesting)
+    # SMART SORTING: Build replay sessions (up to 30 most recent/active)
     replay_sessions = []
-    for ip, cmds in list(sessions.items())[:5]:
+    # Sort sessions by the timestamp of their LATEST command (descending)
+    sorted_sessions = sorted(
+        sessions.items(),
+        key=lambda x: str(x[1][-1]['time']) if x[1] else '',
+        reverse=True
+    )
+    
+    for ip, cmds in sorted_sessions[:30]:
         if cmds:
             replay_sessions.append({
                 'ip': ip,
@@ -273,6 +281,7 @@ def build_data_json(events):
             details = {}
 
         etype = e.get('event_type') or e.get('type', '')
+        ts = e.get('timestamp', '')
         if ip not in seen_ips:
             seen_ips[ip] = {
                 'ip': ip,
@@ -285,7 +294,12 @@ def build_data_json(events):
                 'commands': 0,
                 'logins': 0,
                 'dangerous_cmds': 0,
+                'last_seen': ts
             }
+        
+        # Update last_seen if this event is newer
+        if ts and ts > seen_ips[ip].get('last_seen', ''):
+            seen_ips[ip]['last_seen'] = ts
         if etype in ('COMMAND', 'command'):
             seen_ips[ip]['commands'] += 1
             cmd = details.get('command', '')
@@ -306,24 +320,33 @@ def build_data_json(events):
         elif score >= 10: return 'MEDIUM'
         else:             return 'LOW'
 
+    # SMART SORTING: Sort profiles by recency (last_seen) and threat level
+    sorted_profiles = sorted(
+        seen_ips.values(),
+        key=lambda x: (x.get('last_seen', ''), x['commands'] + x['dangerous_cmds']),
+        reverse=True
+    )
+
     profiles = []
-    for ip, p in list(seen_ips.items())[:20]:
+    # INCREASED: Export top 100 profiles instead of 20
+    for p in sorted_profiles[:100]:
         p['threat'] = compute_threat(p)
         auto = p.pop('is_automated_raw', None)
         p['automated'] = 'YES' if (auto or p['dangerous_cmds'] > 0 or p['commands'] > 5) else 'NO'
-        p['tools'] = list(tools_by_ip.get(ip, set()))
-        p['isp'] = geo_data.get(ip, {}).get('isp', 'Unknown')
+        p['tools'] = list(tools_by_ip.get(p['ip'], set()))
+        p['isp'] = geo_data.get(p['ip'], {}).get('isp', 'Unknown')
         profiles.append(p)
 
     # Recompute threat_dist from dynamic profiles (accurate)
     threat_dist = Counter(p['threat'] for p in profiles)
 
     # Blocked IPs — those with high activity (proxy for blocked)
+    # INCREASED: 30 instead of 15
     blocked_ips = [
         {'ip': ip, 'attempts': count}
         for ip, count in ip_counter.most_common()
         if count >= 3
-    ][:15]
+    ][:30]
 
     # Top passwords and creds
     top_creds = [{'cred': f"{u}:{p}", 'count': 1}
@@ -338,24 +361,25 @@ def build_data_json(events):
     # ===== ENTERPRISE INTEL FEATURES =====
 
     # FEATURE: Reverse DNS Lookup — classify attacker infrastructure
+    _dns_cache = {}
     def reverse_dns_lookup(ip):
-        """Classify attacker by PTR record."""
+        """Classify attacker by PTR record with caching and timeout."""
+        if ip in _dns_cache: return _dns_cache[ip]
         try:
             import socket as _socket
+            _socket.setdefaulttimeout(1.0) # 1s timeout for safety
             host = _socket.gethostbyaddr(ip)[0]
-            if any(x in host.lower() for x in ['vpn', 'tor', 'proxy', 'exit']):
-                return 'VPN/Proxy'
-            elif any(x in host.lower() for x in ['amazon', 'aws', 'ec2', 'compute', 'cloud', 'azure', 'google', 'digital']):
-                return 'Cloud Server'
-            elif any(x in host.lower() for x in ['static', 'dynamic', 'dsl', 'cable', 'broadband', 'residential']):
-                return 'Residential'
-            else:
-                return 'Hosting'
+            if any(x in host.lower() for x in ['vpn', 'tor', 'proxy', 'exit']): res = 'VPN/Proxy'
+            elif any(x in host.lower() for x in ['amazon', 'aws', 'ec2', 'compute', 'cloud', 'azure', 'google', 'digital']): res = 'Cloud Server'
+            elif any(x in host.lower() for x in ['static', 'dynamic', 'dsl', 'cable', 'broadband', 'residential']): res = 'Residential'
+            else: res = 'Hosting'
         except Exception:
-            return 'Unknown'
+            res = 'Unknown'
+        _dns_cache[ip] = res
+        return res
 
     infra_types = Counter()
-    for ip_addr in list(ip_counter.keys())[:30]:  # Top 30 only to stay fast
+    for ip_addr in list(ip_counter.keys())[:100]:  # INCREASED: Filter top 100
         infra_type = reverse_dns_lookup(ip_addr)
         infra_types[infra_type] += 1
     # Add infra_type to profiles
