@@ -152,44 +152,120 @@ def build_data_json(events):
 
             # ENTERPRISE: Broadened Tool Detection (Connection Layer)
             # Detect protocol scanners (SSH clients, HTTP User-Agents)
+            # FIX: Use independent `if` instead of `elif` so multiple tools can be detected per event
             ssh_c = details.get('ssh_client', '')
             if ssh_c:
                 ssh_client_counter[ssh_c] += 1
                 ssh_c_lower = ssh_c.lower()
-                if 'libssh' in ssh_c_lower: 
+                if 'libssh' in ssh_c_lower:
                     tools_detected['libssh (Brute-forcer)'] += 1
                     tools_by_ip[ip].add('libssh (Brute-forcer)')
-                elif 'putty' in ssh_c_lower and 'scanner' in ssh_c_lower: 
-                    tools_detected['putty-scanner'] += 1
-                    tools_by_ip[ip].add('putty-scanner')
-                elif 'go-http' in ssh_c_lower: 
-                    tools_detected['Go-http-client'] += 1
-                    tools_by_ip[ip].add('Go-http-client')
+                if 'putty' in ssh_c_lower and 'scanner' in ssh_c_lower:
+                    tools_detected['PuTTY (Scanner)'] += 1
+                    tools_by_ip[ip].add('PuTTY (Scanner)')
+                if 'go-http' in ssh_c_lower or 'golang' in ssh_c_lower:
+                    tools_detected['Go HTTP Client'] += 1
+                    tools_by_ip[ip].add('Go HTTP Client')
+                if 'dirsearch' in ssh_c_lower:
+                    tools_detected['DirSearch'] += 1
+                    tools_by_ip[ip].add('DirSearch')
+                if 'zgrab' in ssh_c_lower:
+                    tools_detected['ZGrab (Scanner)'] += 1
+                    tools_by_ip[ip].add('ZGrab (Scanner)')
+                if 'masscan' in ssh_c_lower:
+                    tools_detected['Masscan (Scanner)'] += 1
+                    tools_by_ip[ip].add('Masscan (Scanner)')
+                if 'nmap' in ssh_c_lower:
+                    tools_detected['Nmap'] += 1
+                    tools_by_ip[ip].add('Nmap')
+                if 'hydra' in ssh_c_lower or 'thc-hydra' in ssh_c_lower:
+                    tools_detected['THC Hydra'] += 1
+                    tools_by_ip[ip].add('THC Hydra')
+                if 'medusa' in ssh_c_lower:
+                    tools_detected['Medusa'] += 1
+                    tools_by_ip[ip].add('Medusa')
+                if 'paramiko' in ssh_c_lower:
+                    tools_detected['Paramiko (Python SSH)'] += 1
+                    tools_by_ip[ip].add('Paramiko (Python SSH)')
+                if 'shodan' in ssh_c_lower:
+                    tools_detected['Shodan Crawler'] += 1
+                    tools_by_ip[ip].add('Shodan Crawler')
 
             ua = details.get('user_agent', '')
             if ua:
                 ua_lower = ua.lower()
-                if 'masscan' in ua_lower: 
+                # FIX: Use independent `if` instead of `elif`
+                if 'masscan' in ua_lower:
                     tools_detected['Masscan (Scanner)'] += 1
                     tools_by_ip[ip].add('Masscan (Scanner)')
-                elif 'zgrab' in ua_lower: 
+                if 'zgrab' in ua_lower:
                     tools_detected['ZGrab (Scanner)'] += 1
                     tools_by_ip[ip].add('ZGrab (Scanner)')
-                elif 'sqlmap' in ua_lower: 
+                if 'sqlmap' in ua_lower:
                     tools_detected['SQLMap'] += 1
                     tools_by_ip[ip].add('SQLMap')
-                elif 'nmap' in ua_lower: 
+                if 'nmap' in ua_lower:
                     tools_detected['Nmap Scripting Engine'] += 1
                     tools_by_ip[ip].add('Nmap Scripting Engine')
-                elif 'nikto' in ua_lower: 
+                if 'nikto' in ua_lower:
                     tools_detected['Nikto (Web Scanner)'] += 1
                     tools_by_ip[ip].add('Nikto (Web Scanner)')
-                elif 'python-requests' in ua_lower: 
+                if 'python-requests' in ua_lower or 'python/' in ua_lower:
                     tools_detected['Python Scripts'] += 1
                     tools_by_ip[ip].add('Python Scripts')
-                elif 'curl' in ua_lower: 
+                if 'curl' in ua_lower:
                     tools_detected['curl (Web Probe)'] += 1
                     tools_by_ip[ip].add('curl (Web Probe)')
+                if 'go-http' in ua_lower or 'go/1.' in ua_lower:
+                    tools_detected['Go HTTP Client'] += 1
+                    tools_by_ip[ip].add('Go HTTP Client')
+                if 'dirbuster' in ua_lower or 'gobuster' in ua_lower:
+                    tools_detected['DirBuster/GoBuster'] += 1
+                    tools_by_ip[ip].add('DirBuster/GoBuster')
+                if 'hydra' in ua_lower:
+                    tools_detected['THC Hydra'] += 1
+                    tools_by_ip[ip].add('THC Hydra')
+                if 'nuclei' in ua_lower:
+                    tools_detected['Nuclei Scanner'] += 1
+                    tools_by_ip[ip].add('Nuclei Scanner')
+
+        # --- NEW: Detect tools from THREAT_FEED and REPORT event messages ---
+        # These events are raised when the honeypot itself detects an automated scanner
+        if etype in ('THREAT_FEED', 'REPORT', 'FIREWALL', 'CONNECTION'):
+            msg = (e.get('message', '') or '').lower()
+            raw_details_str = json.dumps(details).lower() if details else ''
+            combined = msg + ' ' + raw_details_str
+            # Independent checks on event message strings
+            if 'zgrab' in combined:
+                tools_detected['ZGrab (Scanner)'] += 1
+                tools_by_ip[ip].add('ZGrab (Scanner)')
+            if 'masscan' in combined:
+                tools_detected['Masscan (Scanner)'] += 1
+                tools_by_ip[ip].add('Masscan (Scanner)')
+            if 'shodan' in combined:
+                tools_detected['Shodan Crawler'] += 1
+                tools_by_ip[ip].add('Shodan Crawler')
+            if 'nmap' in combined:
+                tools_detected['Nmap'] += 1
+                tools_by_ip[ip].add('Nmap')
+            if 'hydra' in combined or 'brute' in combined or 'brute-force' in combined:
+                tools_detected['SSH Brute-Forcer'] += 1
+                tools_by_ip[ip].add('SSH Brute-Forcer')
+            if 'libssh' in combined:
+                tools_detected['libssh (Brute-forcer)'] += 1
+                tools_by_ip[ip].add('libssh (Brute-forcer)')
+            if 'python' in combined and ('script' in combined or 'requests' in combined or 'paramiko' in combined):
+                tools_detected['Python Scripts'] += 1
+                tools_by_ip[ip].add('Python Scripts')
+            if 'scanner' in combined and 'zgrab' not in combined and 'masscan' not in combined and 'nmap' not in combined:
+                tools_detected['Generic Scanner'] += 1
+                tools_by_ip[ip].add('Generic Scanner')
+            if 'curl' in combined:
+                tools_detected['curl (Web Probe)'] += 1
+                tools_by_ip[ip].add('curl (Web Probe)')
+            if 'wget' in combined:
+                tools_detected['Wget Downloader'] += 1
+                tools_by_ip[ip].add('Wget Downloader')
 
             threat = details.get('threat_level', '')
             if threat:
@@ -523,7 +599,7 @@ def build_data_json(events):
         'top_creds': top_creds,
         'top_passwords': [{'password': p, 'count': c} for p, c in password_counter.most_common(15)],
         'threat_distribution': dict(threat_dist),
-        'tools_detected': dict(tools_detected.most_common(10)),
+        'tools_detected': dict(tools_detected.most_common(20)),
         'profiles': profiles,
         'blocked_ips': blocked_ips,
         'monitored_ips_count': len(ip_counter),
