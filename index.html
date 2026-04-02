@@ -390,7 +390,7 @@ async function load(){
         document.getElementById('nav-time').textContent='OFFLINE';
     }
 }
-setInterval(load, 300000);
+setInterval(load, 120000);
 
 window.activeBioFilter = { type: null, value: null };
 window.applyBioCardFilter = function(type, value) {
@@ -743,7 +743,7 @@ function filterLogs(){
     if(activeFilters.size>0) events=events.filter(e=>activeFilters.has(e.type));
     if(query) events=events.filter(e=>(e.ip+' '+e.type+' '+e.message+' '+e.details).toLowerCase().includes(query));
     
-    events=events.slice(0, 100); // Max 100 on frontend for performance
+    events=events.slice(0, 500); // Increased for better historical visibility
     const ltb=document.querySelector('#t-logs tbody');ltb.innerHTML='';
     events.forEach(e=>{
         const tc=(e.type==='AUTH_LOGIN'||e.type==='ERROR')?'color:var(--red)':e.type==='COMMAND'?'color:var(--neon)':'color:var(--cyan)';
