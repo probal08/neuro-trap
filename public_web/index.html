@@ -832,26 +832,46 @@ function stopReplay(){
 window._soundEnabled = false;
 window._audioCtx = null;
 function toggleSound(){
+    if(!window._audioCtx) window._audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+    
+    // Resume context if suspended (required by modern browsers after user interaction)
+    if (window._audioCtx.state === 'suspended') {
+        window._audioCtx.resume();
+    }
+
     window._soundEnabled = !window._soundEnabled;
     const btn = document.getElementById('sound-toggle');
     btn.textContent = window._soundEnabled ? '🔊 SOUND' : '🔇 SOUND';
     btn.style.color = window._soundEnabled ? 'var(--neon)' : 'var(--dim)';
     btn.style.borderColor = window._soundEnabled ? 'var(--neon)' : 'var(--dim)';
-    if(window._soundEnabled && !window._audioCtx) window._audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-    if(window._soundEnabled) playAttackSound();
+    
+    if(window._soundEnabled) {
+        // Play a test chirp to confirm it works
+        playAttackSound();
+    }
 }
 function playAttackSound(){
+    if(!window._soundEnabled) return;
     if(!window._audioCtx) window._audioCtx = new (window.AudioContext||window.webkitAudioContext)();
     const ctx = window._audioCtx;
+    
+    // Ensure context is running (fixes browsers blocking audio after idle periods)
+    if(ctx.state === 'suspended') ctx.resume();
+
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.connect(gain);
     gain.connect(ctx.destination);
+    
+    // High-pitched notification "chirp"
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(880, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(220, ctx.currentTime + 0.3);
-    gain.gain.setValueAtTime(0.15, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+    osc.frequency.setValueAtTime(880, ctx.currentTime); // A5 note
+    osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.15); // Slide down to A4
+    
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 0.05); // Quick fade in
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3); // Smooth fade out
+    
     osc.start(ctx.currentTime);
     osc.stop(ctx.currentTime + 0.3);
 }
