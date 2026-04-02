@@ -361,22 +361,21 @@ def build_data_json(events):
     # ===== ENTERPRISE INTEL FEATURES =====
 
     # FEATURE: Reverse DNS Lookup — classify attacker infrastructure
-    _dns_cache = {}
     def reverse_dns_lookup(ip):
-        """Classify attacker by PTR record with caching and timeout."""
-        if ip in _dns_cache: return _dns_cache[ip]
+        """Classify attacker by PTR record."""
         try:
             import socket as _socket
-            _socket.setdefaulttimeout(1.0) # 1s timeout for safety
             host = _socket.gethostbyaddr(ip)[0]
-            if any(x in host.lower() for x in ['vpn', 'tor', 'proxy', 'exit']): res = 'VPN/Proxy'
-            elif any(x in host.lower() for x in ['amazon', 'aws', 'ec2', 'compute', 'cloud', 'azure', 'google', 'digital']): res = 'Cloud Server'
-            elif any(x in host.lower() for x in ['static', 'dynamic', 'dsl', 'cable', 'broadband', 'residential']): res = 'Residential'
-            else: res = 'Hosting'
+            if any(x in host.lower() for x in ['vpn', 'tor', 'proxy', 'exit']):
+                return 'VPN/Proxy'
+            elif any(x in host.lower() for x in ['amazon', 'aws', 'ec2', 'compute', 'cloud', 'azure', 'google', 'digital']):
+                return 'Cloud Server'
+            elif any(x in host.lower() for x in ['static', 'dynamic', 'dsl', 'cable', 'broadband', 'residential']):
+                return 'Residential'
+            else:
+                return 'Hosting'
         except Exception:
-            res = 'Unknown'
-        _dns_cache[ip] = res
-        return res
+            return 'Unknown'
 
     infra_types = Counter()
     for ip_addr in list(ip_counter.keys())[:100]:  # INCREASED: Filter top 100

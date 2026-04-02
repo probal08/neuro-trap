@@ -311,6 +311,9 @@
 Chart.defaults.color='#6a737d';Chart.defaults.font.family="'JetBrains Mono',monospace";Chart.defaults.font.size=10;
 const NEON=['#00ff41','#00ffff','#ff003c','#ff6600','#a855f7','#f43f5e','#fbbf24','#06b6d4','#10b981','#ec4899'];
 let DATA=null, charts={}, activeFilters=new Set(), replayInterval=null;
+let _replaySelectedIdx = 0;  // Track selected replay session across refreshes
+let _lastLogTimestamp = '';   // Track newest log timestamp for live update detection
+let _prevTotalAttacks = 0;    // Track attack count for NEW indicator
 
 function updateClock(){
     const now=new Date();
@@ -383,11 +386,37 @@ async function load(){
     try{
         const r=await fetch('./data.json?t='+Date.now());
         if(!r.ok) throw new Error('No data');
-        DATA=await r.json();
-        render();
+        const newData=await r.json();
+        
+        // Detect if new data has MORE events than before (live update indicator)
+        const prevAttacks = DATA ? DATA.total_attacks : 0;
+        const isNewData = !DATA || newData.total_attacks !== prevAttacks || newData.last_updated !== DATA.last_updated;
+        
+        DATA=newData;
+        render(isNewData);
         updateClock();
+        
+        // Flash the nav-time green on new data to signal live update
+        if(isNewData && prevAttacks > 0){
+            const nt = document.getElementById('nav-time');
+            nt.style.color='var(--neon)';
+            setTimeout(()=>{ nt.style.color=''; }, 2000);
+            // Show NEW badge on Raw Logs tab if there are more events
+            const logsTab = document.querySelector('.nav-tab[onclick*="logs"]');
+            if(logsTab){
+                const badge = document.createElement('span');
+                badge.textContent = ' NEW';
+                badge.style.cssText = 'font-size:.5rem;color:var(--neon);background:rgba(0,255,65,.15);border:1px solid var(--neon);border-radius:3px;padding:0 4px;margin-left:4px;animation:blink 1s 3;';
+                // Remove any existing badge first
+                const oldBadge = logsTab.querySelector('.new-badge');
+                if(oldBadge) oldBadge.remove();
+                badge.className = 'new-badge';
+                logsTab.appendChild(badge);
+                setTimeout(()=>badge.remove(), 6000);
+            }
+        }
     }catch(e){
-        document.getElementById('nav-time').textContent='OFFLINE';
+        document.getElementById('nav-time').textContent='OFFLINE — Retrying...';
     }
 }
 setInterval(load, 120000);
@@ -440,7 +469,7 @@ function ipHTML(ip){
     return `<span class="ip-link" onclick="openIPModal('${ip}')">${ip}</span>`;
 }
 
-function render(){
+function render(isNewData){
     const d=DATA;
 
     // Animated count-up for metrics
@@ -696,12 +725,46 @@ function render(){
     });
     if(!d.blocked_ips||!d.blocked_ips.length) ftb.innerHTML='<tr><td colspan="4" style="color:var(--dim);text-align:center;padding:16px">No quarantined IPs yet. IPs are auto-blocked after 3+ failed login attempts.</td></tr>';
 
-    const sel=document.getElementById('replay-select');sel.innerHTML='';
-    (d.replay_sessions||[]).forEach((s,i)=>{
-        const opt=document.createElement('option');opt.value=i;opt.textContent=`Session: ${s.ip} (${s.commands.length} cmds)`;sel.appendChild(opt);
-    });
-    sel.onchange=()=>{stopReplay();renderReplay(d.replay_sessions[sel.value]);};
-    if(d.replay_sessions&&d.replay_sessions.length) renderReplay(d.replay_sessions[0]);
+    // --- ATTACK REPLAY: Smart dropdown update (don't reset user's choice) ---
+    const sel=document.getElementById('replay-select');
+    const sessions = d.replay_sessions || [];
+    
+    if(sessions.length > 0){
+        // Only rebuild dropdown if session count/IPs changed to avoid resetting user choice
+        const currentOpts = sel.options.length;
+        const needsRebuild = currentOpts !== sessions.length || 
+            (currentOpts > 0 && sel.options[0].textContent !== `Session: ${sessions[0].ip} (${sessions[0].commands.length} cmds)`);
+        
+        if(needsRebuild){
+            // Save current selection
+            const prevVal = sel.value || '0';
+            stopReplay(); // Stop any ongoing replay before rebuilding
+            sel.innerHTML='';
+            sessions.forEach((s,i)=>{
+                const opt=document.createElement('option');
+                opt.value=i;
+                const ago = s.commands.length > 0 && s.commands[s.commands.length-1].time 
+                    ? getTimeAgo(s.commands[s.commands.length-1].time) 
+                    : '';
+                opt.textContent=`${s.ip} — ${s.commands.length} cmds ${ago ? '('+ago+')' : ''}`;
+                sel.appendChild(opt);
+            });
+            // Restore previous selection if still valid, else keep at 0
+            const newMax = sessions.length - 1;
+            const restoreIdx = Math.min(parseInt(prevVal) || 0, newMax);
+            sel.value = restoreIdx;
+            _replaySelectedIdx = restoreIdx;
+            // Only auto-render preview if replay is not currently playing
+            if(!replayInterval) renderReplay(sessions[restoreIdx]);
+        }
+        sel.onchange=()=>{
+            _replaySelectedIdx = parseInt(sel.value) || 0;
+            stopReplay();
+            renderReplay(sessions[_replaySelectedIdx]);
+        };
+    } else {
+        sel.innerHTML = '<option value="">No sessions captured yet</option>';
+    }
 
     buildLogFilters();
     filterLogs();
@@ -713,14 +776,32 @@ function render(){
     window._lastAttackCount = d.total_attacks||0;
 }
 
+// Helper: human-readable time ago
+function getTimeAgo(isoStr){
+    if(!isoStr) return '';
+    try{
+        const diff = Date.now() - new Date(isoStr).getTime();
+        if(diff < 0) return 'just now';
+        const secs = Math.floor(diff/1000);
+        if(secs < 60) return secs + 's ago';
+        const mins = Math.floor(secs/60);
+        if(mins < 60) return mins + 'm ago';
+        const hrs = Math.floor(mins/60);
+        if(hrs < 24) return hrs + 'h ago';
+        return Math.floor(hrs/24) + 'd ago';
+    }catch(e){ return ''; }
+}
+
 function buildLogFilters(){
     if(!DATA||!DATA.recent_events) return;
     const types=[...new Set(DATA.recent_events.map(e=>e.type))];
     const row=document.getElementById('log-filters');
     row.innerHTML='<span class="filter-pill active" onclick="toggleFilter(this,\'ALL\')">ALL EVENTS</span>';
     types.forEach(t=>{
-        row.innerHTML+=`<span class="filter-pill" onclick="toggleFilter(this,'${t}')">${t}</span>`;
+        row.innerHTML+=`<span class="filter-pill" onclick="toggleFilter(this,'${t}')">&#x1F534; ${t}</span>`;
     });
+    // Add manual refresh button
+    row.innerHTML += `<span class="filter-pill" onclick="load()" style="color:var(--cyan);border-color:rgba(0,255,255,.3);margin-left:auto" title="Force reload data from server">&#x21BB; REFRESH NOW</span>`;
     activeFilters.clear();
 }
 function toggleFilter(el,type){
@@ -743,35 +824,53 @@ function filterLogs(){
     if(activeFilters.size>0) events=events.filter(e=>activeFilters.has(e.type));
     if(query) events=events.filter(e=>(e.ip+' '+e.type+' '+e.message+' '+e.details).toLowerCase().includes(query));
     
-    events=events.slice(0, 500); // Increased for better historical visibility
+    events=events.slice(0, 500);
     const ltb=document.querySelector('#t-logs tbody');ltb.innerHTML='';
-    events.forEach(e=>{
+    
+    // Highlight new rows (events within last 10 minutes)
+    const tenMinsAgo = Date.now() - 10 * 60 * 1000;
+    
+    events.forEach((e,idx)=>{
         const tc=(e.type==='AUTH_LOGIN'||e.type==='ERROR')?'color:var(--red)':e.type==='COMMAND'?'color:var(--neon)':'color:var(--cyan)';
-        ltb.innerHTML+=`<tr><td style="color:var(--dim)">${e.timestamp?new Date(e.timestamp).toLocaleString():'—'}</td><td style="${tc};font-weight:bold">${e.type}</td><td>${ipHTML(e.ip)}</td><td>${e.message||''}</td><td style="color:var(--dim);font-size:0.7rem">${(e.details||'').slice(0,80)}${e.details?.length>80?'...':''}</td></tr>`;
+        const isRecent = e.timestamp && new Date(e.timestamp).getTime() > tenMinsAgo;
+        const rowStyle = isRecent && idx < 5 ? 'background:rgba(0,255,65,.04);' : '';
+        const newTag = isRecent && idx === 0 ? '<span style="font-size:.55rem;background:rgba(0,255,65,.2);border:1px solid var(--neon);color:var(--neon);border-radius:2px;padding:0 4px;margin-left:4px">NEW</span>' : '';
+        const timeStr = e.timestamp ? new Date(e.timestamp).toLocaleString() + ' <span style="color:var(--neon);font-size:.65rem">(' + getTimeAgo(e.timestamp) + ')</span>' : '—';
+        ltb.innerHTML+=`<tr style="${rowStyle}"><td style="color:var(--dim)">${timeStr}</td><td style="${tc};font-weight:bold">${e.type}${newTag}</td><td>${ipHTML(e.ip)}</td><td>${e.message||''}</td><td style="color:var(--dim);font-size:0.7rem">${(e.details||'').slice(0,80)}${e.details?.length>80?'...':''}</td></tr>`;
     });
     if(events.length===0) ltb.innerHTML='<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--dim)">No logs match your search.</td></tr>';
-    document.getElementById('log-count').textContent=`✓ Showing ${events.length} Live Intercepts`;
+    
+    // Update status with last sync time
+    const syncTime = DATA.last_updated ? new Date(DATA.last_updated).toLocaleTimeString() : '?';
+    document.getElementById('log-count').innerHTML=`&#9993; Showing ${events.length} Intercepted Events — Data last synced: <span style="color:var(--neon)">${syncTime}</span> (auto-refreshes every 2 min &mdash; or click &#x21BB; REFRESH NOW above)`;
 }
 
 function renderReplay(session){
-    if(!session){document.getElementById('replay-terminal').innerHTML='<span style="color:#555">No data.</span>';return;}
+    if(!session){document.getElementById('replay-terminal').innerHTML='<span style="color:#555">Select a session above and press ▶ PLAY to forensically replay it.</span>';return;}
     const info = document.getElementById('replay-info');
-    if(info) info.innerHTML = `<span style="color:var(--cyan)">🎯 IP: <b>${session.ip}</b></span><span style="color:var(--neon)">📟 Commands: <b>${session.commands.length}</b></span><span><span class="ip-link" onclick="openIPModal('${session.ip}')">🔍 Run OSINT Scan</span></span>`;
+    const lastCmd = session.commands.length > 0 && session.commands[session.commands.length-1].time 
+        ? getTimeAgo(session.commands[session.commands.length-1].time) : '';
+    if(info) info.innerHTML = `<span style="color:var(--cyan)">🎯 IP: <b>${session.ip}</b></span><span style="color:var(--neon)">📟 Commands: <b>${session.commands.length}</b></span>${lastCmd?'<span style="color:var(--dim);font-size:.75rem">🕐 Last activity: '+lastCmd+'</span>':''}<span><span class="ip-link" onclick="openIPModal('${session.ip}')">🔍 Run OSINT Scan</span></span>`;
     document.getElementById('replay-progress').style.width = '0%';
-    let html=`<span class="t-session">═══ SESSION START: ${session.ip} ═══</span>\n<span style="color:#555">Welcome to Ubuntu 22.04.3 LTS</span>\n\n`;
+    document.getElementById('replay-status').textContent = 'Preview mode — press ▶ PLAY to animate command-by-command';
+    let html=`<span class="t-session">═══ SESSION START: ${session.ip} ═══</span>\n<span style="color:#555">Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 5.15.0-91-generic x86_64)</span>\n\n`;
     session.commands.forEach(c=>{
         const ts=c.time?new Date(c.time).toLocaleTimeString():'??:??';
-        html+=`<span class="t-ts">[${ts}]</span> <span class="t-prompt">root@production-server:~#</span> <span class="t-cmd">${c.command}</span>\n`;
+        const isDangerous = /wget|curl|chmod|rm\s|nc\s|bash\s-i|\/dev\/tcp|base64|python\s-c|perl\s-e/i.test(c.command);
+        const cmdColor = isDangerous ? 'color:var(--red);font-weight:bold' : 'color:var(--neon)';
+        const dangerTag = isDangerous ? ' <span style="color:var(--red);font-size:.6rem">⚠️ DANGEROUS</span>' : '';
+        html+=`<span class="t-ts">[${ts}]</span> <span class="t-prompt">root@production-server:~#</span> <span style="${cmdColor}">${c.command}</span>${dangerTag}\n`;
     });
     html+=`\n<span class="t-session">═══ SESSION END — ${session.commands.length} COMMANDS CAPTURED ═══</span>`;
     document.getElementById('replay-terminal').innerHTML=html;
+    document.getElementById('replay-terminal').scrollTop=0;
 }
 
 let replayStep = 0, replaySession = null;
 
 function playReplay(){
     stopReplay();
-    const idx=document.getElementById('replay-select').value;
+    const idx = parseInt(document.getElementById('replay-select').value) || 0;
     replaySession=DATA?.replay_sessions?.[idx];
     if(!replaySession) return;
     const term=document.getElementById('replay-terminal');
