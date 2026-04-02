@@ -115,26 +115,49 @@
         footer{text-align:center;padding:24px;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:#444;border-top:1px solid rgba(0,255,65,.08);margin-top:20px}
         footer a{color:var(--neon);text-decoration:none}
 
-        /* PATHOGEN BIO-CARDS */
-        .bio-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
-        .bio-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;border-radius:4px 0 0 4px}
-        .bio-card.threat-CRITICAL::before{background:var(--red);box-shadow:0 0 12px var(--red)}
-        .bio-card.threat-HIGH::before{background:var(--orange);box-shadow:0 0 12px var(--orange)}
-        .bio-card.threat-MEDIUM::before{background:#ffcc00;box-shadow:0 0 12px #ffcc00}
-        .bio-card.threat-LOW::before{background:var(--neon);box-shadow:0 0 12px var(--neon)}
-        .bio-card:hover{transform:translateY(-3px);border-color:rgba(0,255,255,.4);box-shadow:0 8px 25px rgba(0,0,0,.4),0 0 15px rgba(0,255,255,.08)}
-        .bio-card .bc-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-        .bio-card .bc-ip{font-family:'Orbitron',sans-serif;font-size:.85rem;color:var(--cyan);text-shadow:0 0 6px rgba(0,255,255,.3)}
-        .bio-card .bc-threat{padding:2px 10px;border-radius:12px;font-size:.65rem;font-weight:700;letter-spacing:1px;font-family:'Rajdhani',sans-serif}
-        .bc-threat-CRITICAL{background:rgba(255,0,60,.15);color:var(--red);border:1px solid rgba(255,0,60,.3)}
-        .bc-threat-HIGH{background:rgba(255,102,0,.15);color:var(--orange);border:1px solid rgba(255,102,0,.3)}
-        .bc-threat-MEDIUM{background:rgba(255,204,0,.15);color:#ffcc00;border:1px solid rgba(255,204,0,.3)}
-        .bc-threat-LOW{background:rgba(0,255,65,.1);color:var(--neon);border:1px solid rgba(0,255,65,.3)}
-        .bio-card .bc-row{display:flex;justify-content:space-between;padding:3px 0;font-size:.72rem;font-family:'JetBrains Mono',monospace;border-bottom:1px solid rgba(255,255,255,.03)}
-        .bio-card .bc-label{color:var(--dim)}.bio-card .bc-val{color:var(--text);text-align:right;max-width:60%}
-        .bio-card .bc-dna{color:var(--cyan);font-weight:600;letter-spacing:1px}
-        .bio-card .bc-bio{color:var(--purple);font-weight:600}
-        .bio-card .bc-footer{margin-top:8px;text-align:center;font-size:.62rem;color:var(--dim);letter-spacing:1px;text-transform:uppercase}
+        /* PATHOGEN BIO-CARDS — REDESIGNED */
+        .bio-card{background:linear-gradient(145deg,rgba(10,14,22,0.95),rgba(5,8,15,0.98));border:1px solid rgba(0,255,65,0.12);border-radius:14px;padding:0;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;display:flex;flex-direction:column}
+        .bio-card .bc-accent{position:absolute;top:0;left:0;width:100%;height:3px;border-radius:14px 14px 0 0}
+        .bio-card.threat-CRITICAL .bc-accent{background:linear-gradient(90deg,var(--red),rgba(255,0,60,0));box-shadow:0 0 15px rgba(255,0,60,.5)}
+        .bio-card.threat-HIGH .bc-accent{background:linear-gradient(90deg,var(--orange),rgba(255,102,0,0));box-shadow:0 0 15px rgba(255,102,0,.4)}
+        .bio-card.threat-MEDIUM .bc-accent{background:linear-gradient(90deg,#ffcc00,rgba(255,204,0,0));box-shadow:0 0 15px rgba(255,204,0,.3)}
+        .bio-card.threat-LOW .bc-accent{background:linear-gradient(90deg,var(--neon),rgba(0,255,65,0));box-shadow:0 0 12px rgba(0,255,65,.25)}
+        .bio-card:hover{transform:translateY(-4px);border-color:rgba(0,255,255,.3);box-shadow:0 12px 35px rgba(0,0,0,.5),0 0 20px rgba(0,255,255,.06)}
+        .bio-card.quarantined{border-color:rgba(255,0,60,.25);background:linear-gradient(145deg,rgba(20,5,5,0.98),rgba(10,3,3,0.99))}
+        /* Card Header */
+        .bc-header{display:flex;justify-content:space-between;align-items:flex-start;padding:14px 14px 10px;border-bottom:1px solid rgba(255,255,255,.05);gap:8px}
+        .bc-ip-wrap{display:flex;flex-direction:column;gap:2px;min-width:0}
+        .bc-rank{font-size:.5rem;color:var(--dim);font-family:'JetBrains Mono',monospace;letter-spacing:1px;text-transform:uppercase}
+        .bc-ip{font-family:'Orbitron',sans-serif;font-size:.82rem;color:var(--cyan);text-shadow:0 0 6px rgba(0,255,255,.25);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .bc-badges{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
+        .bc-threat{padding:2px 9px;border-radius:10px;font-size:.6rem;font-weight:700;letter-spacing:1px;font-family:'Rajdhani',sans-serif;white-space:nowrap}
+        .bc-qstatus{padding:2px 7px;border-radius:8px;font-size:.55rem;font-weight:700;letter-spacing:.5px;font-family:'JetBrains Mono',monospace;white-space:nowrap}
+        .bc-threat-CRITICAL{background:rgba(255,0,60,.18);color:var(--red);border:1px solid rgba(255,0,60,.35)}
+        .bc-threat-HIGH{background:rgba(255,102,0,.18);color:var(--orange);border:1px solid rgba(255,102,0,.35)}
+        .bc-threat-MEDIUM{background:rgba(255,204,0,.18);color:#ffcc00;border:1px solid rgba(255,204,0,.3)}
+        .bc-threat-LOW{background:rgba(0,255,65,.1);color:var(--neon);border:1px solid rgba(0,255,65,.25)}
+        .bc-quarantined{background:rgba(255,0,60,.12);color:var(--red);border:1px solid rgba(255,0,60,.3)}
+        .bc-active{background:rgba(0,255,65,.08);color:var(--neon);border:1px solid rgba(0,255,65,.2)}
+        /* Card Body */
+        .bc-body{padding:10px 14px;flex:1;display:flex;flex-direction:column;gap:3px}
+        .bc-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.025);font-size:.7rem;font-family:'JetBrains Mono',monospace}
+        .bc-label{color:var(--dim);flex-shrink:0;margin-right:8px}
+        .bc-val{color:var(--text);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:65%}
+        .bc-dna{color:var(--cyan);font-weight:600;letter-spacing:1px}
+        .bc-bio{color:var(--purple);font-weight:600}
+        /* Card Footer */
+        .bc-footer{padding:8px 14px 12px;text-align:center;font-size:.62rem;color:var(--dim);letter-spacing:1px;text-transform:uppercase;border-top:1px solid rgba(255,255,255,.03)}
+        /* Quarantine reason pill */
+        .bc-reason{display:inline-block;padding:1px 7px;background:rgba(255,0,60,.1);border:1px solid rgba(255,0,60,.25);border-radius:6px;color:var(--red);font-size:.55rem;font-family:'JetBrains Mono',monospace;margin-top:4px}
+        /* Sort bar */
+        .sort-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+        .sort-btn{padding:5px 14px;border-radius:16px;font-size:.72rem;font-family:'JetBrains Mono',monospace;border:1px solid rgba(255,255,255,.1);color:var(--dim);cursor:pointer;transition:all .2s;background:transparent}
+        .sort-btn:hover,.sort-btn.active{color:var(--cyan);border-color:var(--cyan);background:rgba(0,255,255,.06);box-shadow:0 0 8px rgba(0,255,255,.1)}
+        /* Quarantine legend */
+        .q-legend{background:rgba(255,0,60,.05);border:1px solid rgba(255,0,60,.2);border-radius:10px;padding:12px 16px;margin-bottom:14px;font-family:'JetBrains Mono',monospace;font-size:.72rem}
+        .q-legend-title{color:var(--red);font-weight:700;letter-spacing:1px;margin-bottom:8px;font-family:'Orbitron',sans-serif;font-size:.75rem}
+        .q-rule{display:flex;align-items:center;gap:8px;padding:3px 0;color:var(--dim)}
+        .q-rule .q-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
     </style>
 </head>
 <body>
@@ -249,22 +272,42 @@
     </div>
 
     <div class="grid g2">
-        <div class="panel"><div class="panel-title"><span class="icon">⚠️</span> THREAT LEVEL DISTRIBUTION</div><p style="font-size:.68rem;color:var(--dim);margin:-4px 0 8px;font-family:'JetBrains Mono',monospace">AI classifies each attacker's danger level based on commands, tools, and behavioral patterns.</p><canvas id="c-threats" height="180"></canvas></div>
-        <div class="panel"><div class="panel-title"><span class="icon">🔧</span> DETECTED HACKING TOOLS</div><p style="font-size:.68rem;color:var(--dim);margin:-4px 0 8px;font-family:'JetBrains Mono',monospace">Signature-based detection of offensive security tools used by attackers during sessions.</p><canvas id="c-tools" height="180"></canvas></div>
+        <div class="panel"><div class="panel-title"><span class="icon">⚠️</span> THREAT LEVEL DISTRIBUTION</div><p style="font-size:.68rem;color:var(--dim);margin:-4px 0 8px;font-family:'JetBrains Mono',monospace">AI classifies each attacker's danger level based on commands executed, dangerous tools used, and login attempts.</p><canvas id="c-threats" height="180"></canvas></div>
+        <div class="panel"><div class="panel-title"><span class="icon">🔧</span> DETECTED HACKING TOOLS</div><p style="font-size:.68rem;color:var(--dim);margin:-4px 0 8px;font-family:'JetBrains Mono',monospace">Signature-based detection of offensive security tools used by attackers during their session.</p><canvas id="c-tools" height="180"></canvas></div>
+    </div>
+
+    <!-- Quarantine Explanation Legend -->
+    <div class="q-legend section">
+        <div class="q-legend-title">🔴 QUARANTINE RULES — Why Is An IP Blocked?</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:6px">
+            <div class="q-rule"><span class="q-dot" style="background:var(--red)"></span><span><b style="color:var(--text)">3+ Failed Logins</b> → Automatically quarantined by auto-firewall (brute-force detected)</span></div>
+            <div class="q-rule"><span class="q-dot" style="background:var(--orange)"></span><span><b style="color:var(--text)">Dangerous Commands</b> → wget, curl, chmod +x, /dev/tcp, base64 payload delivery detected</span></div>
+            <div class="q-rule"><span class="q-dot" style="background:#ffcc00"></span><span><b style="color:var(--text)">Active Shell Session</b> → 5+ commands executed inside honeypot shell</span></div>
+            <div class="q-rule"><span class="q-dot" style="background:var(--neon)"></span><span><b style="color:var(--text)">Monitoring Only</b> → Connected but below threshold — still profiled for intelligence</span></div>
+        </div>
     </div>
 
     <!-- Pathogen Cards (Attacker Profiles) -->
     <div class="section">
-        <div class="section-title">🔬 PATHOGEN ANALYSIS — ATTACKER PROFILES <span style="font-size:.6rem;color:var(--dim);margin-left:8px">(Click any card to run OSINT scan)</span></div>
-        <p style="font-size:.72rem;color:var(--dim);margin-bottom:12px;font-family:'JetBrains Mono',monospace">Each attacker is profiled like a biological pathogen — DNA fingerprinted, behaviorally classified, and tagged with a biometric typing signature unique to their keyboard patterns.</p>
-        <div id="pathogen-cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px"></div>
+        <div class="section-title">🔬 PATHOGEN PROFILES — LIVE ATTACKER INTELLIGENCE <span style="font-size:.6rem;color:var(--dim);margin-left:8px">(Click any card to run OSINT scan)</span></div>
+        <p style="font-size:.72rem;color:var(--dim);margin-bottom:10px;font-family:'JetBrains Mono',monospace">Each attacker is profiled like a biological pathogen — DNA fingerprinted, behaviorally classified, and ranked by recency. Most recent activity is shown first.</p>
+        <!-- Sort & Filter Controls -->
+        <div class="sort-bar">
+            <span style="font-size:.65rem;color:var(--dim);font-family:'JetBrains Mono',monospace">SORT BY:</span>
+            <span class="sort-btn active" id="sort-recent" onclick="sortProfiles('recent')">🕐 Most Recent</span>
+            <span class="sort-btn" id="sort-threat" onclick="sortProfiles('threat')">⚠️ Threat Level</span>
+            <span class="sort-btn" id="sort-cmds" onclick="sortProfiles('cmds')">💻 Most Commands</span>
+            <span class="sort-btn" id="sort-quarantine" onclick="sortProfiles('quarantine')">🔴 Quarantined First</span>
+            <span style="margin-left:auto;font-size:.65rem;color:var(--dim);font-family:'JetBrains Mono',monospace" id="profile-count-label"></span>
+        </div>
+        <div id="pathogen-cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px"></div>
     </div>
 
     <!-- Auto-Firewall -->
     <div class="section">
-        <div class="section-title">🛡️ WHITE BLOOD CELLS — AUTO-FIREWALL</div>
-        <p style="font-size:.72rem;color:var(--dim);margin-bottom:10px;font-family:'JetBrains Mono',monospace">Like white blood cells attacking invaders, the auto-firewall quarantines IPs after 3+ failed login attempts — neutralizing persistent threats automatically.</p>
-        <div class="panel" style="margin-top:10px"><table id="t-firewall"><thead><tr><th>IP Address</th><th>Attempts</th><th>Status</th><th>Action</th></tr></thead><tbody></tbody></table></div>
+        <div class="section-title">🛡️ WHITE BLOOD CELLS — AUTO-FIREWALL QUARANTINE LOG</div>
+        <p style="font-size:.72rem;color:var(--dim);margin-bottom:10px;font-family:'JetBrains Mono',monospace">IPs are automatically quarantined after <b style="color:var(--red)">3 or more failed login attempts</b>. This mimics white blood cells neutralizing pathogens that repeatedly try to breach the immune barrier. IPs with fewer than 3 attempts are still <b style="color:var(--neon)">profiled and monitored</b> but not yet quarantined.</p>
+        <div class="panel" style="margin-top:10px"><table id="t-firewall"><thead><tr><th>IP Address</th><th>Total Attempts</th><th>Quarantine Reason</th><th>Status</th><th>Action</th></tr></thead><tbody></tbody></table></div>
     </div>
 </div>
 
@@ -656,74 +699,37 @@ function render(isNewData){
         clearEmpty('c-tools');
         const tl=Object.keys(d.tools_detected),td=Object.values(d.tools_detected);
         makeChart('c-tools',{type:'bar',data:{labels:tl,datasets:[{data:td,backgroundColor:'rgba(255,0,60,.6)',borderWidth:0}]},options:{onClick: (e, elements) => { if(elements.length) window.applyBioCardFilter('tools', tl[elements[0].index]); }, responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},x:{grid:{display:false}}}}});
-    } else { clearEmpty('c-tools'); document.getElementById('c-tools').parentElement.innerHTML+='<div class="empty-state">No hacking tools detected yet. The AI engine identifies tools like nmap, hydra, metasploit, etc.</div>'; }
+    } else { clearEmpty('c-tools'); document.getElementById('c-tools').parentElement.innerHTML+='<div class="empty-state">No hacking tools detected yet.</div>'; }
 
-    // --- PATHOGEN BIO-CARDS (ENHANCED with kill chain, paste, origin, session) ---
+    // --- PATHOGEN BIO-CARDS: Live-sorted, organized, quarantine-aware ---
     const cardsContainer = document.getElementById('pathogen-cards');
     if(cardsContainer) {
-        cardsContainer.innerHTML = '';
         const profiles = d.profiles || [];
         // Immune system metrics
         document.getElementById('m-pathogens').textContent = profiles.length;
         document.getElementById('m-antibodies').textContent = profiles.length;
         document.getElementById('m-blocked').textContent = (d.blocked_ips||[]).length;
-        // Session duration metric
         if(d.avg_session_duration){
             const mins=Math.floor(d.avg_session_duration/60);
             const secs=d.avg_session_duration%60;
             document.getElementById('m-avgsession').textContent = mins>0?`${mins}m ${secs}s`:`${secs}s`;
         }
-        
-        if(profiles.length) {
-            profiles.forEach(p => {
-                const threat = p.threat || 'LOW';
-                const pathogenType = p.commands > 10 ? '🕷️ Parasite' : p.commands > 5 ? '🦠 Virus' : p.automated === 'YES' ? '🧫 Bacteria' : '🧪 Prion';
-                const dur = p.session_duration||0;
-                const durStr = dur>60?Math.floor(dur/60)+'m '+dur%60+'s':dur+'s';
-                const kcPct = Math.round(((p.kill_chain_stage||0)/7)*100);
-                const kcColor = kcPct>70?'var(--red)':kcPct>40?'var(--orange)':'var(--neon)';
-                const card = document.createElement('div');
-                card.className = `bio-card threat-${threat}`;
-                card.setAttribute('data-threat', threat);
-                card.setAttribute('data-infra', p.infra_type || 'Unknown');
-                card.setAttribute('data-killchain', p.kill_chain_label || 'None');
-                card.setAttribute('data-isp', p.isp || 'Unknown');
-                card.setAttribute('data-tools', (p.tools || []).join(','));
-                card.onclick = () => openIPModal(p.ip);
-                card.innerHTML = `
-                    <div class="bc-header">
-                        <span class="bc-ip">⚠️ ${p.ip}</span>
-                        <span class="bc-threat bc-threat-${threat}">${threat}</span>
-                    </div>
-                    <div class="bc-row"><span class="bc-label">Pathogen Type</span><span class="bc-val">${pathogenType}</span></div>
-                    <div class="bc-row"><span class="bc-label">Classification</span><span class="bc-val">${p.classification || 'Scanner'}</span></div>
-                    <div class="bc-row"><span class="bc-label">🧬 DNA Hash</span><span class="bc-val bc-dna">${p.dna || '—'}…</span></div>
-                    <div class="bc-row"><span class="bc-label">🔬 Bio-Hash</span><span class="bc-val bc-bio">${p.bio_hash || '—'}</span></div>
-                    <div class="bc-row"><span class="bc-label">⚔️ Kill Chain</span><span class="bc-val"><div style="display:flex;align-items:center;gap:4px"><div style="flex:1;height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden"><div style="width:${kcPct}%;height:100%;background:${kcColor};border-radius:3px"></div></div><span style="font-size:.55rem;color:${kcColor}">${p.kill_chain_label||'—'}</span></div></span></div>
-                    <div class="bc-row"><span class="bc-label">⌨️ Input</span><span class="bc-val" style="color:${p.input_method==='Pasted Script'?'var(--red)':p.input_method==='Manual Typing'?'var(--neon)':'var(--dim)'}">${p.input_method||'—'} ${p.paste_ratio?'('+p.paste_ratio+'%)':''}</span></div>
-                    <div class="bc-row"><span class="bc-label">🏷️ Origin</span><span class="bc-val">${p.origin_hint||'—'}</span></div>
-                    <div class="bc-row"><span class="bc-label">🕐 Session</span><span class="bc-val" style="color:var(--cyan)">${durStr}</span></div>
-                    <div class="bc-row"><span class="bc-label">🌐 Infra</span><span class="bc-val">${p.infra_type||'Unknown'}</span></div>
-                    <div class="bc-row"><span class="bc-label">🕘 Timezone</span><span class="bc-val">${p.tz_guess||'—'}</span></div>
-                    <div class="bc-row"><span class="bc-label">Commands</span><span class="bc-val" style="color:var(--cyan)">${p.commands}</span></div>
-                    <div class="bc-footer">🔍 Click to run full OSINT scan</div>
-                `;
-                cardsContainer.appendChild(card);
-            });
-            // Reapply any active filter 
-            if(window.activeBioFilter && window.activeBioFilter.type){
-                window.applyBioCardFilter(window.activeBioFilter.type, window.activeBioFilter.value);
-            }
-        } else {
-            cardsContainer.innerHTML = '<div class="empty-state" style="grid-column:1/-1">No pathogen profiles yet. Attackers are profiled the moment they interact with the honeypot shell.</div>';
-        }
+        // Build quarantined IP set for O(1) lookup
+        const quarantinedSet = new Set((d.blocked_ips||[]).map(b=>b.ip));
+        // Store profiles globally for re-sorting without re-render
+        window._allProfiles = profiles;
+        window._quarantinedSet = quarantinedSet;
+        // Render with default sort (most recent)
+        renderProfileCards(profiles, quarantinedSet);
     }
 
     const ftb=document.querySelector('#t-firewall tbody');ftb.innerHTML='';
     (d.blocked_ips||[]).forEach(b=>{
-        ftb.innerHTML+=`<tr><td>${ipHTML(b.ip)}</td><td style="color:var(--red);font-weight:bold">${b.attempts}</td><td><span class="badge-blocked">🔴 QUARANTINED</span></td><td><span class="ip-link" onclick="openIPModal('${b.ip}')" style="font-size:.7rem">🔍 Inspect</span></td></tr>`;
+        const logins = b.attempts || 0;
+        const reason = logins >= 10 ? '🔴 Brute-Force ('+logins+' attempts)' : logins >= 3 ? '🔴 Failed Logins ('+logins+'x)' : '⚠️ Activity Threshold';
+        ftb.innerHTML+=`<tr><td>${ipHTML(b.ip)}</td><td style="color:var(--red);font-weight:bold">${b.attempts}</td><td style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--orange)">${reason}</td><td><span class="badge-blocked">🔴 QUARANTINED</span></td><td><span class="ip-link" onclick="openIPModal('${b.ip}')" style="font-size:.7rem">🔍 Inspect</span></td></tr>`;
     });
-    if(!d.blocked_ips||!d.blocked_ips.length) ftb.innerHTML='<tr><td colspan="4" style="color:var(--dim);text-align:center;padding:16px">No quarantined IPs yet. IPs are auto-blocked after 3+ failed login attempts.</td></tr>';
+    if(!d.blocked_ips||!d.blocked_ips.length) ftb.innerHTML='<tr><td colspan="5" style="color:var(--dim);text-align:center;padding:16px">🟢 No quarantined IPs yet. IPs are auto-blocked after 3+ failed login attempts.</td></tr>';
 
     // --- ATTACK REPLAY: Smart dropdown update (don't reset user's choice) ---
     const sel=document.getElementById('replay-select');
@@ -976,6 +982,99 @@ function playAttackSound(){
 }
 
 load();
+
+// --- renderProfileCards: Build and insert bio-cards ---
+function renderProfileCards(profiles, quarantinedSet){
+    const container = document.getElementById('pathogen-cards');
+    if(!container) return;
+    container.innerHTML = '';
+    const THREAT_ORDER = {CRITICAL:0, HIGH:1, MEDIUM:2, LOW:3};
+    if(!profiles || profiles.length === 0){
+        container.innerHTML = '<div class="empty-state" style="grid-column:1/-1">No pathogen profiles yet. Attackers are profiled the moment they interact with the honeypot shell.</div>';
+        const lbl = document.getElementById('profile-count-label');
+        if(lbl) lbl.textContent = '';
+        return;
+    }
+    const lbl = document.getElementById('profile-count-label');
+    if(lbl) lbl.textContent = `${profiles.length} profiles`;
+    profiles.forEach((p, idx) => {
+        const threat = p.threat || 'LOW';
+        const isQuarantined = quarantinedSet ? quarantinedSet.has(p.ip) : false;
+        const pathogenType = p.commands > 10 ? '\ud83d\udd77\ufe0f Parasite' : p.commands > 5 ? '\ud83e\udda0 Virus' : p.automated === 'YES' ? '\ud83e\uddab Bacteria' : '\ud83e\uddea Prion';
+        const dur = p.session_duration||0;
+        const durStr = dur>3600 ? Math.floor(dur/3600)+'h '+Math.floor((dur%3600)/60)+'m' : dur>60?Math.floor(dur/60)+'m '+dur%60+'s':dur+'s';
+        const kcPct = Math.round(((p.kill_chain_stage||0)/7)*100);
+        const kcColor = kcPct>70?'var(--red)':kcPct>40?'var(--orange)':'var(--neon)';
+        const lastSeenStr = p.last_seen ? getTimeAgo(p.last_seen) : 'Unknown';
+        // Determine quarantine reason
+        let qReason = '';
+        if(isQuarantined){
+            if(p.logins >= 10) qReason = '\ud83d\udd34 Brute-Force (' + p.logins + ' login attempts)';
+            else if(p.logins >= 3) qReason = '\ud83d\udd34 Failed Logins (' + p.logins + 'x)';
+            else if(p.dangerous_cmds > 0) qReason = '\ud83d\udd34 Dangerous Commands Executed';
+            else qReason = '\ud83d\udd34 Activity Threshold Exceeded';
+        }
+        const card = document.createElement('div');
+        card.className = 'bio-card threat-' + threat + (isQuarantined ? ' quarantined' : '');
+        card.setAttribute('data-threat', threat);
+        card.setAttribute('data-infra', p.infra_type || 'Unknown');
+        card.setAttribute('data-killchain', p.kill_chain_label || 'None');
+        card.setAttribute('data-isp', p.isp || 'Unknown');
+        card.setAttribute('data-tools', (p.tools||[]).join(','));
+        card.onclick = () => openIPModal(p.ip);
+        card.innerHTML = `
+            <div class="bc-accent"></div>
+            <div class="bc-header">
+                <div class="bc-ip-wrap">
+                    <span class="bc-rank">#${idx+1} ${pathogenType}</span>
+                    <span class="bc-ip">${p.ip}</span>
+                    ${qReason ? '<span class="bc-reason">' + qReason + '</span>' : ''}
+                </div>
+                <div class="bc-badges">
+                    <span class="bc-threat bc-threat-${threat}">${threat}</span>
+                    <span class="bc-qstatus ${isQuarantined?'bc-quarantined':'bc-active'}">${isQuarantined?'\ud83d\udd34 QUARANTINED':'\ud83d\udfe2 MONITORING'}</span>
+                </div>
+            </div>
+            <div class="bc-body">
+                <div class="bc-row"><span class="bc-label">\ud83d\udd50 Last Seen</span><span class="bc-val" style="color:${lastSeenStr.includes('s ago')&&parseInt(lastSeenStr)<120?'var(--neon)':'var(--text)'}">${lastSeenStr}</span></div>
+                <div class="bc-row"><span class="bc-label">\ud83d\udcbb Commands</span><span class="bc-val" style="color:${p.commands>10?'var(--red)':p.commands>5?'var(--orange)':'var(--neon)'}">${p.commands} ${p.dangerous_cmds>0?'<span style="color:var(--red);font-size:.6rem">('+p.dangerous_cmds+' dangerous)</span>':''}</span></div>
+                <div class="bc-row"><span class="bc-label">\u2694\ufe0f Kill Chain</span><span class="bc-val"><div style="display:flex;align-items:center;gap:4px"><div style="width:60px;height:5px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden"><div style="width:${kcPct}%;height:100%;background:${kcColor};border-radius:3px"></div></div><span style="font-size:.6rem;color:${kcColor}">${p.kill_chain_label||'None'}</span></div></span></div>
+                <div class="bc-row"><span class="bc-label">\u2328\ufe0f Input</span><span class="bc-val" style="color:${p.input_method==='Pasted Script'?'var(--red)':p.input_method==='Manual Typing'?'var(--neon)':'var(--dim)'}">${p.input_method||'\u2014'} ${p.paste_ratio?'('+p.paste_ratio+'%)':''}</span></div>
+                <div class="bc-row"><span class="bc-label">\ud83c\udff7\ufe0f Origin</span><span class="bc-val">${p.origin_hint||'\u2014'}</span></div>
+                <div class="bc-row"><span class="bc-label">\ud83d\udd50 Session</span><span class="bc-val" style="color:var(--cyan)">${durStr}</span></div>
+                <div class="bc-row"><span class="bc-label">\ud83e\uddec DNA</span><span class="bc-val bc-dna">${p.dna||'\u2014'}\u2026</span></div>
+                <div class="bc-row"><span class="bc-label">\ud83d\udd2c Bio-Hash</span><span class="bc-val bc-bio">${p.bio_hash||'\u2014'}</span></div>
+                <div class="bc-row"><span class="bc-label">\ud83c\udf10 Infra</span><span class="bc-val">${p.infra_type||'Unknown'}</span></div>
+                <div class="bc-row"><span class="bc-label">\ud83d\udee1\ufe0f ISP</span><span class="bc-val">${p.isp||'Unknown'}</span></div>
+            </div>
+            <div class="bc-footer">\ud83d\udd0d Click to run OSINT Intelligence Scan</div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+// --- sortProfiles: Re-sort profiles without re-fetching data ---
+let _currentSort = 'recent';
+function sortProfiles(mode){
+    _currentSort = mode;
+    document.querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('active'));
+    const btn = document.getElementById('sort-' + mode);
+    if(btn) btn.classList.add('active');
+    const profiles = window._allProfiles || [];
+    const qs = window._quarantinedSet || new Set();
+    const THREAT_ORDER = {CRITICAL:0, HIGH:1, MEDIUM:2, LOW:3};
+    let sorted = [...profiles];
+    if(mode === 'recent'){
+        sorted.sort((a,b) => (b.last_seen||'').localeCompare(a.last_seen||''));
+    } else if(mode === 'threat'){
+        sorted.sort((a,b) => (THREAT_ORDER[a.threat]||3) - (THREAT_ORDER[b.threat]||3));
+    } else if(mode === 'cmds'){
+        sorted.sort((a,b) => (b.commands||0) - (a.commands||0));
+    } else if(mode === 'quarantine'){
+        sorted.sort((a,b) => { const qa=qs.has(a.ip)?0:1, qb=qs.has(b.ip)?0:1; return qa-qb || (b.logins||0)-(a.logins||0); });
+    }
+    renderProfileCards(sorted, qs);
+}
 </script>
 </body>
 </html>
