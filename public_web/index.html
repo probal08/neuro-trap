@@ -361,7 +361,7 @@
 <!-- TAB 4: RAW LOGS -->
 <div class="page" id="page-logs">
     <div class="section-title" style="margin-top:16px">📜 TERMINAL INTERCEPT LOGS</div>
-    <input type="text" class="search-bar" id="log-search" placeholder="🔍 Search logs by IP, event type, command, or message..." oninput="filterLogs()">
+    <input type="text" class="search-bar" id="log-search" placeholder="🔍 Search logs by IP, event type, command, or message..." oninput="debouncedFilterLogs()">
     <div class="filter-row" id="log-filters"></div>
     <div class="panel" style="overflow-x:auto;max-height:600px;overflow-y:auto">
         <table id="t-logs"><thead><tr><th>Timestamp</th><th>Event</th><th>IP</th><th>Message</th><th>Details</th></tr></thead><tbody></tbody></table>
@@ -744,13 +744,15 @@ function render(isNewData){
         renderProfileCards(profiles, quarantinedSet);
     }
 
-    const ftb=document.querySelector('#t-firewall tbody');ftb.innerHTML='';
+    const ftb=document.querySelector('#t-firewall tbody');
+    let fwHtml = '';
     (d.blocked_ips||[]).forEach(b=>{
         const logins = b.attempts || 0;
         const reason = logins >= 10 ? '🔴 Brute-Force ('+logins+' attempts)' : logins >= 3 ? '🔴 Failed Logins ('+logins+'x)' : '⚠️ Activity Threshold';
-        ftb.innerHTML+=`<tr><td>${ipHTML(b.ip)}</td><td style="color:var(--red);font-weight:bold">${b.attempts}</td><td style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--orange)">${reason}</td><td><span class="badge-blocked">🔴 QUARANTINED</span></td><td><span class="ip-link" onclick="openIPModal('${b.ip}')" style="font-size:.7rem">🔍 Inspect</span></td></tr>`;
+        fwHtml+=`<tr><td>${ipHTML(b.ip)}</td><td style="color:var(--red);font-weight:bold">${b.attempts}</td><td style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--orange)">${reason}</td><td><span class="badge-blocked">🔴 QUARANTINED</span></td><td><span class="ip-link" onclick="openIPModal('${b.ip}')" style="font-size:.7rem">🔍 Inspect</span></td></tr>`;
     });
-    if(!d.blocked_ips||!d.blocked_ips.length) ftb.innerHTML='<tr><td colspan="5" style="color:var(--dim);text-align:center;padding:16px">🟢 No quarantined IPs yet. IPs are auto-blocked after 3+ failed login attempts.</td></tr>';
+    if(!d.blocked_ips||!d.blocked_ips.length) fwHtml='<tr><td colspan="5" style="color:var(--dim);text-align:center;padding:16px">🟢 No quarantined IPs yet. IPs are auto-blocked after 3+ failed login attempts.</td></tr>';
+    ftb.innerHTML=fwHtml;
 
     // --- ATTACK REPLAY: Smart dropdown update (don't reset user's choice) ---
     const sel=document.getElementById('replay-select');
@@ -823,12 +825,13 @@ function buildLogFilters(){
     if(!DATA||!DATA.recent_events) return;
     const types=[...new Set(DATA.recent_events.map(e=>e.type))];
     const row=document.getElementById('log-filters');
-    row.innerHTML='<span class="filter-pill active" onclick="toggleFilter(this,\'ALL\')">ALL EVENTS</span>';
+    let filtersHtml = '<span class="filter-pill active" onclick="toggleFilter(this,\'ALL\')">ALL EVENTS</span>';
     types.forEach(t=>{
-        row.innerHTML+=`<span class="filter-pill" onclick="toggleFilter(this,'${t}')">&#x1F534; ${t}</span>`;
+        filtersHtml+=`<span class="filter-pill" onclick="toggleFilter(this,'${t}')">&#x1F534; ${t}</span>`;
     });
     // Add manual refresh button
-    row.innerHTML += `<span class="filter-pill" onclick="load()" style="color:var(--cyan);border-color:rgba(0,255,255,.3);margin-left:auto" title="Force reload data from server">&#x21BB; REFRESH NOW</span>`;
+    filtersHtml += `<span class="filter-pill" onclick="load()" style="color:var(--cyan);border-color:rgba(0,255,255,.3);margin-left:auto" title="Force reload data from server">&#x21BB; REFRESH NOW</span>`;
+    row.innerHTML = filtersHtml;
     activeFilters.clear();
 }
 function toggleFilter(el,type){
@@ -844,6 +847,11 @@ function toggleFilter(el,type){
     }
     filterLogs();
 }
+let filterLogTimeout = null;
+function debouncedFilterLogs() {
+    if(filterLogTimeout) clearTimeout(filterLogTimeout);
+    filterLogTimeout = setTimeout(() => { filterLogs(); }, 250);
+}
 function filterLogs(){
     if(!DATA) return;
     const query=(document.getElementById('log-search').value||'').toLowerCase();
@@ -852,20 +860,22 @@ function filterLogs(){
     if(query) events=events.filter(e=>(e.ip+' '+e.type+' '+e.message+' '+e.details).toLowerCase().includes(query));
     
     events=events.slice(0, 500);
-    const ltb=document.querySelector('#t-logs tbody');ltb.innerHTML='';
+    const ltb=document.querySelector('#t-logs tbody');
     
     // Highlight new rows (events within last 10 minutes)
     const tenMinsAgo = Date.now() - 10 * 60 * 1000;
     
+    let htmlContent = '';
     events.forEach((e,idx)=>{
         const tc=(e.type==='AUTH_LOGIN'||e.type==='ERROR')?'color:var(--red)':e.type==='COMMAND'?'color:var(--neon)':'color:var(--cyan)';
         const isRecent = e.timestamp && new Date(e.timestamp).getTime() > tenMinsAgo;
         const rowStyle = isRecent && idx < 5 ? 'background:rgba(0,255,65,.04);' : '';
         const newTag = isRecent && idx === 0 ? '<span style="font-size:.55rem;background:rgba(0,255,65,.2);border:1px solid var(--neon);color:var(--neon);border-radius:2px;padding:0 4px;margin-left:4px">NEW</span>' : '';
         const timeStr = e.timestamp ? new Date(e.timestamp).toLocaleString() + ' <span style="color:var(--neon);font-size:.65rem">(' + getTimeAgo(e.timestamp) + ')</span>' : '—';
-        ltb.innerHTML+=`<tr style="${rowStyle}"><td style="color:var(--dim)">${timeStr}</td><td style="${tc};font-weight:bold">${e.type}${newTag}</td><td>${ipHTML(e.ip)}</td><td>${e.message||''}</td><td style="color:var(--dim);font-size:0.7rem">${(e.details||'').slice(0,80)}${e.details?.length>80?'...':''}</td></tr>`;
+        htmlContent+=`<tr style="${rowStyle}"><td style="color:var(--dim)">${timeStr}</td><td style="${tc};font-weight:bold">${e.type}${newTag}</td><td>${ipHTML(e.ip)}</td><td>${e.message||''}</td><td style="color:var(--dim);font-size:0.7rem">${(e.details||'').slice(0,80)}${e.details?.length>80?'...':''}</td></tr>`;
     });
-    if(events.length===0) ltb.innerHTML='<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--dim)">No logs match your search.</td></tr>';
+    if(events.length===0) htmlContent='<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--dim)">No logs match your search.</td></tr>';
+    ltb.innerHTML=htmlContent;
     
     // Update status with last sync time
     const syncTime = DATA.last_updated ? new Date(DATA.last_updated).toLocaleTimeString() : '?';
@@ -907,7 +917,7 @@ function playReplay(){
     document.getElementById('replay-status').textContent=`▶ Playing ${replaySession.commands.length} intercepted commands...`;
     replayInterval=setInterval(()=>{
         if(replayStep>=replaySession.commands.length){
-            term.innerHTML+=`\n<span class="t-session">═══ SESSION END — ${replaySession.commands.length} COMMANDS CAPTURED ═══</span>`;
+            term.insertAdjacentHTML('beforeend', `\n<span class="t-session">═══ SESSION END — ${replaySession.commands.length} COMMANDS CAPTURED ═══</span>`);
             document.getElementById('replay-status').innerHTML='<span style="color:var(--neon)">✓ FORENSIC PLAYBACK COMPLETE</span>';
             document.getElementById('btn-play').innerHTML = '▶ PLAY RECORDING';
             document.getElementById('replay-progress').style.width = '100%';
@@ -917,7 +927,7 @@ function playReplay(){
         const ts=c.time?new Date(c.time).toLocaleTimeString():'??:??';
         const isDangerous = /wget|curl|chmod|rm\s|nc\s|bash\s-i|\/dev\/tcp|base64/i.test(c.command);
         const cmdColor = isDangerous ? 'color:var(--red);font-weight:bold' : 'color:var(--neon)';
-        term.innerHTML+=`<span class="t-ts">[${ts}]</span> <span class="t-prompt">root@production-server:~#</span> <span style="${cmdColor}">${c.command}</span>${isDangerous?' <span style="color:var(--red);font-size:.65rem">⚠️ DANGEROUS</span>':''}\n`;
+        term.insertAdjacentHTML('beforeend', `<span class="t-ts">[${ts}]</span> <span class="t-prompt">root@production-server:~#</span> <span style="${cmdColor}">${c.command}</span>${isDangerous?' <span style="color:var(--red);font-size:.65rem">⚠️ DANGEROUS</span>':''}\n`);
         term.scrollTop=term.scrollHeight;
         document.getElementById('replay-progress').style.width = ((replayStep+1)/replaySession.commands.length*100)+'%';
         document.getElementById('replay-status').textContent=`▶ Command ${replayStep+1}/${replaySession.commands.length}`;
@@ -939,7 +949,7 @@ function stepReplay(){
     const ts=c.time?new Date(c.time).toLocaleTimeString():'??:??';
     const isDangerous = /wget|curl|chmod|rm\s|nc\s|bash\s-i/i.test(c.command);
     const cmdColor = isDangerous ? 'color:var(--red);font-weight:bold' : 'color:var(--neon)';
-    document.getElementById('replay-terminal').innerHTML+=`<span class="t-ts">[${ts}]</span> <span class="t-prompt">root@production-server:~#</span> <span style="${cmdColor}">${c.command}</span>${isDangerous?' <span style="color:var(--red);font-size:.65rem">⚠️ DANGEROUS</span>':''}\n`;
+    document.getElementById('replay-terminal').insertAdjacentHTML('beforeend', `<span class="t-ts">[${ts}]</span> <span class="t-prompt">root@production-server:~#</span> <span style="${cmdColor}">${c.command}</span>${isDangerous?' <span style="color:var(--red);font-size:.65rem">⚠️ DANGEROUS</span>':''}\n`);
     document.getElementById('replay-terminal').scrollTop=document.getElementById('replay-terminal').scrollHeight;
     document.getElementById('replay-progress').style.width = ((replayStep+1)/replaySession.commands.length*100)+'%';
     document.getElementById('replay-status').textContent=`⏭ Step ${replayStep+1}/${replaySession.commands.length}`;
