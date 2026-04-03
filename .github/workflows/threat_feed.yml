@@ -1,16 +1,18 @@
-name: Neuro-Trap Threat Feed
+name: Neuro-Trap Threat Feed (Legacy)
+
+# NOTE: This workflow is DISABLED. Its functionality is fully covered by
+# deploy_threat_feed.yml which runs every 30 minutes and handles errors gracefully.
+# Keeping this file for reference only. Use workflow_dispatch to run manually if needed.
 
 on:
-    # Run daily at midnight UTC
-    schedule:
-        - cron: "0 0 * * *"
-    # Also run on manual trigger
+    # Disabled: was causing daily failure emails because it duplicates deploy_threat_feed.yml
+    # schedule:
+    #     - cron: "0 0 * * *"
     workflow_dispatch:
-    # Also run on push to main
-    push:
-        branches: [main]
-        paths:
-            - "logs/honeypot.json"
+    # push:
+    #     branches: [main]
+    #     paths:
+    #         - "logs/honeypot.json"
 
 jobs:
     generate-feed:
