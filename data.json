@@ -1,7 +1,7 @@
 {
-  "last_updated": "2026-04-05T17:29:20.538419+05:30",
-  "total_attacks": 15114,
-  "unique_ips": 908,
+  "last_updated": "2026-04-05T18:30:55.528938+05:30",
+  "total_attacks": 15117,
+  "unique_ips": 909,
   "top_user": "root",
   "top_pass": "3245gs5662d34",
   "event_distribution": {
@@ -423,7 +423,7 @@
     },
     {
       "time": "2026-04-05 17:00",
-      "count": 41
+      "count": 44
     }
   ],
   "top_ips": [
@@ -565,13 +565,13 @@
     }
   ],
   "threat_distribution": {
-    "MEDIUM": 4,
-    "LOW": 96
+    "LOW": 96,
+    "MEDIUM": 4
   },
   "tools_detected": {
     "l9s (LeakIX Scanner)": 454,
     "libssh (Brute-forcer)": 206,
-    "Go HTTP Client": 120,
+    "Go HTTP Client": 122,
     "Censys Internet Scanner": 83,
     "Go SSH Client": 32,
     "ZGrab (Scanner)": 24,
@@ -582,6 +582,56 @@
     "Python Scripts": 2
   },
   "profiles": [
+    {
+      "ip": "45.156.87.239",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "1105d9ee5a8c",
+      "bio_hash": "8e9d6515",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 0,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-04-05T17:48:22.760530+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [
+        "Go HTTP Client"
+      ],
+      "isp": "Unknown",
+      "infra_type": "Unknown",
+      "session_duration": 64774,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC+4"
+    },
+    {
+      "ip": "159.65.172.47",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "7990c0de42d7",
+      "bio_hash": "76bfe9c2",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 0,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-04-05T17:30:54.458197+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Unknown",
+      "infra_type": "Unknown",
+      "session_duration": 0,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC+7"
+    },
     {
       "ip": "130.12.180.51",
       "ssh_client": "Unknown",
@@ -745,7 +795,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "Unknown",
-      "infra_type": "Cloud Server",
+      "infra_type": "Unknown",
       "session_duration": 31,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
@@ -3009,54 +3059,6 @@
       "input_method": "Unknown",
       "origin_hint": "\ud83e\udd16 Automated",
       "tz_guess": "UTC-4"
-    },
-    {
-      "ip": "193.176.31.158",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "99555570be86",
-      "bio_hash": "d03d7f0e",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 0,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-04-05T05:07:59.201763+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Unknown",
-      "infra_type": "Hosting",
-      "session_duration": 0,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC-5"
-    },
-    {
-      "ip": "20.163.76.6",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "cb7d4b23f975",
-      "bio_hash": "ef33d5dd",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 0,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-04-05T04:56:20.328770+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Unknown",
-      "infra_type": "Hosting",
-      "session_duration": 12,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC-4"
     }
   ],
   "blocked_ips": [
@@ -3181,7 +3183,7 @@
       "attempts": 63
     }
   ],
-  "monitored_ips_count": 908,
+  "monitored_ips_count": 909,
   "monitored_ips": [
     {
       "ip": "185.177.72.61",
@@ -9360,6 +9362,27 @@
     }
   ],
   "recent_events": [
+    {
+      "timestamp": "2026-04-05T17:48:22.760530+05:30",
+      "type": "HTTP_SCAN",
+      "ip": "45.156.87.239",
+      "message": "GET /login from 45.156.87.239",
+      "details": "{\"method\": \"GET\", \"path\": \"/login\", \"user_agent\": \"Go-http-client/1.1\"}"
+    },
+    {
+      "timestamp": "2026-04-05T17:30:54.458197+05:30",
+      "type": "HTTP_SCAN",
+      "ip": "159.65.172.47",
+      "message": "GET /favicon.ico from 159.65.172.47",
+      "details": "{\"method\": \"GET\", \"path\": \"/favicon.ico\", \"user_agent\": \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like"
+    },
+    {
+      "timestamp": "2026-04-05T17:30:53.932455+05:30",
+      "type": "HTTP_SCAN",
+      "ip": "159.65.172.47",
+      "message": "GET / from 159.65.172.47",
+      "details": "{\"method\": \"GET\", \"path\": \"/\", \"user_agent\": \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chr"
+    },
     {
       "timestamp": "2026-04-05T17:22:54.091142+05:30",
       "type": "REPORT",
@@ -16338,27 +16361,6 @@
       "ip": "58.48.170.235",
       "message": "Connection closed from 58.48.170.235",
       "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:52:13.902955+05:30",
-      "type": "THREAT_FEED",
-      "ip": "58.48.170.235",
-      "message": "Threat feed updated: 846 IPs, 14116 events",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:52:12.897685+05:30",
-      "type": "FIREWALL",
-      "ip": "58.48.170.235",
-      "message": "Auto-firewall rules updated: 197 IPs blocked",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:52:12.757931+05:30",
-      "type": "ERROR",
-      "ip": "58.48.170.235",
-      "message": "Connection error: ",
-      "details": ""
     }
   ],
   "top_isps": [
@@ -16405,6 +16407,6 @@
     "Reconnaissance": 64,
     "Lateral Movement": 1
   },
-  "avg_session_duration": 71939,
+  "avg_session_duration": 72586,
   "max_session_duration": 809786
 }
