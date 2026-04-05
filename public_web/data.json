@@ -1,39 +1,39 @@
 {
-  "last_updated": "2026-04-05T17:02:25.287254+05:30",
-  "total_attacks": 15073,
-  "unique_ips": 906,
+  "last_updated": "2026-04-05T17:29:20.538419+05:30",
+  "total_attacks": 15114,
+  "unique_ips": 908,
   "top_user": "root",
   "top_pass": "3245gs5662d34",
   "event_distribution": {
-    "CONNECTION": 1671,
-    "ERROR": 1653,
-    "THREAT_FEED": 1653,
-    "DISCONNECT": 1653,
-    "REPORT": 1653,
-    "FIREWALL": 1613,
+    "CONNECTION": 1676,
+    "ERROR": 1658,
+    "THREAT_FEED": 1658,
+    "DISCONNECT": 1658,
+    "REPORT": 1658,
+    "FIREWALL": 1618,
     "TELNET_COMMAND": 1459,
-    "AUTH_LOGIN": 954
+    "AUTH_LOGIN": 957
   },
   "top_countries": [
     {
       "country": "The Netherlands",
-      "count": 1419
+      "count": 1428
     },
     {
       "country": "China",
       "count": 130
     },
     {
+      "country": "United States",
+      "count": 105
+    },
+    {
       "country": "India",
       "count": 98
     },
     {
-      "country": "United States",
-      "count": 91
-    },
-    {
       "country": "Germany",
-      "count": 56
+      "count": 42
     },
     {
       "country": "Australia",
@@ -63,7 +63,7 @@
       "country": "The Netherlands",
       "city": "Amsterdam",
       "ip": "130.12.180.51",
-      "count": 360,
+      "count": 369,
       "size": 1.5
     },
     {
@@ -265,6 +265,15 @@
       "size": 1.5
     },
     {
+      "lat": 36.7783,
+      "lng": -119.418,
+      "country": "United States",
+      "city": "Minkler",
+      "ip": "43.110.32.33",
+      "count": 14,
+      "size": 1.5
+    },
+    {
       "lat": 36.0614,
       "lng": 103.834,
       "country": "China",
@@ -317,22 +326,9 @@
       "ip": "47.253.5.130",
       "count": 14,
       "size": 1.5
-    },
-    {
-      "lat": 50.1109,
-      "lng": 8.6821,
-      "country": "Germany",
-      "city": "Frankfurt Am Main",
-      "ip": "138.124.10.229",
-      "count": 14,
-      "size": 1.5
     }
   ],
   "attacks_over_time": [
-    {
-      "time": "2026-04-04 17:00",
-      "count": 25
-    },
     {
       "time": "2026-04-04 18:00",
       "count": 23
@@ -424,6 +420,10 @@
     {
       "time": "2026-04-05 16:00",
       "count": 15
+    },
+    {
+      "time": "2026-04-05 17:00",
+      "count": 41
     }
   ],
   "top_ips": [
@@ -433,7 +433,7 @@
     },
     {
       "ip": "130.12.180.51",
-      "count": 360
+      "count": 369
     },
     {
       "ip": "103.93.93.182",
@@ -461,7 +461,7 @@
     },
     {
       "ip": "77.90.185.17",
-      "count": 224
+      "count": 231
     },
     {
       "ip": "202.77.139.72",
@@ -513,11 +513,11 @@
     },
     {
       "password": "admin",
-      "count": 113
+      "count": 115
     },
     {
       "password": "1qaz@WSX",
-      "count": 54
+      "count": 55
     },
     {
       "password": "------fuck------",
@@ -565,15 +565,15 @@
     }
   ],
   "threat_distribution": {
-    "LOW": 96,
-    "MEDIUM": 4
+    "MEDIUM": 4,
+    "LOW": 96
   },
   "tools_detected": {
     "l9s (LeakIX Scanner)": 454,
     "libssh (Brute-forcer)": 206,
     "Go HTTP Client": 120,
-    "Censys Internet Scanner": 79,
-    "Go SSH Client": 31,
+    "Censys Internet Scanner": 83,
+    "Go SSH Client": 32,
     "ZGrab (Scanner)": 24,
     "Palo Alto Scanner": 21,
     "Nmap Scripting Engine": 8,
@@ -582,6 +582,154 @@
     "Python Scripts": 2
   },
   "profiles": [
+    {
+      "ip": "130.12.180.51",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "768f2a15dba9",
+      "bio_hash": "f5ba8384",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 88,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-04-05T17:22:54.091142+05:30",
+      "threat": "MEDIUM",
+      "automated": "NO",
+      "tools": [
+        "Go SSH Client"
+      ],
+      "isp": "Netiface LLC",
+      "infra_type": "Unknown",
+      "session_duration": 9409,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC+10"
+    },
+    {
+      "ip": "43.110.32.33",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "6edbb884de4f",
+      "bio_hash": "0b8df75d",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 2,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-04-05T17:22:21.292449+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Alibaba (US) Technology Co., Ltd.",
+      "infra_type": "Unknown",
+      "session_duration": 809786,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC+11"
+    },
+    {
+      "ip": "149.86.227.60",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "156573ab9b46",
+      "bio_hash": "9b66005c",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 0,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-04-05T17:17:46.665086+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Unknown",
+      "infra_type": "Unknown",
+      "session_duration": 441431,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC-11"
+    },
+    {
+      "ip": "58.251.252.203",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "c3df3d0cf5f3",
+      "bio_hash": "c0a57da7",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 0,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-04-05T17:08:45.119854+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Unknown",
+      "infra_type": "Hosting",
+      "session_duration": 304,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC+7"
+    },
+    {
+      "ip": "77.90.185.17",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "b83a0dd3b959",
+      "bio_hash": "04d8ecca",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 33,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-04-05T17:07:46.055759+05:30",
+      "threat": "MEDIUM",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Unknown",
+      "infra_type": "Unknown",
+      "session_duration": 575944,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC-11"
+    },
+    {
+      "ip": "66.132.195.85",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "3a3edd34b691",
+      "bio_hash": "abe5a5c6",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 0,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-04-05T17:03:05.102998+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [
+        "Censys Internet Scanner"
+      ],
+      "isp": "Unknown",
+      "infra_type": "Hosting",
+      "session_duration": 45,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC+7"
+    },
     {
       "ip": "173.255.231.176",
       "ssh_client": "Unknown",
@@ -1187,32 +1335,6 @@
       "tz_guess": "UTC-9"
     },
     {
-      "ip": "130.12.180.51",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "768f2a15dba9",
-      "bio_hash": "f5ba8384",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 86,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-04-05T13:59:03.996380+05:30",
-      "threat": "MEDIUM",
-      "automated": "NO",
-      "tools": [
-        "Go SSH Client"
-      ],
-      "isp": "Netiface LLC",
-      "infra_type": "Unknown",
-      "session_duration": 9409,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC+10"
-    },
-    {
       "ip": "138.197.81.20",
       "ssh_client": "Unknown",
       "os": "Unknown",
@@ -1261,30 +1383,6 @@
       "input_method": "Unknown",
       "origin_hint": "\ud83e\udd16 Automated",
       "tz_guess": "UTC+11"
-    },
-    {
-      "ip": "149.86.227.60",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "156573ab9b46",
-      "bio_hash": "9b66005c",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 0,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-04-05T13:43:13.406363+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Unknown",
-      "infra_type": "Unknown",
-      "session_duration": 428558,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC-11"
     },
     {
       "ip": "183.131.84.225",
@@ -1699,30 +1797,6 @@
       "isp": "Unknown",
       "infra_type": "Unknown",
       "session_duration": 1035,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC-11"
-    },
-    {
-      "ip": "77.90.185.17",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "b83a0dd3b959",
-      "bio_hash": "04d8ecca",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 32,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-04-05T11:53:11.188256+05:30",
-      "threat": "MEDIUM",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Unknown",
-      "infra_type": "Unknown",
-      "session_duration": 557070,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
       "paste_ratio": 0,
@@ -2983,78 +3057,6 @@
       "input_method": "Unknown",
       "origin_hint": "\ud83e\udd16 Automated",
       "tz_guess": "UTC-4"
-    },
-    {
-      "ip": "20.184.172.112",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "fa014da2917d",
-      "bio_hash": "cb66a478",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 0,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-04-05T04:51:59.949415+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Unknown",
-      "infra_type": "Unknown",
-      "session_duration": 0,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC-4"
-    },
-    {
-      "ip": "35.203.211.93",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "994ffe3fa7cf",
-      "bio_hash": "a66fb99b",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 0,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-04-05T04:43:03.388666+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Unknown",
-      "infra_type": "Cloud Server",
-      "session_duration": 2,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC-4"
-    },
-    {
-      "ip": "193.176.31.155",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "b430ad701362",
-      "bio_hash": "db6d2086",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 0,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-04-05T04:17:30.652939+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Unknown",
-      "infra_type": "Hosting",
-      "session_duration": 2,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC-4"
     }
   ],
   "blocked_ips": [
@@ -3064,7 +3066,7 @@
     },
     {
       "ip": "130.12.180.51",
-      "attempts": 360
+      "attempts": 369
     },
     {
       "ip": "103.93.93.182",
@@ -3092,7 +3094,7 @@
     },
     {
       "ip": "77.90.185.17",
-      "attempts": 224
+      "attempts": 231
     },
     {
       "ip": "202.77.139.72",
@@ -3179,7 +3181,7 @@
       "attempts": 63
     }
   ],
-  "monitored_ips_count": 906,
+  "monitored_ips_count": 908,
   "monitored_ips": [
     {
       "ip": "185.177.72.61",
@@ -3187,7 +3189,7 @@
     },
     {
       "ip": "130.12.180.51",
-      "attempts": 360
+      "attempts": 369
     },
     {
       "ip": "103.93.93.182",
@@ -3215,7 +3217,7 @@
     },
     {
       "ip": "77.90.185.17",
-      "attempts": 224
+      "attempts": 231
     },
     {
       "ip": "202.77.139.72",
@@ -9358,6 +9360,293 @@
     }
   ],
   "recent_events": [
+    {
+      "timestamp": "2026-04-05T17:22:54.091142+05:30",
+      "type": "REPORT",
+      "ip": "130.12.180.51",
+      "message": "AI incident report updated",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:22:53.674255+05:30",
+      "type": "DISCONNECT",
+      "ip": "130.12.180.51",
+      "message": "Connection closed from 130.12.180.51",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:22:53.581693+05:30",
+      "type": "THREAT_FEED",
+      "ip": "130.12.180.51",
+      "message": "Threat feed updated: 908 IPs, 15111 events",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:22:52.595003+05:30",
+      "type": "FIREWALL",
+      "ip": "130.12.180.51",
+      "message": "Auto-firewall rules updated: 210 IPs blocked",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:22:52.463253+05:30",
+      "type": "ERROR",
+      "ip": "130.12.180.51",
+      "message": "No shell requested",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:22:22.370483+05:30",
+      "type": "FINGERPRINT",
+      "ip": "130.12.180.51",
+      "message": "HASSH: 4ddeb94c649240c02434d35ffdbc222d | Client: SSH-2.0-Go",
+      "details": "{\"hassh\": \"4ddeb94c649240c02434d35ffdbc222d\", \"ssh_version\": \"SSH-2.0-Go\", \"hassh_raw\": \"curve25519-sha256@libssh.org,ec"
+    },
+    {
+      "timestamp": "2026-04-05T17:22:22.278106+05:30",
+      "type": "AUTH_SUCCESS",
+      "ip": "130.12.180.51",
+      "message": "User admin authenticated",
+      "details": "{\"username\": \"admin\"}"
+    },
+    {
+      "timestamp": "2026-04-05T17:22:21.292449+05:30",
+      "type": "REPORT",
+      "ip": "43.110.32.33",
+      "message": "AI incident report updated",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:22:21.184921+05:30",
+      "type": "AUTH_LOGIN",
+      "ip": "130.12.180.51",
+      "message": "Login attempt: admin:admin",
+      "details": "{\"username\": \"admin\", \"password\": \"admin\"}"
+    },
+    {
+      "timestamp": "2026-04-05T17:22:20.745155+05:30",
+      "type": "DISCONNECT",
+      "ip": "43.110.32.33",
+      "message": "Connection closed from 43.110.32.33",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:22:20.652558+05:30",
+      "type": "THREAT_FEED",
+      "ip": "43.110.32.33",
+      "message": "Threat feed updated: 908 IPs, 15103 events",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:22:19.826380+05:30",
+      "type": "CONNECTION",
+      "ip": "130.12.180.51",
+      "message": "New connection from 130.12.180.51",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:22:19.645164+05:30",
+      "type": "FIREWALL",
+      "ip": "43.110.32.33",
+      "message": "Auto-firewall rules updated: 210 IPs blocked",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:22:19.513607+05:30",
+      "type": "ERROR",
+      "ip": "43.110.32.33",
+      "message": "No channel requested (Auth Timeout)",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:22:18.450609+05:30",
+      "type": "AUTH_LOGIN",
+      "ip": "43.110.32.33",
+      "message": "Login attempt: admin:admin",
+      "details": "{\"username\": \"admin\", \"password\": \"admin\"}"
+    },
+    {
+      "timestamp": "2026-04-05T17:22:15.367736+05:30",
+      "type": "CONNECTION",
+      "ip": "43.110.32.33",
+      "message": "New connection from 43.110.32.33",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:17:46.665086+05:30",
+      "type": "HTTP_SCAN",
+      "ip": "149.86.227.60",
+      "message": "GET / from 149.86.227.60",
+      "details": "{\"method\": \"GET\", \"path\": \"/\", \"user_agent\": \"Mozilla/5.0\"}"
+    },
+    {
+      "timestamp": "2026-04-05T17:08:45.119854+05:30",
+      "type": "REPORT",
+      "ip": "58.251.252.203",
+      "message": "AI incident report updated",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:08:44.672695+05:30",
+      "type": "DISCONNECT",
+      "ip": "58.251.252.203",
+      "message": "Connection closed from 58.251.252.203",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:08:44.580295+05:30",
+      "type": "THREAT_FEED",
+      "ip": "58.251.252.203",
+      "message": "Threat feed updated: 908 IPs, 15094 events",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:08:43.593454+05:30",
+      "type": "FIREWALL",
+      "ip": "58.251.252.203",
+      "message": "Auto-firewall rules updated: 210 IPs blocked",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:08:43.463399+05:30",
+      "type": "ERROR",
+      "ip": "58.251.252.203",
+      "message": "Connection error: [Errno 104] Connection reset by peer",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:07:46.055759+05:30",
+      "type": "REPORT",
+      "ip": "77.90.185.17",
+      "message": "AI incident report updated",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:07:45.636272+05:30",
+      "type": "DISCONNECT",
+      "ip": "77.90.185.17",
+      "message": "Connection closed from 77.90.185.17",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:07:45.543554+05:30",
+      "type": "THREAT_FEED",
+      "ip": "77.90.185.17",
+      "message": "Threat feed updated: 908 IPs, 15089 events",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:07:44.552180+05:30",
+      "type": "FIREWALL",
+      "ip": "77.90.185.17",
+      "message": "Auto-firewall rules updated: 210 IPs blocked",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:07:44.419427+05:30",
+      "type": "ERROR",
+      "ip": "77.90.185.17",
+      "message": "No channel requested (Auth Timeout)",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:07:32.167026+05:30",
+      "type": "AUTH_LOGIN",
+      "ip": "77.90.185.17",
+      "message": "Login attempt: root:1qaz@WSX",
+      "details": "{\"username\": \"root\", \"password\": \"1qaz@WSX\"}"
+    },
+    {
+      "timestamp": "2026-04-05T17:07:30.755810+05:30",
+      "type": "CONNECTION",
+      "ip": "77.90.185.17",
+      "message": "New connection from 77.90.185.17",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:03:42.632229+05:30",
+      "type": "REPORT",
+      "ip": "58.251.252.203",
+      "message": "AI incident report updated",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:03:42.093324+05:30",
+      "type": "DISCONNECT",
+      "ip": "58.251.252.203",
+      "message": "Connection closed from 58.251.252.203",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:03:42.000195+05:30",
+      "type": "THREAT_FEED",
+      "ip": "58.251.252.203",
+      "message": "Threat feed updated: 908 IPs, 15082 events",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:03:40.955039+05:30",
+      "type": "FIREWALL",
+      "ip": "58.251.252.203",
+      "message": "Auto-firewall rules updated: 210 IPs blocked",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:03:40.911061+05:30",
+      "type": "CONNECTION",
+      "ip": "58.251.252.203",
+      "message": "New connection from 58.251.252.203",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:03:40.826221+05:30",
+      "type": "ERROR",
+      "ip": "58.251.252.203",
+      "message": "SSH negotiation failed: Error reading SSH protocol banner",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:03:40.549488+05:30",
+      "type": "CONNECTION",
+      "ip": "58.251.252.203",
+      "message": "New connection from 58.251.252.203",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-05T17:03:05.102998+05:30",
+      "type": "HTTP_SCAN",
+      "ip": "66.132.195.85",
+      "message": "GET /sitemap.xml from 66.132.195.85",
+      "details": "{\"method\": \"GET\", \"path\": \"/sitemap.xml\", \"user_agent\": \"Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.cens"
+    },
+    {
+      "timestamp": "2026-04-05T17:02:47.363916+05:30",
+      "type": "HTTP_SCAN",
+      "ip": "66.132.195.85",
+      "message": "GET / from 66.132.195.85",
+      "details": "{\"method\": \"GET\", \"path\": \"/\", \"user_agent\": \"Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)\"}"
+    },
+    {
+      "timestamp": "2026-04-05T17:02:37.836384+05:30",
+      "type": "HTTP_SCAN",
+      "ip": "66.132.195.85",
+      "message": "GET /favicon.ico from 66.132.195.85",
+      "details": "{\"method\": \"GET\", \"path\": \"/favicon.ico\", \"user_agent\": \"Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.cens"
+    },
+    {
+      "timestamp": "2026-04-05T17:02:31.895512+05:30",
+      "type": "HTTP_SCAN",
+      "ip": "66.132.195.85",
+      "message": "GET / from 66.132.195.85",
+      "details": "{\"method\": \"GET\", \"path\": \"/\", \"user_agent\": \"Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/)\"}"
+    },
+    {
+      "timestamp": "2026-04-05T17:02:19.195600+05:30",
+      "type": "HTTP_SCAN",
+      "ip": "66.132.195.85",
+      "message": "GET / from 66.132.195.85",
+      "details": "{\"method\": \"GET\", \"path\": \"/\", \"user_agent\": \"Unknown\"}"
+    },
     {
       "timestamp": "2026-04-05T16:31:49.842654+05:30",
       "type": "TELNET_DISCONNECT",
@@ -16070,299 +16359,12 @@
       "ip": "58.48.170.235",
       "message": "Connection error: ",
       "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:47:45.644906+05:30",
-      "type": "CONNECTION",
-      "ip": "116.176.61.83",
-      "message": "New connection from 116.176.61.83",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:46:04.522334+05:30",
-      "type": "CONNECTION",
-      "ip": "14.103.91.55",
-      "message": "New connection from 14.103.91.55",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:45:40.221288+05:30",
-      "type": "CONNECTION",
-      "ip": "121.31.210.125",
-      "message": "New connection from 121.31.210.125",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:43:32.733167+05:30",
-      "type": "REPORT",
-      "ip": "119.18.55.118",
-      "message": "AI incident report updated",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:43:32.339700+05:30",
-      "type": "DISCONNECT",
-      "ip": "119.18.55.118",
-      "message": "Connection closed from 119.18.55.118",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:43:32.246646+05:30",
-      "type": "THREAT_FEED",
-      "ip": "119.18.55.118",
-      "message": "Threat feed updated: 843 IPs, 14108 events",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:43:31.255514+05:30",
-      "type": "FIREWALL",
-      "ip": "119.18.55.118",
-      "message": "Auto-firewall rules updated: 197 IPs blocked",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:43:31.115701+05:30",
-      "type": "ERROR",
-      "ip": "119.18.55.118",
-      "message": "No shell requested",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:43:06.462106+05:30",
-      "type": "REPORT",
-      "ip": "119.18.55.118",
-      "message": "AI incident report updated",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:43:06.039033+05:30",
-      "type": "DISCONNECT",
-      "ip": "119.18.55.118",
-      "message": "Connection closed from 119.18.55.118",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:43:05.946496+05:30",
-      "type": "THREAT_FEED",
-      "ip": "119.18.55.118",
-      "message": "Threat feed updated: 843 IPs, 14103 events",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:43:04.926907+05:30",
-      "type": "FIREWALL",
-      "ip": "119.18.55.118",
-      "message": "Auto-firewall rules updated: 197 IPs blocked",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:43:04.795386+05:30",
-      "type": "ERROR",
-      "ip": "119.18.55.118",
-      "message": "No channel requested (Auth Timeout)",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:43:04.748973+05:30",
-      "type": "REPORT",
-      "ip": "119.18.55.118",
-      "message": "AI incident report updated",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:43:04.363839+05:30",
-      "type": "DISCONNECT",
-      "ip": "119.18.55.118",
-      "message": "Connection closed from 119.18.55.118",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:43:04.272443+05:30",
-      "type": "THREAT_FEED",
-      "ip": "119.18.55.118",
-      "message": "Threat feed updated: 843 IPs, 14097 events",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:43:03.844816+05:30",
-      "type": "AUTH_LOGIN",
-      "ip": "119.18.55.118",
-      "message": "Login attempt: matlab:3245gs5662d34",
-      "details": "{\"username\": \"matlab\", \"password\": \"3245gs5662d34\"}"
-    },
-    {
-      "timestamp": "2026-04-05T07:43:03.289395+05:30",
-      "type": "FIREWALL",
-      "ip": "119.18.55.118",
-      "message": "Auto-firewall rules updated: 196 IPs blocked",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:43:03.245172+05:30",
-      "type": "CONNECTION",
-      "ip": "119.18.55.118",
-      "message": "New connection from 119.18.55.118",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:43:03.159996+05:30",
-      "type": "ERROR",
-      "ip": "119.18.55.118",
-      "message": "No channel requested (Auth Timeout)",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:43:02.209888+05:30",
-      "type": "AUTH_LOGIN",
-      "ip": "119.18.55.118",
-      "message": "Login attempt: 345gs5662d34:345gs5662d34",
-      "details": "{\"username\": \"345gs5662d34\", \"password\": \"345gs5662d34\"}"
-    },
-    {
-      "timestamp": "2026-04-05T07:43:01.597905+05:30",
-      "type": "CONNECTION",
-      "ip": "119.18.55.118",
-      "message": "New connection from 119.18.55.118",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:43:01.025101+05:30",
-      "type": "FINGERPRINT",
-      "ip": "119.18.55.118",
-      "message": "HASSH: 4ddeb94c649240c02434d35ffdbc222d | Client: SSH-2.0-libssh_0.11.1",
-      "details": "{\"hassh\": \"4ddeb94c649240c02434d35ffdbc222d\", \"ssh_version\": \"SSH-2.0-libssh_0.11.1\", \"hassh_raw\": \"curve25519-sha256@li"
-    },
-    {
-      "timestamp": "2026-04-05T07:43:00.934855+05:30",
-      "type": "AUTH_SUCCESS",
-      "ip": "119.18.55.118",
-      "message": "User matlab authenticated",
-      "details": "{\"username\": \"matlab\"}"
-    },
-    {
-      "timestamp": "2026-04-05T07:42:59.963081+05:30",
-      "type": "AUTH_LOGIN",
-      "ip": "119.18.55.118",
-      "message": "Login attempt: matlab:matlab",
-      "details": "{\"username\": \"matlab\", \"password\": \"matlab\"}"
-    },
-    {
-      "timestamp": "2026-04-05T07:42:59.374238+05:30",
-      "type": "CONNECTION",
-      "ip": "119.18.55.118",
-      "message": "New connection from 119.18.55.118",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:41:52.041725+05:30",
-      "type": "REPORT",
-      "ip": "173.10.13.18",
-      "message": "AI incident report updated",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:41:51.519572+05:30",
-      "type": "DISCONNECT",
-      "ip": "173.10.13.18",
-      "message": "Connection closed from 173.10.13.18",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:41:51.428489+05:30",
-      "type": "THREAT_FEED",
-      "ip": "173.10.13.18",
-      "message": "Threat feed updated: 842 IPs, 14085 events",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:41:50.466578+05:30",
-      "type": "FIREWALL",
-      "ip": "173.10.13.18",
-      "message": "Auto-firewall rules updated: 196 IPs blocked",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:41:50.342774+05:30",
-      "type": "ERROR",
-      "ip": "173.10.13.18",
-      "message": "No shell requested",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:41:26.948317+05:30",
-      "type": "REPORT",
-      "ip": "173.10.13.18",
-      "message": "AI incident report updated",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:41:26.560939+05:30",
-      "type": "DISCONNECT",
-      "ip": "173.10.13.18",
-      "message": "Connection closed from 173.10.13.18",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:41:26.470399+05:30",
-      "type": "THREAT_FEED",
-      "ip": "173.10.13.18",
-      "message": "Threat feed updated: 842 IPs, 14080 events",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:41:26.001707+05:30",
-      "type": "FIREWALL",
-      "ip": "173.10.13.18",
-      "message": "Auto-firewall rules updated: 196 IPs blocked",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:41:25.877491+05:30",
-      "type": "ERROR",
-      "ip": "173.10.13.18",
-      "message": "No channel requested (Auth Timeout)",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:41:25.176164+05:30",
-      "type": "REPORT",
-      "ip": "173.10.13.18",
-      "message": "AI incident report updated",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:41:24.838599+05:30",
-      "type": "AUTH_LOGIN",
-      "ip": "173.10.13.18",
-      "message": "Login attempt: root:3245gs5662d34",
-      "details": "{\"username\": \"root\", \"password\": \"3245gs5662d34\"}"
-    },
-    {
-      "timestamp": "2026-04-05T07:41:24.795866+05:30",
-      "type": "DISCONNECT",
-      "ip": "173.10.13.18",
-      "message": "Connection closed from 173.10.13.18",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:41:24.704862+05:30",
-      "type": "THREAT_FEED",
-      "ip": "173.10.13.18",
-      "message": "Threat feed updated: 842 IPs, 14074 events",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-05T07:41:23.791565+05:30",
-      "type": "CONNECTION",
-      "ip": "173.10.13.18",
-      "message": "New connection from 173.10.13.18",
-      "details": ""
     }
   ],
   "top_isps": [
     {
       "isp": "Netiface LLC",
-      "count": 360
+      "count": 369
     },
     {
       "isp": "Techoff SRV Limited",
@@ -16403,6 +16405,6 @@
     "Reconnaissance": 64,
     "Lateral Movement": 1
   },
-  "avg_session_duration": 63520,
-  "max_session_duration": 789429
+  "avg_session_duration": 71939,
+  "max_session_duration": 809786
 }
