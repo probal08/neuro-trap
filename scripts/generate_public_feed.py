@@ -6,6 +6,7 @@ Run by GitHub Actions every hour to update the public dashboard at neurotrap.tec
 import json
 import os
 import sys
+import time
 from datetime import datetime, timezone, timedelta
 from collections import Counter, defaultdict
 import hashlib
@@ -37,16 +38,21 @@ def get_events_from_mongo():
         return []
 
 
-def batch_geoip_lookup(ips):
-    """Batch GeoIP lookup using ip-api.com (free, no key, 45 req/min).
+def batch_geoip_lookup(ips, max_ips=500):
+    """Batch GeoIP lookup using ip-api.com (free, no key, 15 batch req/min).
+    Resolves up to max_ips in batches of 100 with rate-limit pauses.
     Returns dict of ip -> {lat, lng, country, city, isp}"""
     import urllib.request
     results = {}
     # Filter out private/local IPs
     public_ips = [ip for ip in ips if ip and not ip.startswith(('127.', '10.', '192.168.', '172.', '0.', 'unknown'))]
-    # ip-api.com supports batch of up to 100 IPs per request
-    for i in range(0, min(len(public_ips), 100), 100):
-        batch = public_ips[i:i+100]
+    # Cap to max_ips to stay within API limits during CI runs
+    lookup_list = public_ips[:max_ips]
+    total_batches = (len(lookup_list) + 99) // 100  # ceil division
+    print(f"[+] GeoIP: resolving {len(lookup_list)} IPs in {total_batches} batches...")
+    for batch_num in range(total_batches):
+        start = batch_num * 100
+        batch = lookup_list[start:start + 100]
         try:
             payload = json.dumps([{'query': ip, 'fields': 'query,status,country,city,lat,lon,isp'} for ip in batch])
             req = urllib.request.Request(
@@ -54,7 +60,7 @@ def batch_geoip_lookup(ips):
                 data=payload.encode(),
                 headers={'Content-Type': 'application/json'}
             )
-            resp = urllib.request.urlopen(req, timeout=10)
+            resp = urllib.request.urlopen(req, timeout=15)
             data = json.loads(resp.read().decode())
             for entry in data:
                 if entry.get('status') == 'success':
@@ -65,9 +71,13 @@ def batch_geoip_lookup(ips):
                         'city': entry.get('city', 'Unknown'),
                         'isp': entry.get('isp', 'Unknown')
                     }
-            print(f"[+] GeoIP resolved {len(results)}/{len(public_ips)} IPs")
+            print(f"    Batch {batch_num+1}/{total_batches}: resolved {len(results)}/{len(lookup_list)} IPs")
         except Exception as e:
-            print(f"[!] GeoIP batch lookup failed: {e}")
+            print(f"[!] GeoIP batch {batch_num+1} failed: {e}")
+        # Rate-limit: pause between batches to respect API (15 req/min)
+        if batch_num < total_batches - 1:
+            time.sleep(4)
+    print(f"[+] GeoIP total: {len(results)}/{len(lookup_list)} IPs resolved")
     return results
 
 
@@ -127,7 +137,8 @@ def build_data_json(events):
                     sessions[ip] = []
                 sessions[ip].append({
                     'command': cmd,
-                    'time': e.get('timestamp', '')
+                    'time': e.get('timestamp', ''),
+                    'event_type': 'COMMAND'
                 })
                 # Detect tools with word-boundary matching to avoid false positives
                 # (This applies to commands typed in the shell)
@@ -357,14 +368,69 @@ def build_data_json(events):
             except Exception:
                 pass
 
-    # GeoIP lookup for globe visualization
-    unique_ips_list = list(ip_counter.keys())
-    # INCREASED: Lookup top 300 IPs instead of 100 for better coverage
-    geo_data = batch_geoip_lookup(unique_ips_list[:300])
+    # ENTERPRISE: Build replay activity for non-COMMAND IPs (AUTH_LOGIN, HTTP_SCAN)
+    # This ensures every IP that interacted with the honeypot has a replay timeline
+    for e in events:
+        ip = e.get('ip', 'unknown') or 'unknown'
+        if ip in ('unknown', 'N/A', ''):
+            continue
+        etype = e.get('event_type') or e.get('type', 'UNKNOWN')
+        details = e.get('details', {}) or {}
+        if isinstance(details, str):
+            try:
+                details = json.loads(details)
+            except Exception:
+                details = {}
+        if not isinstance(details, dict):
+            details = {}
 
-    # Build globe points for 3D visualization
+        # AUTH_LOGIN: show as "LOGIN username:password"
+        if etype in ('AUTH_LOGIN',) and ip not in sessions:
+            un = details.get('username', '?')
+            pw = details.get('password', '?')
+            if ip not in sessions:
+                sessions[ip] = []
+            sessions[ip].append({
+                'command': f'[LOGIN ATTEMPT] {un}:{pw}',
+                'time': e.get('timestamp', ''),
+                'event_type': 'AUTH_LOGIN'
+            })
+        elif etype in ('AUTH_LOGIN',) and ip in sessions:
+            # Only add login events if this IP has no COMMAND entries yet
+            has_commands = any(c.get('event_type') == 'COMMAND' for c in sessions[ip])
+            if not has_commands:
+                un = details.get('username', '?')
+                pw = details.get('password', '?')
+                sessions[ip].append({
+                    'command': f'[LOGIN ATTEMPT] {un}:{pw}',
+                    'time': e.get('timestamp', ''),
+                    'event_type': 'AUTH_LOGIN'
+                })
+
+        # HTTP_SCAN: show as "HTTP GET /path"
+        if etype == 'HTTP_SCAN':
+            method = details.get('method', 'GET')
+            path = details.get('path', '/')
+            ua = details.get('user_agent', '')
+            if ip not in sessions:
+                sessions[ip] = []
+            # Only add if this IP has no shell COMMAND entries (avoid flooding)
+            has_commands = any(c.get('event_type') == 'COMMAND' for c in sessions[ip])
+            if not has_commands:
+                sessions[ip].append({
+                    'command': f'[HTTP SCAN] {method} {path}' + (f' (UA: {ua[:40]})' if ua else ''),
+                    'time': e.get('timestamp', ''),
+                    'event_type': 'HTTP_SCAN'
+                })
+
+    # GeoIP lookup for globe visualization
+    # Sort IPs by frequency — most active attackers get resolved first
+    unique_ips_sorted = [ip for ip, _ in ip_counter.most_common()]
+    geo_data = batch_geoip_lookup(unique_ips_sorted, max_ips=500)
+
+    # Build globe points for 3D visualization — include ALL resolved IPs
     globe_points = []
-    for ip_addr, count in ip_counter.most_common(300):
+    for ip_addr, count in ip_counter.most_common():
         if ip_addr in geo_data:
             g = geo_data[ip_addr]
             globe_points.append({
@@ -374,7 +440,7 @@ def build_data_json(events):
                 'city': g['city'],
                 'ip': ip_addr,
                 'count': count,
-                'size': min(count / 3, 1.5)  # Scale for globe
+                'size': min(count / 5, 1.2)  # Slightly smaller dots at scale
             })
             country_counter[g['country']] += count
 
@@ -401,20 +467,23 @@ def build_data_json(events):
         })
     recent_events.reverse()
 
-    # SMART SORTING: Build replay sessions (up to 30 most recent/active)
+    # SMART SORTING: Build replay sessions — ALL IPs with activity, sorted by recency
     replay_sessions = []
-    # Sort sessions by the timestamp of their LATEST command (descending)
     sorted_sessions = sorted(
         sessions.items(),
         key=lambda x: str(x[1][-1]['time']) if x[1] else '',
         reverse=True
     )
     
-    for ip, cmds in sorted_sessions[:30]:
+    # Export up to 50 replay sessions for the frontend (paginated)
+    for ip, cmds in sorted_sessions[:50]:
         if cmds:
+            # Limit to last 100 actions per session to keep JSON size reasonable
             replay_sessions.append({
                 'ip': ip,
-                'commands': cmds
+                'commands': cmds[-100:],
+                'total_actions': len(cmds),
+                'event_types': list(set(c.get('event_type', 'COMMAND') for c in cmds))
             })
 
     # Attacker profiles — build from ALL events, enrich dynamically
@@ -480,8 +549,8 @@ def build_data_json(events):
     )
 
     profiles = []
-    # INCREASED: Export top 100 profiles instead of 20
-    for p in sorted_profiles[:100]:
+    # ENTERPRISE: Export top 200 profiles for full coverage at scale
+    for p in sorted_profiles[:200]:
         p['threat'] = compute_threat(p)
         auto = p.pop('is_automated_raw', None)
         p['automated'] = 'YES' if (auto or p['dangerous_cmds'] > 0 or p['commands'] > 5) else 'NO'
