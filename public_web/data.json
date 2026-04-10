@@ -1,7 +1,7 @@
 {
-  "last_updated": "2026-04-11T02:10:03.883821+05:30",
-  "total_attacks": 20561,
-  "unique_ips": 1122,
+  "last_updated": "2026-04-11T03:10:57.434824+05:30",
+  "total_attacks": 20563,
+  "unique_ips": 1123,
   "top_user": "root",
   "top_pass": "3245gs5662d34",
   "event_distribution": {
@@ -4551,10 +4551,6 @@
   ],
   "attacks_over_time": [
     {
-      "time": "2026-04-09 17:00",
-      "count": 324
-    },
-    {
       "time": "2026-04-09 18:00",
       "count": 32
     },
@@ -4645,6 +4641,10 @@
     {
       "time": "2026-04-11 01:00",
       "count": 1
+    },
+    {
+      "time": "2026-04-11 02:00",
+      "count": 2
     }
   ],
   "top_ips": [
@@ -4803,6 +4803,30 @@
     "Python Scripts": 2
   },
   "profiles": [
+    {
+      "ip": "205.210.31.162",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "52667b1c6e16",
+      "bio_hash": "b3011428",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 0,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-04-11T02:28:06.502590+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Unknown",
+      "infra_type": "Unknown",
+      "session_duration": 31,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC-2"
+    },
     {
       "ip": "198.235.24.95",
       "ssh_client": "Unknown",
@@ -5684,7 +5708,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "MYRISE",
-      "infra_type": "Unknown",
+      "infra_type": "Hosting",
       "session_duration": 344,
       "kill_chain_stage": 1,
       "kill_chain_label": "Reconnaissance",
@@ -9592,30 +9616,6 @@
       "input_method": "Manual Typing",
       "origin_hint": "\ud83e\udd16 Automated",
       "tz_guess": "UTC-11"
-    },
-    {
-      "ip": "43.166.255.122",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "4d4559860ebe",
-      "bio_hash": "a45151cb",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 0,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-04-06T02:22:01.875611+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Unknown",
-      "infra_type": "Unknown",
-      "session_duration": 0,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC-2"
     }
   ],
   "blocked_ips": [
@@ -9740,7 +9740,7 @@
       "attempts": 114
     }
   ],
-  "monitored_ips_count": 1122,
+  "monitored_ips_count": 1123,
   "monitored_ips": [
     {
       "ip": "14.29.200.186",
@@ -15226,6 +15226,20 @@
     }
   ],
   "recent_events": [
+    {
+      "timestamp": "2026-04-11T02:28:06.502590+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "205.210.31.162",
+      "message": "Telnet session ended: 205.210.31.162",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-11T02:27:35.427024+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "205.210.31.162",
+      "message": "New Telnet connection from 205.210.31.162",
+      "details": ""
+    },
     {
       "timestamp": "2026-04-11T01:54:56.885845+05:30",
       "type": "FTP_CONNECTION",
@@ -22211,20 +22225,6 @@
       "ip": "111.89.104.231",
       "message": "New Telnet connection from 111.89.104.231",
       "details": ""
-    },
-    {
-      "timestamp": "2026-04-08T15:40:41.767750+05:30",
-      "type": "FTP_CONNECTION",
-      "ip": "205.210.31.3",
-      "message": "New FTP connection from 205.210.31.3",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-08T15:13:13.175410+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "206.135.174.170",
-      "message": "Telnet session ended: 206.135.174.170",
-      "details": ""
     }
   ],
   "top_isps": [
@@ -22271,6 +22271,6 @@
     "Reconnaissance": 105,
     "Lateral Movement": 2
   },
-  "avg_session_duration": 55859,
+  "avg_session_duration": 55860,
   "max_session_duration": 1030250
 }
