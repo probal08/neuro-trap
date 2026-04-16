@@ -1,7 +1,7 @@
 {
-  "last_updated": "2026-04-16T20:29:31.131252+05:30",
-  "total_attacks": 22920,
-  "unique_ips": 1258,
+  "last_updated": "2026-04-16T21:56:30.091848+05:30",
+  "total_attacks": 22923,
+  "unique_ips": 1259,
   "top_user": "root",
   "top_pass": "3245gs5662d34",
   "event_distribution": {
@@ -4551,10 +4551,6 @@
   ],
   "attacks_over_time": [
     {
-      "time": "2026-04-15 04:00",
-      "count": 1
-    },
-    {
       "time": "2026-04-15 06:00",
       "count": 1
     },
@@ -4645,6 +4641,10 @@
     {
       "time": "2026-04-16 17:00",
       "count": 6
+    },
+    {
+      "time": "2026-04-16 21:00",
+      "count": 3
     }
   ],
   "top_ips": [
@@ -4802,6 +4802,30 @@
     "Python Scripts": 2
   },
   "profiles": [
+    {
+      "ip": "64.62.197.48",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "1a722ad3c1f2",
+      "bio_hash": "4c81a4db",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 0,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-04-16T21:05:13.026028+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Unknown",
+      "infra_type": "Hosting",
+      "session_duration": 1,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC+3"
+    },
     {
       "ip": "135.237.126.114",
       "ssh_client": "Unknown",
@@ -5273,7 +5297,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "Unknown",
-      "infra_type": "Unknown",
+      "infra_type": "Cloud Server",
       "session_duration": 31,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
@@ -5515,7 +5539,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "Unknown",
-      "infra_type": "Unknown",
+      "infra_type": "Hosting",
       "session_duration": 31,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
@@ -6333,7 +6357,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "Unknown",
-      "infra_type": "Hosting",
+      "infra_type": "Unknown",
       "session_duration": 31,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
@@ -9585,30 +9609,6 @@
       "input_method": "Unknown",
       "origin_hint": "\ud83e\udd16 Automated",
       "tz_guess": "UTC+3"
-    },
-    {
-      "ip": "91.196.152.115",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "540c167fcfb4",
-      "bio_hash": "22be5a76",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 0,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-04-08T21:50:39.109795+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Unknown",
-      "infra_type": "Hosting",
-      "session_duration": 0,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC+3"
     }
   ],
   "blocked_ips": [
@@ -9733,7 +9733,7 @@
       "attempts": 134
     }
   ],
-  "monitored_ips_count": 1258,
+  "monitored_ips_count": 1259,
   "monitored_ips": [
     {
       "ip": "14.29.200.186",
@@ -17815,6 +17815,27 @@
   ],
   "recent_events": [
     {
+      "timestamp": "2026-04-16T21:05:13.026028+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "64.62.197.48",
+      "message": "Telnet session ended: 64.62.197.48",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-16T21:05:12.131794+05:30",
+      "type": "TELNET_LOGIN",
+      "ip": "64.62.197.48",
+      "message": "Telnet login: :",
+      "details": "{\"username\": \"\", \"password\": \"\"}"
+    },
+    {
+      "timestamp": "2026-04-16T21:05:11.221478+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "64.62.197.48",
+      "message": "New Telnet connection from 64.62.197.48",
+      "details": ""
+    },
+    {
       "timestamp": "2026-04-16T17:59:40.319238+05:30",
       "type": "TELNET_DISCONNECT",
       "ip": "135.237.126.114",
@@ -24792,27 +24813,6 @@
       "ip": "125.41.74.107",
       "message": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x46\\x52\\x47\\x50\\x55\\x57'",
       "details": "{\"command\": \">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>"
-    },
-    {
-      "timestamp": "2026-04-14T04:45:35.276842+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "125.41.74.107",
-      "message": "sh",
-      "details": "{\"command\": \"sh\"}"
-    },
-    {
-      "timestamp": "2026-04-14T04:45:35.184137+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "125.41.74.107",
-      "message": "shell",
-      "details": "{\"command\": \"shell\"}"
-    },
-    {
-      "timestamp": "2026-04-14T04:45:35.091247+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "125.41.74.107",
-      "message": "su",
-      "details": "{\"command\": \"su\"}"
     }
   ],
   "top_isps": [
