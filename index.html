@@ -656,7 +656,7 @@ function render(isNewData){
         globe.pointOfView({ lat: 20, lng: 78, altitude: 2.2 }, 1500);
 
         const countries = [...new Set(d.globe_points.map(p => p.country))];
-        document.getElementById('globe-stats').innerHTML = `🔴 ${d.globe_points.length} ATTACK SOURCES | 🌍 ${countries.length} COUNTRIES | 🟢 HONEYPOT ACTIVE | <span style="color:var(--cyan)">SCROLL TO ZOOM • CLICK POINTS TO INSPECT</span>`;
+        document.getElementById('globe-stats').innerHTML = `🔴 ${(d.total_attacks||0).toLocaleString()} ATTACKS INTERCEPTED | 📍 ${d.unique_ips||0} UNIQUE IPs | 🌍 ${countries.length} COUNTRIES | 🟢 HONEYPOT ACTIVE | <span style="color:var(--cyan)">SCROLL TO ZOOM • CLICK POINTS TO INSPECT</span>`;
     } else {
         document.getElementById('globe-container').innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--dim);font-size:.8rem">Awaiting GeoIP data from public attackers...</div>';
     }
