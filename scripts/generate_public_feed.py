@@ -521,21 +521,28 @@ def build_data_json(events):
         # Update last_seen if this event is newer
         if ts and ts > seen_ips[ip].get('last_seen', ''):
             seen_ips[ip]['last_seen'] = ts
-        if etype in ('COMMAND', 'command'):
+        # Count ALL command types (SSH, Telnet, FTP, HTTP)
+        CMD_TYPES = ('COMMAND', 'command', 'TELNET_COMMAND', 'FTP_COMMAND', 'HTTP_COMMAND')
+        if etype in CMD_TYPES:
             seen_ips[ip]['commands'] += 1
-            cmd = details.get('command', '')
+            cmd = details.get('command', '') or ''
             DANGEROUS = ['wget', 'curl', '/dev/tcp', 'base64', 'chmod +x', 'rm -rf', 'bash -i', 'nc ', 'python -c', 'perl -e']
             if any(d in cmd.lower() for d in DANGEROUS):
                 seen_ips[ip]['dangerous_cmds'] += 1
-        if etype in ('AUTH_LOGIN', 'AUTH_SUCCESS'):
+        # Count ALL login types (SSH, Telnet, FTP)
+        LOGIN_TYPES = ('AUTH_LOGIN', 'AUTH_SUCCESS', 'TELNET_LOGIN', 'FTP_LOGIN', 'HTTP_AUTH')
+        if etype in LOGIN_TYPES:
             seen_ips[ip]['logins'] += 1
 
-    # Dynamic threat scoring from behaviour
+    # Dynamic threat scoring from ALL protocols (SSH, Telnet, FTP, HTTP)
     def compute_threat(p):
         score = 0
-        score += min(p['commands'] * 2, 40)        # up to 40 pts for commands
+        score += min(p['commands'] * 2, 40)        # up to 40 pts for commands (any protocol)
         score += min(p['dangerous_cmds'] * 10, 40) # up to 40 pts for dangerous cmds
-        score += min(p['logins'] * 1, 20)           # up to 20 pts for login attempts
+        score += min(p['logins'] * 1, 20)           # up to 20 pts for login attempts (any protocol)
+        # High login count alone = brute-force = at least MEDIUM
+        if p['logins'] >= 50:  score = max(score, 30)  # 50+ logins -> at least HIGH
+        if p['logins'] >= 10:  score = max(score, 10)  # 10+ logins -> at least MEDIUM
         if score >= 60:   return 'CRITICAL'
         elif score >= 30: return 'HIGH'
         elif score >= 10: return 'MEDIUM'
@@ -626,10 +633,18 @@ def build_data_json(events):
         ip = p['ip']
         if ip in ip_first_seen and ip in ip_last_seen:
             duration = (ip_last_seen[ip] - ip_first_seen[ip]).total_seconds()
-            p['session_duration'] = int(duration)
+            # Cap at 24h max — IPs seen across multiple days get inflated durations
+            # because first/last seen spans the entire observation window, not one session
+            p['session_duration'] = int(min(duration, 86400))
         else:
             p['session_duration'] = 0
-    avg_session = int(sum(p['session_duration'] for p in profiles) / max(len(profiles), 1))
+    # Use median instead of mean for avg session to avoid skew from outliers
+    all_durations = sorted(p['session_duration'] for p in profiles if p['session_duration'] > 0)
+    if all_durations:
+        mid = len(all_durations) // 2
+        avg_session = all_durations[mid]  # median
+    else:
+        avg_session = 0
     max_session = max((p['session_duration'] for p in profiles), default=0)
 
     # FEATURE: MITRE ATT&CK Kill Chain Mapping
