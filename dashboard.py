@@ -823,7 +823,7 @@ if not df.empty:
                 markers=True
             )
             fig_time.update_traces(line=dict(color='#00ffff', width=3), marker=dict(size=8, color='#ff003c', symbol='diamond'))
-            neon_layout(fig)
+            neon_layout(fig_time)
             fig_time.update_layout(xaxis_title="Time", yaxis_title="Events / Minute")
             st.plotly_chart(fig_time, use_container_width=True, theme=None)
             
