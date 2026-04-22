@@ -1,7 +1,7 @@
 {
-  "last_updated": "2026-04-22T14:39:04.634363+05:30",
-  "total_attacks": 25703,
-  "unique_ips": 1367,
+  "last_updated": "2026-04-22T16:20:54.962376+05:30",
+  "total_attacks": 25705,
+  "unique_ips": 1368,
   "top_user": "root",
   "top_pass": "3245gs5662d34",
   "event_distribution": {
@@ -12,7 +12,7 @@
     "THREAT_FEED": 1788,
     "DISCONNECT": 1761,
     "REPORT": 1695,
-    "TELNET_CONNECTION": 1564
+    "TELNET_CONNECTION": 1565
   },
   "top_countries": [
     {
@@ -4551,10 +4551,6 @@
   ],
   "attacks_over_time": [
     {
-      "time": "2026-04-21 04:00",
-      "count": 8
-    },
-    {
       "time": "2026-04-21 05:00",
       "count": 152
     },
@@ -4645,6 +4641,10 @@
     {
       "time": "2026-04-22 11:00",
       "count": 11
+    },
+    {
+      "time": "2026-04-22 15:00",
+      "count": 2
     }
   ],
   "top_ips": [
@@ -4806,6 +4806,30 @@
     "curl": 1
   },
   "profiles": [
+    {
+      "ip": "50.116.54.82",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "66a46a51866d",
+      "bio_hash": "803f61ba",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 0,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-04-22T15:49:40.589192+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Unknown",
+      "infra_type": "Cloud Server",
+      "session_duration": 32,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC+9"
+    },
     {
       "ip": "69.164.215.59",
       "ssh_client": "Unknown",
@@ -5521,7 +5545,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "Unknown",
-      "infra_type": "Unknown",
+      "infra_type": "Hosting",
       "session_duration": 30,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
@@ -6003,7 +6027,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "Unknown",
-      "infra_type": "Unknown",
+      "infra_type": "Hosting",
       "session_duration": 31,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
@@ -8313,7 +8337,7 @@
       "automated": "YES",
       "tools": [],
       "isp": "Hathway IP over Cable Internet Access",
-      "infra_type": "Unknown",
+      "infra_type": "Hosting",
       "session_duration": 92,
       "kill_chain_stage": 1,
       "kill_chain_label": "Reconnaissance",
@@ -9251,7 +9275,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "Unknown",
-      "infra_type": "Hosting",
+      "infra_type": "Unknown",
       "session_duration": 31,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
@@ -9443,7 +9467,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "Unknown",
-      "infra_type": "Unknown",
+      "infra_type": "Hosting",
       "session_duration": 32,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
@@ -9595,30 +9619,6 @@
       "input_method": "Unknown",
       "origin_hint": "\ud83e\udd16 Automated",
       "tz_guess": "UTC+4"
-    },
-    {
-      "ip": "66.132.172.220",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "58dba5d85851",
-      "bio_hash": "e3d70119",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 1,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-04-14T20:21:25.356177+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Censys, Inc.",
-      "infra_type": "Hosting",
-      "session_duration": 103,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC+4"
     }
   ],
   "blocked_ips": [
@@ -9743,7 +9743,7 @@
       "attempts": 194
     }
   ],
-  "monitored_ips_count": 1367,
+  "monitored_ips_count": 1368,
   "monitored_ips": [
     {
       "ip": "14.29.200.186",
@@ -20300,6 +20300,20 @@
   ],
   "recent_events": [
     {
+      "timestamp": "2026-04-22T15:49:40.589192+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "50.116.54.82",
+      "message": "Telnet session ended: 50.116.54.82",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-22T15:49:08.584644+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "50.116.54.82",
+      "message": "New Telnet connection from 50.116.54.82",
+      "details": ""
+    },
+    {
       "timestamp": "2026-04-22T11:45:15.900057+05:30",
       "type": "TELNET_DISCONNECT",
       "ip": "69.164.215.59",
@@ -27284,20 +27298,6 @@
       "ip": "115.48.147.115",
       "message": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x54\\x47\\x4d\\x44\\x53\\x4a'",
       "details": "{\"command\": \">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>"
-    },
-    {
-      "timestamp": "2026-04-20T13:40:14.715321+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "115.48.147.115",
-      "message": "sh",
-      "details": "{\"command\": \"sh\"}"
-    },
-    {
-      "timestamp": "2026-04-20T13:40:14.624329+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "115.48.147.115",
-      "message": "shell",
-      "details": "{\"command\": \"shell\"}"
     }
   ],
   "top_isps": [
