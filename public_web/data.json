@@ -1,7 +1,7 @@
 {
-  "last_updated": "2026-04-25T18:35:47.183131+05:30",
-  "total_attacks": 26474,
-  "unique_ips": 1436,
+  "last_updated": "2026-04-25T19:46:33.949898+05:30",
+  "total_attacks": 26476,
+  "unique_ips": 1437,
   "top_user": "root",
   "top_pass": "3245gs5662d34",
   "event_distribution": {
@@ -11,8 +11,8 @@
     "FIREWALL": 1830,
     "THREAT_FEED": 1788,
     "DISCONNECT": 1761,
-    "TELNET_CONNECTION": 1749,
-    "TELNET_DISCONNECT": 1748
+    "TELNET_CONNECTION": 1750,
+    "TELNET_DISCONNECT": 1749
   },
   "top_countries": [
     {
@@ -4551,10 +4551,6 @@
   ],
   "attacks_over_time": [
     {
-      "time": "2026-04-24 09:00",
-      "count": 2
-    },
-    {
       "time": "2026-04-24 10:00",
       "count": 1
     },
@@ -4645,6 +4641,10 @@
     {
       "time": "2026-04-25 17:00",
       "count": 6
+    },
+    {
+      "time": "2026-04-25 18:00",
+      "count": 2
     }
   ],
   "top_ips": [
@@ -4806,6 +4806,30 @@
     "curl": 1
   },
   "profiles": [
+    {
+      "ip": "45.79.177.134",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "4bc433e8e454",
+      "bio_hash": "376445d4",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 0,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-04-25T18:38:42.919763+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Unknown",
+      "infra_type": "Unknown",
+      "session_duration": 31,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC+6"
+    },
     {
       "ip": "35.205.68.100",
       "ssh_client": "Unknown",
@@ -9595,30 +9619,6 @@
       "input_method": "Unknown",
       "origin_hint": "\ud83e\udd16 Automated",
       "tz_guess": "UTC-2"
-    },
-    {
-      "ip": "66.132.172.137",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "0cfde206f2d8",
-      "bio_hash": "87fb6c6e",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 1,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-04-18T02:21:04.559687+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Censys, Inc.",
-      "infra_type": "Hosting",
-      "session_duration": 86400,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC-6"
     }
   ],
   "blocked_ips": [
@@ -9743,7 +9743,7 @@
       "attempts": 195
     }
   ],
-  "monitored_ips_count": 1436,
+  "monitored_ips_count": 1437,
   "monitored_ips": [
     {
       "ip": "14.29.200.186",
@@ -20755,6 +20755,20 @@
   ],
   "recent_events": [
     {
+      "timestamp": "2026-04-25T18:38:42.919763+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "45.79.177.134",
+      "message": "Telnet session ended: 45.79.177.134",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-25T18:38:10.934132+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "45.79.177.134",
+      "message": "New Telnet connection from 45.79.177.134",
+      "details": ""
+    },
+    {
       "timestamp": "2026-04-25T17:07:25.292882+05:30",
       "type": "FTP_LOGIN",
       "ip": "35.205.68.100",
@@ -27739,20 +27753,6 @@
       "ip": "172.237.27.147",
       "message": "To: <sip:nm2@nm2>",
       "details": "{\"command\": \"To: <sip:nm2@nm2>\"}"
-    },
-    {
-      "timestamp": "2026-04-21T05:34:49.686684+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "172.237.27.147",
-      "message": "From: <sip:nm@nm>;tag=root",
-      "details": "{\"command\": \"From: <sip:nm@nm>;tag=root\"}"
-    },
-    {
-      "timestamp": "2026-04-21T05:34:49.598029+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "172.237.27.147",
-      "message": "Via: SIP/2.0/TCP nm;branch=foo",
-      "details": "{\"command\": \"Via: SIP/2.0/TCP nm;branch=foo\"}"
     }
   ],
   "top_isps": [
