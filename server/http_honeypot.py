@@ -59,7 +59,7 @@ input{width:100%;padding:10px;margin:8px 0;border:1px solid #ddd;border-radius:4
 button{width:100%;padding:12px;background:#3498db;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:1em}
 button:hover{background:#2980b9}
 .version{text-align:center;color:#999;font-size:.8em;margin-top:15px}</style></head>
-<body><div class="login"><h1>🔐 phpMyAdmin</h1>
+<body><div class="login"><h1>phpMyAdmin</h1>
 <form method="POST" action="/login">
 <input name="username" placeholder="Username" required>
 <input name="password" type="password" placeholder="Password" required>
