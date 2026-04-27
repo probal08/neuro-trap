@@ -496,6 +496,81 @@ def load_profiles():
             pass
     return profiles
 
+
+def compute_tools_from_events(df):
+    """Detect hacking tools directly from MongoDB events — works without profiles file."""
+    import re
+    tools = Counter()
+    if df.empty:
+        return tools
+
+    CMD_PATTERNS = {
+        'nmap': r'\bnmap\b', 'hydra': r'\bhydra\b', 'masscan': r'\bmasscan\b',
+        'sqlmap': r'\bsqlmap\b', 'wget': r'\bwget\b', 'base64': r'\bbase64\b',
+        'netcat/nc': r'\bnc\s', 'metasploit': r'\bmsfconsole\b|\bmsfvenom\b',
+        'curl': r'\bcurl\b', 'chmod +x': r'\bchmod\b.*\+x',
+    }
+
+    for _, row in df.iterrows():
+        details = row.get('details', {}) or {}
+        if isinstance(details, str):
+            try: details = json.loads(details)
+            except: details = {}
+        if not isinstance(details, dict): details = {}
+
+        etype = str(row.get('event_type', ''))
+
+        # SSH shell commands
+        cmd = str(details.get('command', ''))
+        if cmd and cmd != 'None':
+            for tool, pattern in CMD_PATTERNS.items():
+                if re.search(pattern, cmd, re.IGNORECASE):
+                    tools[tool] += 1
+
+        # SSH client fingerprints (AUTH_LOGIN, FINGERPRINT events)
+        ssh_c = str(details.get('ssh_client', '')).lower()
+        if ssh_c and ssh_c not in ('none', '', 'unknown'):
+            if 'libssh' in ssh_c: tools['libssh (Brute-forcer)'] += 1
+            if 'paramiko' in ssh_c: tools['Paramiko (Python SSH)'] += 1
+            if 'hydra' in ssh_c or 'thc' in ssh_c: tools['THC Hydra'] += 1
+            if 'ssh-2.0-go' in ssh_c or 'go-' in ssh_c: tools['Go SSH Client'] += 1
+            if 'nmap' in ssh_c: tools['Nmap'] += 1
+            if 'medusa' in ssh_c: tools['Medusa'] += 1
+            if 'ncrack' in ssh_c: tools['Ncrack'] += 1
+            if 'putty' in ssh_c: tools['PuTTY'] += 1
+
+        # FINGERPRINT event message field
+        msg = str(row.get('message', '')).lower()
+        if etype == 'FINGERPRINT':
+            if 'libssh' in msg: tools['libssh (Brute-forcer)'] += 1
+            if 'ssh-2.0-go' in msg: tools['Go SSH Client'] += 1
+            if 'paramiko' in msg: tools['Paramiko (Python SSH)'] += 1
+            if 'hydra' in msg or 'thc' in msg: tools['THC Hydra'] += 1
+            if 'ncrack' in msg: tools['Ncrack'] += 1
+            if 'medusa' in msg: tools['Medusa'] += 1
+            if 'dropbear' in msg: tools['Dropbear SSH'] += 1
+
+        # HTTP user agents (HTTP_SCAN events)
+        ua = str(details.get('user_agent', '')).lower()
+        if ua and ua not in ('none', '', 'unknown', '-'):
+            if 'masscan' in ua: tools['Masscan (Scanner)'] += 1
+            if 'zgrab' in ua: tools['ZGrab (Scanner)'] += 1
+            if 'sqlmap' in ua: tools['SQLMap'] += 1
+            if 'nmap' in ua: tools['Nmap Scripting Engine'] += 1
+            if 'nikto' in ua: tools['Nikto (Web Scanner)'] += 1
+            if 'nuclei' in ua: tools['Nuclei Scanner'] += 1
+            if 'python-requests' in ua or 'python/' in ua: tools['Python Scripts'] += 1
+            if 'curl' in ua: tools['curl (Web Probe)'] += 1
+            if 'censys' in ua: tools['Censys Internet Scanner'] += 1
+            if 'shodan' in ua: tools['Shodan Crawler'] += 1
+            if 'l9explore' in ua or 'l9tcpid' in ua: tools['l9s (LeakIX Scanner)'] += 1
+            if 'go-http' in ua or 'go/1.' in ua: tools['Go HTTP Client'] += 1
+            if 'dirbuster' in ua or 'gobuster' in ua: tools['DirBuster/GoBuster'] += 1
+            if 'hydra' in ua: tools['THC Hydra'] += 1
+            if 'palo alto' in ua: tools['Palo Alto Scanner'] += 1
+
+    return tools
+
 def get_stats(df):
     """Calculate key metrics"""
     if df.empty:
@@ -980,86 +1055,121 @@ if not df.empty:
         
         # --- Tools Detected ---
         st.subheader("🔧 DETECTED HACKING TOOLS")
+
+        # Primary: scan events directly from MongoDB
+        event_tools = compute_tools_from_events(df)
+
+        # Secondary: also check profiles file if it exists
+        profile_tools = Counter()
         if profiles:
             all_tools = []
             for p in profiles:
                 all_tools.extend(p.get('tools_detected', []))
-            if all_tools:
-                tool_counts = Counter(all_tools)
-                fig_tools = px.bar(
-                    x=list(tool_counts.keys()),
-                    y=list(tool_counts.values()),
-                    color=list(tool_counts.keys()),
-                    color_discrete_sequence=px.colors.sequential.Reds,
-                    labels={'x': 'Tool', 'y': 'Detections'}
-                )
-                neon_layout(fig_tools)
-                st.plotly_chart(fig_tools, use_container_width=True, theme=None)
-            else:
-                st.info("No hacking tools detected yet.")
+            profile_tools = Counter(all_tools)
+
+        # Merge both sources
+        merged_tools = event_tools + profile_tools
+
+        if merged_tools:
+            fig_tools = px.bar(
+                x=list(merged_tools.keys()),
+                y=list(merged_tools.values()),
+                color=list(merged_tools.keys()),
+                color_discrete_sequence=px.colors.sequential.Reds,
+                labels={'x': 'Tool / Scanner', 'y': 'Detections'}
+            )
+            neon_layout(fig_tools)
+            st.plotly_chart(fig_tools, use_container_width=True, theme=None)
+
+            st.markdown(f"**{len(merged_tools)} distinct hacking tools/scanners identified from {len(df):,} events.**")
         else:
-            st.info("Waiting for attacker sessions to detect tools...")
+            st.info("No hacking tools detected yet. Scanners will be identified automatically as they connect.")
 
     # =============================================
     # TAB 4: LIVE ATTACK REPLAY (Innovation 1)
     # =============================================
     with tab4:
         st.markdown("## 🔁 LIVE ATTACK REPLAY")
-        st.markdown("*Watch a hacker's session unfold command by command — like watching a movie of the break-in*")
-        
-        # Get all sessions (group by connection events)
-        command_events = df[df['event_type'] == 'COMMAND'].copy()
-        if not command_events.empty:
-            command_events = command_events.sort_values('timestamp')
-            
-            # Group by IP for session selection
-            session_ips = command_events['ip'].unique().tolist()
+        st.markdown("*Watch every attacker's session — SSH commands, FTP logins, HTTP scans, Telnet interactions*")
+
+        # Include ALL meaningful event types — not just COMMAND
+        REPLAY_TYPES = ['COMMAND', 'AUTH_LOGIN', 'AUTH_SUCCESS', 'HTTP_SCAN', 'HTTP_AUTH',
+                        'TELNET_LOGIN', 'TELNET_COMMAND', 'FTP_LOGIN', 'FTP_COMMAND']
+        replay_df = df[df['event_type'].isin(REPLAY_TYPES)].copy()
+
+        if not replay_df.empty:
+            replay_df = replay_df.sort_values('timestamp')
+            session_ips = replay_df['ip'].dropna().unique().tolist()
             selected_ip = st.selectbox("🎯 Select Attacker Session", session_ips)
-            
+
             if selected_ip:
-                session_cmds = command_events[command_events['ip'] == selected_ip].copy()
-                
-                st.markdown(f"**Session: `{selected_ip}`** | Commands: **{len(session_cmds)}** | Duration: **{(session_cmds['timestamp'].max() - session_cmds['timestamp'].min()).total_seconds():.0f}s**")
-                
-                # Replay Speed Control
-                speed = st.slider("⏩ Replay Speed", 1, 10, 5, help="Lines to show")
-                
-                # Build terminal replay
+                session_events = replay_df[replay_df['ip'] == selected_ip].copy()
+                duration_s = (session_events['timestamp'].max() - session_events['timestamp'].min()).total_seconds()
+
+                col_s1, col_s2, col_s3 = st.columns(3)
+                col_s1.metric("IP Address", selected_ip)
+                col_s2.metric("Total Events", len(session_events))
+                col_s3.metric("Session Duration", f"{duration_s:.0f}s")
+
+                speed = st.slider("⏩ Events to Display", 10, 200, 50)
+
                 replay_lines = []
                 replay_lines.append(f'<span style="color:#ffcc00">═══ SESSION START: {selected_ip} ═══</span>')
-                replay_lines.append(f'<span style="color:#666">Welcome to Ubuntu 22.04.3 LTS</span>')
+                replay_lines.append(f'<span style="color:#666">Neuro-Trap Honeypot — Connection Established</span>')
                 replay_lines.append('')
-                
-                for _, row in session_cmds.head(speed * 10).iterrows():
-                    ts = row['timestamp'].strftime('%H:%M:%S')
-                    details = row.get('details', {})
-                    cmd = details.get('command', row.get('message', '?')) if isinstance(details, dict) else str(details)
-                    
-                    replay_lines.append(f'<span style="color:#666">[{ts}]</span> <span style="color:#ff003c">root@production-server:~#</span> <span style="color:#00ff41">{cmd}</span>')
-                
+
+                for _, row in session_events.head(speed).iterrows():
+                    ts = row['timestamp'].strftime('%H:%M:%S') if pd.notna(row['timestamp']) else '??:??:??'
+                    etype = row.get('event_type', 'UNKNOWN')
+                    details = row.get('details', {}) or {}
+                    if isinstance(details, str):
+                        try: details = json.loads(details)
+                        except: details = {}
+
+                    if etype == 'COMMAND':
+                        cmd = details.get('command', row.get('message', '?')) if isinstance(details, dict) else str(details)
+                        replay_lines.append(f'<span style="color:#666">[{ts}]</span> <span style="color:#ff003c">root@honeypot:~#</span> <span style="color:#00ff41">{cmd}</span>')
+                    elif etype in ('AUTH_LOGIN', 'AUTH_SUCCESS', 'TELNET_LOGIN', 'FTP_LOGIN'):
+                        un = details.get('username', '?') if isinstance(details, dict) else '?'
+                        pw = details.get('password', '?') if isinstance(details, dict) else '?'
+                        color = '#00ff41' if 'SUCCESS' in etype else '#ffcc00'
+                        label = '✅ LOGIN SUCCESS' if 'SUCCESS' in etype else '⚡ LOGIN ATTEMPT'
+                        replay_lines.append(f'<span style="color:#666">[{ts}]</span> <span style="color:{color}">{label}</span> <span style="color:#ffffff">user={un} pass={pw}</span>')
+                    elif etype == 'HTTP_SCAN':
+                        method = details.get('method', 'GET') if isinstance(details, dict) else 'GET'
+                        path = details.get('path', '/') if isinstance(details, dict) else '/'
+                        ua = (details.get('user_agent', '') if isinstance(details, dict) else '')[:40]
+                        replay_lines.append(f'<span style="color:#666">[{ts}]</span> <span style="color:#a855f7">🌐 HTTP {method}</span> <span style="color:#00ffff">{path}</span> <span style="color:#555">{ua}</span>')
+                    elif etype in ('TELNET_COMMAND', 'FTP_COMMAND'):
+                        cmd = details.get('command', '?') if isinstance(details, dict) else '?'
+                        proto = '📡 TELNET' if 'TELNET' in etype else '📂 FTP'
+                        replay_lines.append(f'<span style="color:#666">[{ts}]</span> <span style="color:#ff6600">{proto}</span> <span style="color:#00ff41">{cmd}</span>')
+
                 replay_lines.append('')
                 replay_lines.append(f'<span style="color:#ffcc00">═══ SESSION END ═══</span>')
-                
+
                 replay_html = '<br>'.join(replay_lines)
                 st.markdown(f'<div class="replay-terminal">{replay_html}</div>', unsafe_allow_html=True)
-                
-                # Command frequency chart
-                st.subheader("📊 Command Frequency Analysis")
-                cmds = session_cmds['details'].apply(
-                    lambda x: x.get('command', '?').split()[0] if isinstance(x, dict) and x.get('command') else '?'
-                )
-                cmd_freq = cmds.value_counts().head(10)
-                fig_cmds = px.bar(
-                    x=cmd_freq.index, 
-                    y=cmd_freq.values,
-                    color=cmd_freq.index,
-                    color_discrete_sequence=px.colors.sequential.Viridis,
-                    labels={'x': 'Command', 'y': 'Count'}
-                )
-                neon_layout(fig_cmds)
-                st.plotly_chart(fig_cmds, use_container_width=True, theme=None)
+
+                # Command frequency chart (COMMAND events only)
+                cmd_only = session_events[session_events['event_type'] == 'COMMAND']
+                if not cmd_only.empty:
+                    st.subheader("📊 Command Frequency Analysis")
+                    cmds = cmd_only['details'].apply(
+                        lambda x: x.get('command', '?').split()[0] if isinstance(x, dict) and x.get('command') else '?'
+                    )
+                    cmd_freq = cmds.value_counts().head(10)
+                    fig_cmds = px.bar(
+                        x=cmd_freq.index,
+                        y=cmd_freq.values,
+                        color=cmd_freq.index,
+                        color_discrete_sequence=px.colors.sequential.Viridis,
+                        labels={'x': 'Command', 'y': 'Count'}
+                    )
+                    neon_layout(fig_cmds)
+                    st.plotly_chart(fig_cmds, use_container_width=True, theme=None)
         else:
-            st.warning("No command data yet. Connect to the honeypot and execute commands to generate replay data.")
+            st.warning("No session data yet. Connect to the honeypot to generate replay data.")
 
 else:
     st.markdown("""

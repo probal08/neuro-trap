@@ -4,6 +4,7 @@ Phase 2: Mathematical & Algorithmic Threat Analytics
 Implements Modules 7, 8, 9, 10 without heavy ML libraries.
 """
 import math
+import re
 from collections import defaultdict, Counter
 import pandas as pd
 from datetime import datetime
@@ -11,6 +12,20 @@ from datetime import datetime
 # --- MODULE 8: Command Sequence Similarity Engine (Cosine Similarity) ---
 # Hardcoded profile of a known malicious script sequence
 MALICIOUS_PROFILE = ["wget", "chmod", "sh", "./", "curl", "python", "base64", "nc"]
+
+# Filter out shell prompt artifacts that get logged alongside real commands
+def is_valid_cmd(cmd):
+    """Return True only for real shell commands, filtering prompt artifacts."""
+    if not cmd or len(cmd) > 50 or len(cmd) < 2:
+        return False
+    # Shell prompts contain @ and : (e.g. root@server:/path#)
+    if '@' in cmd and (':' in cmd or '#' in cmd):
+        return False
+    if cmd.startswith(('root@', 'bash:', '[', 'Last login', 'Welcome', 'production-server')):
+        return False
+    if cmd in ('unknown', '?', 'This', 'It'):
+        return False
+    return True
 
 def get_cosine_similarity(vec1, vec2):
     """Calculates Cosine Similarity mathematically between two frequency dictionaries."""
@@ -58,6 +73,7 @@ def analyze_threats(df):
             return "unknown"
             
         cmds = [extract_cmd(x) for x in group['details']]
+        cmds = [c for c in cmds if is_valid_cmd(c)]  # Filter prompt artifacts
         cmd_count = len(cmds)
         
         # --- MODULE 7: Time-Based Anomaly Detection (Bot vs Human) ---
@@ -126,6 +142,7 @@ def build_markov_chain(df):
                 cmds.append(str(x['command']).split()[0])
             elif isinstance(x, str):
                 cmds.append(x.split()[0])
+        cmds = [c for c in cmds if is_valid_cmd(c)]  # Filter prompt artifacts
                 
         # Build pairs (A -> B)
         for i in range(len(cmds) - 1):
