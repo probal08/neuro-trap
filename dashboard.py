@@ -585,6 +585,7 @@ def generate_fake_geo(ip):
     
     return pd.Series([lat, lon, country])
 
+@st.cache_data(ttl=30, show_spinner=False)
 def check_health():
     """Innovation 3: Check health of all honeypot components"""
     status = {}
@@ -874,7 +875,20 @@ if not df.empty:
         st.markdown("## MATHEMATICAL THREAT PROFILING")
         st.markdown("Algorithms active: Time-Based Analytics, Cosine Similarity, Standard Deviation, Markov Chains.")
         
-        analytics_df = analyze_threats(df)
+        @st.cache_data(ttl=300, show_spinner="Running AI threat analysis...")
+        def cached_analyze(data_json):
+            import io
+            _df = pd.read_json(io.StringIO(data_json))
+            return analyze_threats(_df)
+
+        @st.cache_data(ttl=300, show_spinner="Building Markov Chain...")
+        def cached_markov(data_json):
+            import io
+            _df = pd.read_json(io.StringIO(data_json))
+            return build_markov_chain(_df)
+
+        data_json = df.to_json()
+        analytics_df = cached_analyze(data_json)
         
         if not analytics_df.empty:
             st.subheader("1. BEHAVIORAL PROFILING & MALWARE MATCHING")
@@ -886,7 +900,7 @@ if not df.empty:
             st.subheader("2. PREDICTIVE ATTACKER MODELING (MARKOV CHAINS)")
             st.markdown("Uses probabilistic matrices to predict the adversary's next move based on global historical data.")
             
-            predictions_df = build_markov_chain(df)
+            predictions_df = cached_markov(data_json)
             if not predictions_df.empty:
                 st.dataframe(predictions_df, use_container_width=True, hide_index=True)
             else:
