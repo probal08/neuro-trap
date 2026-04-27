@@ -475,8 +475,8 @@ def build_data_json(events):
         reverse=True
     )
     
-    # Export up to 50 replay sessions for the frontend (paginated)
-    for ip, cmds in sorted_sessions[:50]:
+    # Export up to 500 replay sessions for the frontend
+    for ip, cmds in sorted_sessions[:500]:
         if cmds:
             # Limit to last 100 actions per session to keep JSON size reasonable
             replay_sessions.append({
