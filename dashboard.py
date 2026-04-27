@@ -481,8 +481,23 @@ def load_data():
 
 @st.cache_data(ttl=300, show_spinner=False)
 def load_precomputed_feed():
-    """Read the CI/CD pre-computed data.json (same data as neurotrap.tech).
-    This file is updated every hour by GitHub Actions and is always ready."""
+    """Fetch the CI/CD pre-computed data.json from neurotrap.tech (GitHub Pages).
+    This is the SAME data that powers the public dashboard.
+    Updated every hour by GitHub Actions. Fetched over HTTP since
+    the Docker container does not mount public_web/."""
+    import urllib.request
+    FEED_URLS = [
+        'https://neurotrap.tech/data.json',
+        'https://probal08.github.io/neuro-trap/data.json',
+    ]
+    for url in FEED_URLS:
+        try:
+            req = urllib.request.Request(url, headers={'User-Agent': 'Neuro-Trap-Dashboard/2.0'})
+            resp = urllib.request.urlopen(req, timeout=10)
+            return json.loads(resp.read().decode('utf-8'))
+        except Exception:
+            continue
+    # Fallback: try local file (works outside Docker)
     feed_path = os.path.join(os.path.dirname(__file__), 'public_web', 'data.json')
     if os.path.exists(feed_path):
         try:
@@ -961,8 +976,10 @@ if not df.empty:
         st.markdown("## MATHEMATICAL THREAT PROFILING")
         st.markdown("Algorithms active: Time-Based Analytics, Cosine Similarity, Standard Deviation, Markov Chains.")
 
-        # Run analytics ONLY on COMMAND events (small subset ~50-200 rows, not 19k)
-        # This makes computation instant regardless of total event count
+        # Load precomputed feed for enrichment
+        feed = load_precomputed_feed()
+
+        # --- SECTION 1: Live Behavioral Profiling ---
         _fp = f"{len(df)}_{str(df['timestamp'].max()) if not df.empty else ''}"
         if st.session_state.get('analytics_fp') != _fp:
             cmd_df = df[df['event_type'] == 'COMMAND'].copy()
@@ -995,6 +1012,68 @@ if not df.empty:
                 st.info("Gathering more command sequence data to build the Markov Chain...")
         else:
             st.warning("Insufficient COMMAND data to generate mathematical profiles. Waiting for an adversary to interact with the shell...")
+
+        st.divider()
+
+        # --- SECTION 2: MITRE ATT&CK Kill Chain (from precomputed feed) ---
+        kill_chain = feed.get('kill_chain', {})
+        if kill_chain:
+            st.subheader("3. MITRE ATT&CK KILL CHAIN MAPPING")
+            st.markdown("Maps every attacker command to the MITRE ATT&CK framework stages — showing how far adversaries progress before being trapped.")
+            fig_kc = px.bar(
+                x=list(kill_chain.keys()),
+                y=list(kill_chain.values()),
+                color=list(kill_chain.keys()),
+                color_discrete_sequence=['#00ff41', '#00ffff', '#a855f7', '#ff6600', '#ff003c', '#ffcc00', '#ff0066'],
+                labels={'x': 'Kill Chain Stage', 'y': 'Commands Mapped'}
+            )
+            neon_layout(fig_kc)
+            st.plotly_chart(fig_kc, use_container_width=True, theme=None)
+
+            st.divider()
+
+        # --- SECTION 3: Threat Distribution (from precomputed feed) ---
+        threat_dist = feed.get('threat_distribution', {})
+        if threat_dist:
+            st.subheader("4. THREAT LEVEL DISTRIBUTION")
+            st.markdown("AI-computed threat classification across all profiled attackers.")
+            col_td1, col_td2 = st.columns([1, 1])
+            with col_td1:
+                fig_td = px.pie(
+                    values=list(threat_dist.values()),
+                    names=list(threat_dist.keys()),
+                    hole=0.4,
+                    color_discrete_sequence=['#00ff41', '#ffcc00', '#ff6600', '#ff003c']
+                )
+                neon_layout(fig_td)
+                st.plotly_chart(fig_td, use_container_width=True, theme=None)
+            with col_td2:
+                for level, count in threat_dist.items():
+                    color = {'LOW': '🟢', 'MEDIUM': '🟡', 'HIGH': '🟠', 'CRITICAL': '🔴'}.get(level, '⚪')
+                    st.metric(f"{color} {level}", count)
+
+            st.divider()
+
+        # --- SECTION 4: Top Attacker Profiles (from precomputed feed) ---
+        feed_profiles = feed.get('profiles', [])
+        if feed_profiles:
+            st.subheader("5. AI-ENRICHED ATTACKER PROFILES")
+            st.markdown(f"**{len(feed_profiles)}** adversaries profiled with DNA hashing, kill chain staging, input method analysis, and timezone inference.")
+            profile_rows = []
+            for p in feed_profiles[:30]:  # Show top 30
+                profile_rows.append({
+                    "IP": p.get('ip', '?'),
+                    "Threat": p.get('threat', '?'),
+                    "Commands": p.get('commands', 0),
+                    "Logins": p.get('logins', 0),
+                    "Kill Chain": p.get('kill_chain_label', 'None'),
+                    "Input Method": p.get('input_method', '?'),
+                    "Origin": p.get('origin_hint', '?'),
+                    "ISP": p.get('isp', '?')[:30],
+                    "Timezone": p.get('tz_guess', '?'),
+                    "DNA": p.get('dna', '?')[:12] + '...',
+                })
+            st.dataframe(pd.DataFrame(profile_rows), use_container_width=True, hide_index=True)
 
     # =============================================
     # TAB 3: CYBER IMMUNE SYSTEM (Phase 5)
