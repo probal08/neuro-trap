@@ -705,12 +705,12 @@ def check_health():
     except Exception:
         status['Cloud Database (MongoDB)'] = ('🔴', 'ERROR')
 
-    # SSH Server (try Docker service name first, then localhost)
+    # SSH Server (try Docker service name first, then localhost, then Docker gateways)
     ssh_online = False
-    for host in ['honeypot', '127.0.0.1']:
+    for host in ['honeypot', '127.0.0.1', '172.17.0.1', '172.18.0.1', '10.0.0.4', '20.255.59.217']:
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.settimeout(2)
+            s.settimeout(1.5)
             s.connect((host, 2222))
             s.close()
             ssh_online = True
