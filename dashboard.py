@@ -432,6 +432,7 @@ def neon_layout(fig, showlegend=False):
     )
     return fig
 
+@st.cache_data(ttl=60, show_spinner=False)
 def load_data():
     """Load JSON logs OR MongoDB events into a Pandas DataFrame"""
     # Phase 1: Try MongoDB first
@@ -1056,8 +1057,15 @@ if not df.empty:
         # --- Tools Detected ---
         st.subheader("🔧 DETECTED HACKING TOOLS")
 
-        # Primary: scan events directly from MongoDB
-        event_tools = compute_tools_from_events(df)
+        # Cached wrapper — prevents iterrows() from freezing the app on every click
+        @st.cache_data(ttl=300, show_spinner="Scanning events for hacking tools...")
+        def cached_tools(data_json):
+            import io
+            _df = pd.read_json(io.StringIO(data_json))
+            return dict(compute_tools_from_events(_df))
+
+        data_json_t3 = df.to_json()
+        event_tools = Counter(cached_tools(data_json_t3))
 
         # Secondary: also check profiles file if it exists
         profile_tools = Counter()
@@ -1080,7 +1088,6 @@ if not df.empty:
             )
             neon_layout(fig_tools)
             st.plotly_chart(fig_tools, use_container_width=True, theme=None)
-
             st.markdown(f"**{len(merged_tools)} distinct hacking tools/scanners identified from {len(df):,} events.**")
         else:
             st.info("No hacking tools detected yet. Scanners will be identified automatically as they connect.")
