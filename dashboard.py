@@ -445,7 +445,6 @@ def load_data():
         
         events_col = mongo_client.get_events_col()
         if events_col is not None:
-            # Get all events, drop the _id field which pandas doesn't need
             mongo_data = list(events_col.find({}, {"_id": 0}))
             if mongo_data:
                 df = pd.DataFrame(mongo_data)
@@ -454,8 +453,8 @@ def load_data():
                     errors='coerce'
                 )
                 return df
-    except Exception as e:
-        st.warning(f"MongoDB connection failed: {e}. Falling back to local JSON logs.")
+    except Exception:
+        pass  # Fall through to local file
 
     data = []
     if os.path.exists(LOG_FILE):
@@ -465,12 +464,9 @@ def load_data():
                     try:
                         data.append(json.loads(line))
                     except json.JSONDecodeError:
-                        continue 
-        except Exception as e:
-            st.error(f"Error reading log file: {e}")
-    else:
-        st.warning(f"Log file not found at {LOG_FILE}. Waiting for attacks...")
-        return pd.DataFrame()
+                        continue
+        except Exception:
+            pass
 
     if not data:
         return pd.DataFrame()
@@ -481,6 +477,20 @@ def load_data():
         errors='coerce'
     )
     return df
+
+
+@st.cache_data(ttl=300, show_spinner=False)
+def load_precomputed_feed():
+    """Read the CI/CD pre-computed data.json (same data as neurotrap.tech).
+    This file is updated every hour by GitHub Actions and is always ready."""
+    feed_path = os.path.join(os.path.dirname(__file__), 'public_web', 'data.json')
+    if os.path.exists(feed_path):
+        try:
+            with open(feed_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return {}
 
 def load_profiles():
     """Load attacker intelligence profiles"""
@@ -951,13 +961,20 @@ if not df.empty:
         st.markdown("## MATHEMATICAL THREAT PROFILING")
         st.markdown("Algorithms active: Time-Based Analytics, Cosine Similarity, Standard Deviation, Markov Chains.")
 
-        # Use session_state to cache results — avoids slow df.to_json() on every render
+        # Run analytics ONLY on COMMAND events (small subset ~50-200 rows, not 19k)
+        # This makes computation instant regardless of total event count
         _fp = f"{len(df)}_{str(df['timestamp'].max()) if not df.empty else ''}"
         if st.session_state.get('analytics_fp') != _fp:
-            with st.spinner("Running threat analysis..."):
+            cmd_df = df[df['event_type'] == 'COMMAND'].copy()
+            if not cmd_df.empty:
+                with st.spinner("Computing threat analytics..."):
+                    st.session_state['analytics_fp'] = _fp
+                    st.session_state['analytics_df'] = analyze_threats(cmd_df)
+                    st.session_state['markov_df'] = build_markov_chain(cmd_df)
+            else:
                 st.session_state['analytics_fp'] = _fp
-                st.session_state['analytics_df'] = analyze_threats(df)
-                st.session_state['markov_df'] = build_markov_chain(df)
+                st.session_state['analytics_df'] = pd.DataFrame()
+                st.session_state['markov_df'] = pd.DataFrame()
 
         analytics_df = st.session_state.get('analytics_df', pd.DataFrame())
         predictions_df = st.session_state.get('markov_df', pd.DataFrame())
@@ -1052,15 +1069,11 @@ if not df.empty:
         # --- Tools Detected ---
         st.subheader("🔧 DETECTED HACKING TOOLS")
 
-        # session_state cache — avoids slow df.to_json() on every render
-        _fp2 = f"{len(df)}_tools"
-        if st.session_state.get('tools_fp') != _fp2:
-            with st.spinner("Scanning events for hacking tools..."):
-                st.session_state['tools_fp'] = _fp2
-                st.session_state['tools_data'] = dict(compute_tools_from_events(df))
-        event_tools = Counter(st.session_state.get('tools_data', {}))
+        # PRIMARY: Read from pre-computed data.json (same as neurotrap.tech, instant read)
+        feed = load_precomputed_feed()
+        precomputed_tools = feed.get('tools_detected', {})
 
-        # Secondary: also check profiles file if it exists
+        # SECONDARY: merge with profiles file if it exists
         profile_tools = Counter()
         if profiles:
             all_tools = []
@@ -1068,22 +1081,23 @@ if not df.empty:
                 all_tools.extend(p.get('tools_detected', []))
             profile_tools = Counter(all_tools)
 
-        # Merge both sources
-        merged_tools = event_tools + profile_tools
+        merged_tools = Counter(precomputed_tools) + profile_tools
 
         if merged_tools:
+            # Sort by count descending
+            sorted_tools = dict(sorted(merged_tools.items(), key=lambda x: x[1], reverse=True))
             fig_tools = px.bar(
-                x=list(merged_tools.keys()),
-                y=list(merged_tools.values()),
-                color=list(merged_tools.keys()),
+                x=list(sorted_tools.keys()),
+                y=list(sorted_tools.values()),
+                color=list(sorted_tools.keys()),
                 color_discrete_sequence=px.colors.sequential.Reds,
                 labels={'x': 'Tool / Scanner', 'y': 'Detections'}
             )
             neon_layout(fig_tools)
             st.plotly_chart(fig_tools, use_container_width=True, theme=None)
-            st.markdown(f"**{len(merged_tools)} distinct hacking tools/scanners identified from {len(df):,} events.**")
+            st.markdown(f"**{len(merged_tools)} distinct hacking tools/scanners identified from {feed.get('total_attacks', len(df)):,} total events.**")
         else:
-            st.info("No hacking tools detected yet. Scanners will be identified automatically as they connect.")
+            st.info("Pre-computed feed not available yet. Run `git pull` on the Azure VM and wait for the next GitHub Actions run, or connect to the honeypot to generate live data.")
 
     # =============================================
     # TAB 4: LIVE ATTACK REPLAY (Innovation 1)
