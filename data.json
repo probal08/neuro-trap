@@ -1,7 +1,7 @@
 {
-  "last_updated": "2026-04-27T22:39:15.647836+05:30",
-  "total_attacks": 31505,
-  "unique_ips": 1809,
+  "last_updated": "2026-04-27T23:23:15.823611+05:30",
+  "total_attacks": 31507,
+  "unique_ips": 1810,
   "top_user": "root",
   "top_pass": "3245gs5662d34",
   "event_distribution": {
@@ -12,7 +12,7 @@
     "THREAT_FEED": 2339,
     "DISCONNECT": 2312,
     "REPORT": 2246,
-    "TELNET_CONNECTION": 2007
+    "TELNET_CONNECTION": 2008
   },
   "top_countries": [
     {
@@ -4551,10 +4551,6 @@
   ],
   "attacks_over_time": [
     {
-      "time": "2026-04-26 22:00",
-      "count": 93
-    },
-    {
       "time": "2026-04-26 23:00",
       "count": 182
     },
@@ -4645,6 +4641,10 @@
     {
       "time": "2026-04-27 21:00",
       "count": 57
+    },
+    {
+      "time": "2026-04-27 22:00",
+      "count": 2
     }
   ],
   "top_ips": [
@@ -4786,8 +4786,8 @@
     }
   ],
   "threat_distribution": {
-    "MEDIUM": 3,
     "LOW": 196,
+    "MEDIUM": 3,
     "HIGH": 1
   },
   "tools_detected": {
@@ -4805,6 +4805,30 @@
     "curl": 2
   },
   "profiles": [
+    {
+      "ip": "45.79.167.23",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "c71e63c77caa",
+      "bio_hash": "0199a3ce",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 0,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-04-27T22:38:24.964581+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Unknown",
+      "infra_type": "Cloud Server",
+      "session_duration": 31,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC+2"
+    },
     {
       "ip": "47.245.138.151",
       "ssh_client": "Unknown",
@@ -9676,30 +9700,6 @@
       "input_method": "Manual Typing",
       "origin_hint": "\ud83e\udd16 Automated",
       "tz_guess": "UTC-7"
-    },
-    {
-      "ip": "43.157.174.69",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "97ba7fed1783",
-      "bio_hash": "404a3a89",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 0,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-04-27T07:02:48.637578+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Unknown",
-      "infra_type": "Unknown",
-      "session_duration": 0,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC-7"
     }
   ],
   "blocked_ips": [
@@ -9824,7 +9824,7 @@
       "attempts": 208
     }
   ],
-  "monitored_ips_count": 1809,
+  "monitored_ips_count": 1810,
   "monitored_ips": [
     {
       "ip": "14.29.200.186",
@@ -10827,8 +10827,8 @@
       ],
       "total_actions": 6,
       "event_types": [
-        "HTTP_SCAN",
-        "AUTH_LOGIN"
+        "AUTH_LOGIN",
+        "HTTP_SCAN"
       ]
     },
     {
@@ -33462,6 +33462,20 @@
   ],
   "recent_events": [
     {
+      "timestamp": "2026-04-27T22:38:24.964581+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "45.79.167.23",
+      "message": "Telnet session ended: 45.79.167.23",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-27T22:37:53.127863+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "45.79.167.23",
+      "message": "New Telnet connection from 45.79.167.23",
+      "details": ""
+    },
+    {
       "timestamp": "2026-04-27T21:57:49.199826+05:30",
       "type": "TELNET_DISCONNECT",
       "ip": "47.245.138.151",
@@ -40446,20 +40460,6 @@
       "ip": "85.62.117.67",
       "message": "HASSH: 4ddeb94c649240c02434d35ffdbc222d | Client: SSH-2.0-libssh_0.12.0",
       "details": "{\"hassh\": \"4ddeb94c649240c02434d35ffdbc222d\", \"ssh_version\": \"SSH-2.0-libssh_0.12.0\", \"hassh_raw\": \"curve25519-sha256@li"
-    },
-    {
-      "timestamp": "2026-04-27T14:25:42.792095+05:30",
-      "type": "AUTH_SUCCESS",
-      "ip": "85.62.117.67",
-      "message": "User root authenticated",
-      "details": "{\"username\": \"root\"}"
-    },
-    {
-      "timestamp": "2026-04-27T14:25:41.626026+05:30",
-      "type": "AUTH_LOGIN",
-      "ip": "85.62.117.67",
-      "message": "Login attempt: root:pa55sw0rd",
-      "details": "{\"username\": \"root\", \"password\": \"pa55sw0rd\"}"
     }
   ],
   "top_isps": [
