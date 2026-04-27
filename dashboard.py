@@ -950,33 +950,28 @@ if not df.empty:
     with tab2:
         st.markdown("## MATHEMATICAL THREAT PROFILING")
         st.markdown("Algorithms active: Time-Based Analytics, Cosine Similarity, Standard Deviation, Markov Chains.")
-        
-        @st.cache_data(ttl=300, show_spinner="Running AI threat analysis...")
-        def cached_analyze(data_json):
-            import io
-            _df = pd.read_json(io.StringIO(data_json))
-            return analyze_threats(_df)
 
-        @st.cache_data(ttl=300, show_spinner="Building Markov Chain...")
-        def cached_markov(data_json):
-            import io
-            _df = pd.read_json(io.StringIO(data_json))
-            return build_markov_chain(_df)
+        # Use session_state to cache results — avoids slow df.to_json() on every render
+        _fp = f"{len(df)}_{str(df['timestamp'].max()) if not df.empty else ''}"
+        if st.session_state.get('analytics_fp') != _fp:
+            with st.spinner("Running threat analysis..."):
+                st.session_state['analytics_fp'] = _fp
+                st.session_state['analytics_df'] = analyze_threats(df)
+                st.session_state['markov_df'] = build_markov_chain(df)
 
-        data_json = df.to_json()
-        analytics_df = cached_analyze(data_json)
-        
+        analytics_df = st.session_state.get('analytics_df', pd.DataFrame())
+        predictions_df = st.session_state.get('markov_df', pd.DataFrame())
+
         if not analytics_df.empty:
             st.subheader("1. BEHAVIORAL PROFILING & MALWARE MATCHING")
             st.markdown("Identifies Automated Botnets vs Human Adversaries and mathematically matches commands to known payload vectors.")
             st.dataframe(analytics_df, use_container_width=True, hide_index=True)
-            
+
             st.divider()
-            
+
             st.subheader("2. PREDICTIVE ATTACKER MODELING (MARKOV CHAINS)")
             st.markdown("Uses probabilistic matrices to predict the adversary's next move based on global historical data.")
-            
-            predictions_df = cached_markov(data_json)
+
             if not predictions_df.empty:
                 st.dataframe(predictions_df, use_container_width=True, hide_index=True)
             else:
@@ -1057,15 +1052,13 @@ if not df.empty:
         # --- Tools Detected ---
         st.subheader("🔧 DETECTED HACKING TOOLS")
 
-        # Cached wrapper — prevents iterrows() from freezing the app on every click
-        @st.cache_data(ttl=300, show_spinner="Scanning events for hacking tools...")
-        def cached_tools(data_json):
-            import io
-            _df = pd.read_json(io.StringIO(data_json))
-            return dict(compute_tools_from_events(_df))
-
-        data_json_t3 = df.to_json()
-        event_tools = Counter(cached_tools(data_json_t3))
+        # session_state cache — avoids slow df.to_json() on every render
+        _fp2 = f"{len(df)}_tools"
+        if st.session_state.get('tools_fp') != _fp2:
+            with st.spinner("Scanning events for hacking tools..."):
+                st.session_state['tools_fp'] = _fp2
+                st.session_state['tools_data'] = dict(compute_tools_from_events(df))
+        event_tools = Counter(st.session_state.get('tools_data', {}))
 
         # Secondary: also check profiles file if it exists
         profile_tools = Counter()
