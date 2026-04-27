@@ -1,23 +1,23 @@
 {
-  "last_updated": "2026-04-27T22:00:19.522241+05:30",
-  "total_attacks": 31491,
-  "unique_ips": 1808,
+  "last_updated": "2026-04-27T22:24:29.115684+05:30",
+  "total_attacks": 31505,
+  "unique_ips": 1809,
   "top_user": "root",
   "top_pass": "3245gs5662d34",
   "event_distribution": {
-    "TELNET_COMMAND": 6096,
+    "TELNET_COMMAND": 6102,
     "CONNECTION": 2517,
     "ERROR": 2443,
     "FIREWALL": 2381,
     "THREAT_FEED": 2339,
     "DISCONNECT": 2312,
     "REPORT": 2246,
-    "TELNET_CONNECTION": 2004
+    "TELNET_CONNECTION": 2007
   },
   "top_countries": [
     {
       "country": "China",
-      "count": 6104
+      "count": 6092
     },
     {
       "country": "Pakistan",
@@ -52,8 +52,8 @@
       "count": 672
     },
     {
-      "country": "France",
-      "count": 606
+      "country": "Germany",
+      "count": 617
     }
   ],
   "globe_points": [
@@ -4252,6 +4252,15 @@
       "size": 1.2
     },
     {
+      "lat": 50.1169,
+      "lng": 8.6837,
+      "country": "Germany",
+      "city": "Frankfurt am Main",
+      "ip": "47.245.138.151",
+      "count": 14,
+      "size": 1.2
+    },
+    {
       "lat": 22.3193,
       "lng": 114.169,
       "country": "Hong Kong",
@@ -4538,15 +4547,6 @@
       "ip": "198.235.24.22",
       "count": 12,
       "size": 1.2
-    },
-    {
-      "lat": 39.911,
-      "lng": 116.395,
-      "country": "China",
-      "city": "Beijing",
-      "ip": "101.200.49.232",
-      "count": 12,
-      "size": 1.2
     }
   ],
   "attacks_over_time": [
@@ -4644,7 +4644,7 @@
     },
     {
       "time": "2026-04-27 21:00",
-      "count": 43
+      "count": 57
     }
   ],
   "top_ips": [
@@ -4786,8 +4786,8 @@
     }
   ],
   "threat_distribution": {
-    "LOW": 197,
-    "MEDIUM": 2,
+    "MEDIUM": 3,
+    "LOW": 196,
     "HIGH": 1
   },
   "tools_detected": {
@@ -4802,9 +4802,35 @@
     "curl (Web Probe)": 12,
     "Academic Research Scanner": 4,
     "Python Scripts": 2,
-    "curl": 1
+    "curl": 2
   },
   "profiles": [
+    {
+      "ip": "47.245.138.151",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "bb1ff65abe93",
+      "bio_hash": "cfa3d0e0",
+      "classification": "Scanner",
+      "commands": 6,
+      "logins": 2,
+      "dangerous_cmds": 1,
+      "last_seen": "2026-04-27T21:57:49.199826+05:30",
+      "threat": "MEDIUM",
+      "automated": "YES",
+      "tools": [
+        "curl"
+      ],
+      "isp": "Alibaba (US) Technology Co., Ltd.",
+      "infra_type": "Unknown",
+      "session_duration": 29,
+      "kill_chain_stage": 7,
+      "kill_chain_label": "Exfiltration",
+      "paste_ratio": 80,
+      "input_method": "Pasted Script",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC+3"
+    },
     {
       "ip": "176.65.139.254",
       "ssh_client": "Unknown",
@@ -9068,7 +9094,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "Unknown",
-      "infra_type": "Unknown",
+      "infra_type": "Hosting",
       "session_duration": 31,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
@@ -9674,30 +9700,6 @@
       "input_method": "Unknown",
       "origin_hint": "\ud83e\udd16 Automated",
       "tz_guess": "UTC-7"
-    },
-    {
-      "ip": "180.76.52.146",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "e80d64e98e8a",
-      "bio_hash": "cbcc6b43",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 1,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-04-27T06:57:20.969842+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Unknown",
-      "infra_type": "Unknown",
-      "session_duration": 6,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC-6"
     }
   ],
   "blocked_ips": [
@@ -9822,7 +9824,7 @@
       "attempts": 208
     }
   ],
-  "monitored_ips_count": 1808,
+  "monitored_ips_count": 1809,
   "monitored_ips": [
     {
       "ip": "14.29.200.186",
@@ -9946,6 +9948,45 @@
     }
   ],
   "replay_sessions": [
+    {
+      "ip": "47.245.138.151",
+      "commands": [
+        {
+          "command": "\u0013\u0001\u0013\u0002\u0013\u0003\u0001\u0000\u0000{\u0000\u0005\u0000\u0005\u0001\u0000\u0000\u0000\u0000\u0000",
+          "time": "2026-04-27T21:57:20.906584+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "\u0000",
+          "time": "2026-04-27T21:57:20.999739+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "\u0000\b\u0000\u001d\u0000\u0017\u0000\u0018\u0000\u0019\u0000\u000b\u0000\u0002\u0001\u0000\u0000",
+          "time": "2026-04-27T21:57:21.091298+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "Host: 20.255.59.217:2323",
+          "time": "2026-04-27T21:57:33.869864+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "User-Agent: curl/7.64.1",
+          "time": "2026-04-27T21:57:33.973165+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "Accept: */*",
+          "time": "2026-04-27T21:57:34.825329+05:30",
+          "event_type": "COMMAND"
+        }
+      ],
+      "total_actions": 6,
+      "event_types": [
+        "COMMAND"
+      ]
+    },
     {
       "ip": "176.65.139.254",
       "commands": [
@@ -10786,8 +10827,8 @@
       ],
       "total_actions": 6,
       "event_types": [
-        "HTTP_SCAN",
-        "AUTH_LOGIN"
+        "AUTH_LOGIN",
+        "HTTP_SCAN"
       ]
     },
     {
@@ -10992,23 +11033,107 @@
       "event_types": [
         "AUTH_LOGIN"
       ]
-    },
-    {
-      "ip": "85.105.2.51",
-      "commands": [
-        {
-          "command": "[LOGIN ATTEMPT] ubnt:999999",
-          "time": "2026-04-27T16:18:01.562706+05:30",
-          "event_type": "AUTH_LOGIN"
-        }
-      ],
-      "total_actions": 1,
-      "event_types": [
-        "AUTH_LOGIN"
-      ]
     }
   ],
   "recent_events": [
+    {
+      "timestamp": "2026-04-27T21:57:49.199826+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "47.245.138.151",
+      "message": "Telnet session ended: 47.245.138.151",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-27T21:57:46.199491+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "47.245.138.151",
+      "message": "New Telnet connection from 47.245.138.151",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-27T21:57:35.910891+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "47.245.138.151",
+      "message": "Telnet session ended: 47.245.138.151",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-27T21:57:34.825329+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "47.245.138.151",
+      "message": "Accept: */*",
+      "details": "{\"command\": \"Accept: */*\"}"
+    },
+    {
+      "timestamp": "2026-04-27T21:57:33.973165+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "47.245.138.151",
+      "message": "User-Agent: curl/7.64.1",
+      "details": "{\"command\": \"User-Agent: curl/7.64.1\"}"
+    },
+    {
+      "timestamp": "2026-04-27T21:57:33.869864+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "47.245.138.151",
+      "message": "Host: 20.255.59.217:2323",
+      "details": "{\"command\": \"Host: 20.255.59.217:2323\"}"
+    },
+    {
+      "timestamp": "2026-04-27T21:57:33.003957+05:30",
+      "type": "TELNET_LOGIN",
+      "ip": "47.245.138.151",
+      "message": "Telnet login: GET / HTTP/1.1:",
+      "details": "{\"username\": \"GET / HTTP/1.1\", \"password\": \"\"}"
+    },
+    {
+      "timestamp": "2026-04-27T21:57:32.912377+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "47.245.138.151",
+      "message": "New Telnet connection from 47.245.138.151",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-27T21:57:22.720275+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "47.245.138.151",
+      "message": "Telnet session ended: 47.245.138.151",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-04-27T21:57:21.091298+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "47.245.138.151",
+      "message": "\u0000\b\u0000\u001d\u0000\u0017\u0000\u0018\u0000\u0019\u0000\u000b\u0000\u0002\u0001\u0000\u0000",
+      "details": "{\"command\": \"\\u0000\\b\\u0000\\u001d\\u0000\\u0017\\u0000\\u0018\\u0000\\u0019\\u0000\\u000b\\u0000\\u0002\\u0001\\u0000\\u0000\"}"
+    },
+    {
+      "timestamp": "2026-04-27T21:57:20.999739+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "47.245.138.151",
+      "message": "\u0000",
+      "details": "{\"command\": \"\\u0000\"}"
+    },
+    {
+      "timestamp": "2026-04-27T21:57:20.906584+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "47.245.138.151",
+      "message": "\u0013\u0001\u0013\u0002\u0013\u0003\u0001\u0000\u0000{\u0000\u0005\u0000\u0005\u0001\u0000\u0000\u0000\u0000\u0000",
+      "details": "{\"command\": \"\\u0013\\u0001\\u0013\\u0002\\u0013\\u0003\\u0001\\u0000\\u0000{\\u0000\\u0005\\u0000\\u0005\\u0001\\u0000\\u0000\\u0000\\u00"
+    },
+    {
+      "timestamp": "2026-04-27T21:57:19.866016+05:30",
+      "type": "TELNET_LOGIN",
+      "ip": "47.245.138.151",
+      "message": "Telnet login: \u0016\u0003\u0001\u0000\u0001\u0000\u0000\u0003\u0003I\u0006iYe-Ud]\u000eb8g9dZ8f gi\u02f0\u0019N\u05bdg|p<ZT8'O;\u0000&+/,0\u0329\u0328\t\u0013:\u0014\u0000\u0000\u0000/\u00005\u0012\u0000",
+      "details": "{\"username\": \"\\u0016\\u0003\\u0001\\u0000\\u0001\\u0000\\u0000\\u0003\\u0003I\\u0006iYe-Ud]\\u000eb8g9dZ8f gi\\u02f0\\u0019N\\u05bdg|"
+    },
+    {
+      "timestamp": "2026-04-27T21:57:19.644354+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "47.245.138.151",
+      "message": "New Telnet connection from 47.245.138.151",
+      "details": ""
+    },
     {
       "timestamp": "2026-04-27T21:29:27.589165+05:30",
       "type": "HTTP_SCAN",
@@ -17910,104 +18035,6 @@
       "ip": "85.62.117.67",
       "message": "Login attempt: root:pa55sw0rd",
       "details": "{\"username\": \"root\", \"password\": \"pa55sw0rd\"}"
-    },
-    {
-      "timestamp": "2026-04-27T14:25:40.535407+05:30",
-      "type": "CONNECTION",
-      "ip": "85.62.117.67",
-      "message": "New connection from 85.62.117.67",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-27T14:23:00.870693+05:30",
-      "type": "REPORT",
-      "ip": "5.48.46.95",
-      "message": "AI incident report updated",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-27T14:23:00.085594+05:30",
-      "type": "DISCONNECT",
-      "ip": "5.48.46.95",
-      "message": "Connection closed from 5.48.46.95",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-27T14:22:59.995897+05:30",
-      "type": "THREAT_FEED",
-      "ip": "5.48.46.95",
-      "message": "Threat feed updated: 1731 IPs, 30501 events",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-27T14:22:58.840925+05:30",
-      "type": "FIREWALL",
-      "ip": "5.48.46.95",
-      "message": "Auto-firewall rules updated: 265 IPs blocked",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-27T14:22:58.679327+05:30",
-      "type": "ERROR",
-      "ip": "5.48.46.95",
-      "message": "No channel requested (Auth Timeout)",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-27T14:22:57.075274+05:30",
-      "type": "AUTH_LOGIN",
-      "ip": "5.48.46.95",
-      "message": "Login attempt: support:8",
-      "details": "{\"username\": \"support\", \"password\": \"8\"}"
-    },
-    {
-      "timestamp": "2026-04-27T14:22:55.331880+05:30",
-      "type": "CONNECTION",
-      "ip": "5.48.46.95",
-      "message": "New connection from 5.48.46.95",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-27T14:11:17.873922+05:30",
-      "type": "REPORT",
-      "ip": "183.247.171.186",
-      "message": "AI incident report updated",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-27T14:11:17.219049+05:30",
-      "type": "DISCONNECT",
-      "ip": "183.247.171.186",
-      "message": "Connection closed from 183.247.171.186",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-27T14:11:17.130069+05:30",
-      "type": "THREAT_FEED",
-      "ip": "183.247.171.186",
-      "message": "Threat feed updated: 1731 IPs, 30494 events",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-27T14:11:15.963881+05:30",
-      "type": "FIREWALL",
-      "ip": "183.247.171.186",
-      "message": "Auto-firewall rules updated: 265 IPs blocked",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-27T14:11:15.797710+05:30",
-      "type": "ERROR",
-      "ip": "183.247.171.186",
-      "message": "Connection error: ",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-04-27T14:09:59.704287+05:30",
-      "type": "REPORT",
-      "ip": "102.23.122.235",
-      "message": "AI incident report updated",
-      "details": ""
     }
   ],
   "top_isps": [
@@ -18054,7 +18081,7 @@
     "Reconnaissance": 249,
     "Lateral Movement": 12,
     "Discovery": 2,
-    "Exfiltration": 2
+    "Exfiltration": 3
   },
   "avg_session_duration": 31,
   "max_session_duration": 86400
