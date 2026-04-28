@@ -521,6 +521,13 @@ def build_data_json(events):
         # Update last_seen if this event is newer
         if ts and ts > seen_ips[ip].get('last_seen', ''):
             seen_ips[ip]['last_seen'] = ts
+        # KEY FIX: Update ssh_client from ANY event that has a real value
+        # (The first event for an IP is often AUTH_LOGIN which has no ssh_client,
+        #  so we must keep checking all events until we find a FINGERPRINT event)
+        ssh_c = details.get('ssh_client', '') or details.get('client_version', '') or ''
+        if ssh_c and ssh_c not in ('Unknown', 'unknown', '', 'None'):
+            seen_ips[ip]['ssh_client'] = ssh_c
+
         # Count ALL command types (SSH, Telnet, FTP, HTTP)
         CMD_TYPES = ('COMMAND', 'command', 'TELNET_COMMAND', 'FTP_COMMAND', 'HTTP_COMMAND')
         if etype in CMD_TYPES:
@@ -571,38 +578,77 @@ def build_data_json(events):
         profiles.append(p)
 
     # ===== DEVICE CLUSTERING: Same Device, Multiple IPs =====
-    # Group profiles by SSH client fingerprint string.
-    # If 2+ IPs share the same SSH client, they are the same device/tool
-    # (VPN hopping, botnet nodes using same binary, scripted attacker)
+    # Strategy 1: Cluster by exact SSH client string (strongest signal)
+    # Strategy 2: Cluster by tool signature (e.g. libssh, Go, paramiko) as fallback
     from collections import defaultdict as _dd
+
     ssh_to_ips = _dd(list)
+    tool_to_ips = _dd(list)
+
     for p in profiles:
         ssh_c = p.get('ssh_client', '')
-        if ssh_c and ssh_c not in ('Unknown', '', 'None'):
+        # Strategy 1: exact SSH client string
+        if ssh_c and ssh_c not in ('Unknown', 'unknown', '', 'None'):
             ssh_to_ips[ssh_c].append(p)
+        else:
+            # Strategy 2: use tool name as fingerprint (libssh, Go, paramiko etc.)
+            tools = p.get('tools', [])
+            for t in tools:
+                # Only cluster by specific SSH binary tools, not generic ones
+                if any(kw in t.lower() for kw in ['libssh', 'paramiko', 'go ssh', 'golang',
+                                                    'zgrab', 'masscan', 'l9s', 'censys',
+                                                    'shodan', 'palo alto', 'nmap']):
+                    tool_to_ips[t].append(p)
+                    break  # only put in one tool cluster
 
     device_clusters = []
+
+    # Add ssh_client clusters
     for ssh_c, members in ssh_to_ips.items():
-        if len(members) >= 2:  # Only clusters with 2+ IPs
+        if len(members) >= 2:
             total_logins = sum(m['logins'] for m in members)
             total_cmds   = sum(m['commands'] for m in members)
             worst_threat = max(
                 members,
-                key=lambda x: {'CRITICAL': 4, 'HIGH': 3, 'MEDIUM': 2, 'LOW': 1}.get(x['threat'], 0)
+                key=lambda x: {'CRITICAL': 4, 'HIGH': 3, 'MEDIUM': 2, 'LOW': 1}.get(x.get('threat','LOW'), 0)
             )['threat']
             device_clusters.append({
                 'fingerprint': hashlib.sha256(ssh_c.encode()).hexdigest()[:12],
                 'ssh_client': ssh_c[:80],
+                'cluster_type': 'SSH Fingerprint',
                 'ip_count': len(members),
-                'ips': [m['ip'] for m in members[:10]],  # Show up to 10 IPs per cluster
+                'ips': [m['ip'] for m in members[:10]],
                 'total_logins': total_logins,
                 'total_commands': total_cmds,
                 'threat': worst_threat,
                 'tools': list(set(t for m in members for t in m.get('tools', []))),
             })
+
+    # Add tool-signature clusters (broader attribution)
+    for tool, members in tool_to_ips.items():
+        if len(members) >= 2:
+            total_logins = sum(m['logins'] for m in members)
+            total_cmds   = sum(m['commands'] for m in members)
+            worst_threat = max(
+                members,
+                key=lambda x: {'CRITICAL': 4, 'HIGH': 3, 'MEDIUM': 2, 'LOW': 1}.get(x.get('threat','LOW'), 0)
+            )['threat']
+            device_clusters.append({
+                'fingerprint': hashlib.sha256(tool.encode()).hexdigest()[:12],
+                'ssh_client': f'[Tool: {tool}]',
+                'cluster_type': 'Tool Signature',
+                'ip_count': len(members),
+                'ips': [m['ip'] for m in members[:10]],
+                'total_logins': total_logins,
+                'total_commands': total_cmds,
+                'threat': worst_threat,
+                'tools': [tool],
+            })
+
     # Sort by ip_count desc — most distributed attackers first
     device_clusters.sort(key=lambda x: x['ip_count'], reverse=True)
-    print(f"[+] Device clustering: {len(device_clusters)} multi-IP device clusters found")
+    print(f"[+] Device clustering: {len(device_clusters)} multi-IP device clusters found (SSH fingerprint + tool signature)")
+
 
     # Recompute threat_dist from dynamic profiles (accurate)
     threat_dist = Counter(p['threat'] for p in profiles)
