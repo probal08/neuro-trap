@@ -1088,8 +1088,11 @@ if not df.empty:
     with tab3:
         st.markdown("## 🧬 CYBER IMMUNE SYSTEM")
         st.markdown("*Biological defense: Antibodies → Counter-Intel | White Blood Cells → Auto-Firewall | Immune Memory → AI Psychology*")
-        
+
+        # Load precomputed feed for the entire tab
+        feed = load_precomputed_feed()
         profiles = load_profiles()
+
         
         # --- Counter-Intelligence Profiles ---
         st.subheader("🔬 ATTACKER INTELLIGENCE PROFILES")
@@ -1151,13 +1154,69 @@ if not df.empty:
             st.info("No authentication data yet.")
         
         st.divider()
-        
+
+        # =============================================
+        # DEVICE CLUSTERING: Same Device, Multiple IPs
+        # =============================================
+        st.subheader("🧬 DEVICE FINGERPRINT CLUSTERING — ATTACKER ATTRIBUTION")
+        st.markdown(
+            "**Neuro-Trap caught the same device attacking from multiple IPs.** "
+            "Even when attackers rotate IPs (VPN, TOR, botnet nodes), their SSH client "
+            "binary leaves an identical fingerprint. The honeypot groups these into device "
+            "clusters — proving attribution across IP rotation."
+        )
+
+        clusters = feed.get('device_clusters', [])
+        if clusters:
+            cluster_rows = []
+            for i, c in enumerate(clusters[:20], 1):
+                threat_emoji = {'CRITICAL': '🔴 CRITICAL', 'HIGH': '🟠 HIGH', 'MEDIUM': '🟡 MEDIUM', 'LOW': '🟢 LOW'}.get(c.get('threat',''), c.get('threat',''))
+                cluster_rows.append({
+                    "#": i,
+                    "Device DNA": c.get('fingerprint', '?'),
+                    "SSH Client / Tool": c.get('ssh_client', '?')[:55],
+                    "IPs Detected": c.get('ip_count', 0),
+                    "Total Logins": c.get('total_logins', 0),
+                    "Commands Typed": c.get('total_commands', 0),
+                    "Threat": threat_emoji,
+                    "Tools Used": ', '.join(c.get('tools', []))[:40] or 'None',
+                })
+            st.dataframe(pd.DataFrame(cluster_rows), use_container_width=True, hide_index=True)
+
+            # Show top cluster expanded
+            st.markdown("---")
+            top = clusters[0]
+            st.markdown(
+                f"**🔍 Top Cluster: `{top['ssh_client'][:60]}`** — "
+                f"spotted across **{top['ip_count']} different IP addresses**"
+            )
+            ip_cols = st.columns(min(len(top['ips']), 5))
+            for idx, ip in enumerate(top['ips'][:5]):
+                ip_cols[idx].markdown(
+                    f"<div style='background:rgba(255,0,60,0.1);border:1px solid #ff003c;"
+                    f"border-radius:6px;padding:6px;text-align:center;font-family:monospace;"
+                    f"color:#ff003c;font-size:0.8rem;'>{ip}</div>",
+                    unsafe_allow_html=True
+                )
+            if top['ip_count'] > 5:
+                st.caption(f"+ {top['ip_count'] - 5} more IPs using the same device fingerprint")
+
+            col_m1, col_m2, col_m3 = st.columns(3)
+            col_m1.metric("🌐 Total IPs in Cluster", f"{sum(c['ip_count'] for c in clusters)}")
+            col_m2.metric("🧬 Device Clusters Found", len(clusters))
+            col_m3.metric("🔴 Largest Cluster", f"{clusters[0]['ip_count']} IPs" if clusters else "—")
+        else:
+            st.info("Device clustering data will appear after the next GitHub Actions run completes.")
+
+        st.divider()
+
         # --- Tools Detected ---
         st.subheader("🔧 DETECTED HACKING TOOLS")
 
         # PRIMARY: Read from pre-computed data.json (same as neurotrap.tech, instant read)
-        feed = load_precomputed_feed()
+        # feed already loaded at top of Tab 3
         precomputed_tools = feed.get('tools_detected', {})
+
 
         # SECONDARY: merge with profiles file if it exists
         profile_tools = Counter()

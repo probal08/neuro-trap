@@ -563,7 +563,46 @@ def build_data_json(events):
         p['automated'] = 'YES' if (auto or p['dangerous_cmds'] > 0 or p['commands'] > 5) else 'NO'
         p['tools'] = list(tools_by_ip.get(p['ip'], set()))
         p['isp'] = geo_data.get(p['ip'], {}).get('isp', 'Unknown')
+        # Fix DNA: real fingerprint based on SSH client string (not just IP)
+        ssh_c = p.get('ssh_client', 'Unknown')
+        if ssh_c and ssh_c not in ('Unknown', ''):
+            p['dna'] = hashlib.sha256(ssh_c.encode()).hexdigest()[:12]
+        # else keep the IP-based dna already set
         profiles.append(p)
+
+    # ===== DEVICE CLUSTERING: Same Device, Multiple IPs =====
+    # Group profiles by SSH client fingerprint string.
+    # If 2+ IPs share the same SSH client, they are the same device/tool
+    # (VPN hopping, botnet nodes using same binary, scripted attacker)
+    from collections import defaultdict as _dd
+    ssh_to_ips = _dd(list)
+    for p in profiles:
+        ssh_c = p.get('ssh_client', '')
+        if ssh_c and ssh_c not in ('Unknown', '', 'None'):
+            ssh_to_ips[ssh_c].append(p)
+
+    device_clusters = []
+    for ssh_c, members in ssh_to_ips.items():
+        if len(members) >= 2:  # Only clusters with 2+ IPs
+            total_logins = sum(m['logins'] for m in members)
+            total_cmds   = sum(m['commands'] for m in members)
+            worst_threat = max(
+                members,
+                key=lambda x: {'CRITICAL': 4, 'HIGH': 3, 'MEDIUM': 2, 'LOW': 1}.get(x['threat'], 0)
+            )['threat']
+            device_clusters.append({
+                'fingerprint': hashlib.sha256(ssh_c.encode()).hexdigest()[:12],
+                'ssh_client': ssh_c[:80],
+                'ip_count': len(members),
+                'ips': [m['ip'] for m in members[:10]],  # Show up to 10 IPs per cluster
+                'total_logins': total_logins,
+                'total_commands': total_cmds,
+                'threat': worst_threat,
+                'tools': list(set(t for m in members for t in m.get('tools', []))),
+            })
+    # Sort by ip_count desc — most distributed attackers first
+    device_clusters.sort(key=lambda x: x['ip_count'], reverse=True)
+    print(f"[+] Device clustering: {len(device_clusters)} multi-IP device clusters found")
 
     # Recompute threat_dist from dynamic profiles (accurate)
     threat_dist = Counter(p['threat'] for p in profiles)
@@ -772,6 +811,7 @@ def build_data_json(events):
         'kill_chain': kill_chain_counts,
         'avg_session_duration': avg_session,
         'max_session_duration': max_session,
+        'device_clusters': device_clusters[:50],   # Top 50 multi-IP device clusters
     }
 
     return data
