@@ -1,7 +1,7 @@
 {
-  "last_updated": "2026-04-28T05:26:57.353723+05:30",
-  "total_attacks": 31547,
-  "unique_ips": 1821,
+  "last_updated": "2026-04-28T07:18:45.633308+05:30",
+  "total_attacks": 31548,
+  "unique_ips": 1822,
   "top_user": "root",
   "top_pass": "3245gs5662d34",
   "event_distribution": {
@@ -4551,10 +4551,6 @@
   ],
   "attacks_over_time": [
     {
-      "time": "2026-04-27 06:00",
-      "count": 275
-    },
-    {
       "time": "2026-04-27 07:00",
       "count": 114
     },
@@ -4644,6 +4640,10 @@
     },
     {
       "time": "2026-04-28 05:00",
+      "count": 1
+    },
+    {
+      "time": "2026-04-28 06:00",
       "count": 1
     }
   ],
@@ -4796,7 +4796,7 @@
     "Go HTTP Client": 160,
     "Go SSH Client": 132,
     "Censys Internet Scanner": 120,
-    "ZGrab (Scanner)": 44,
+    "ZGrab (Scanner)": 46,
     "Palo Alto Scanner": 30,
     "Nmap Scripting Engine": 16,
     "curl (Web Probe)": 12,
@@ -4805,6 +4805,32 @@
     "curl": 2
   },
   "profiles": [
+    {
+      "ip": "20.46.228.199",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "0a617a3f5b7c",
+      "bio_hash": "e20cd373",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 0,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-04-28T06:42:22.210687+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [
+        "ZGrab (Scanner)"
+      ],
+      "isp": "Unknown",
+      "infra_type": "Hosting",
+      "session_duration": 0,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC-6"
+    },
     {
       "ip": "172.176.0.171",
       "ssh_client": "Unknown",
@@ -9678,30 +9704,6 @@
       "input_method": "Manual Typing",
       "origin_hint": "\ud83e\udd16 Automated",
       "tz_guess": "UTC-8"
-    },
-    {
-      "ip": "65.49.1.179",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "3c58464ba542",
-      "bio_hash": "58e79cae",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 0,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-04-27T08:21:07.623680+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Unknown",
-      "infra_type": "Hosting",
-      "session_duration": 0,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC-8"
     }
   ],
   "blocked_ips": [
@@ -9826,7 +9828,7 @@
       "attempts": 208
     }
   ],
-  "monitored_ips_count": 1821,
+  "monitored_ips_count": 1822,
   "monitored_ips": [
     {
       "ip": "14.29.200.186",
@@ -9950,6 +9952,20 @@
     }
   ],
   "replay_sessions": [
+    {
+      "ip": "20.46.228.199",
+      "commands": [
+        {
+          "command": "[HTTP SCAN] GET / (UA: Mozilla/5.0 zgrab/0.x)",
+          "time": "2026-04-28T06:42:22.210687+05:30",
+          "event_type": "HTTP_SCAN"
+        }
+      ],
+      "total_actions": 1,
+      "event_types": [
+        "HTTP_SCAN"
+      ]
+    },
     {
       "ip": "172.176.0.171",
       "commands": [
@@ -33436,48 +33452,16 @@
       "event_types": [
         "AUTH_LOGIN"
       ]
-    },
-    {
-      "ip": "201.76.120.30",
-      "commands": [
-        {
-          "command": "[LOGIN ATTEMPT] root:root8888",
-          "time": "2026-04-01T01:40:06.468373+05:30",
-          "event_type": "AUTH_LOGIN"
-        },
-        {
-          "command": "[LOGIN ATTEMPT] 345gs5662d34:345gs5662d34",
-          "time": "2026-04-01T01:40:11.821999+05:30",
-          "event_type": "AUTH_LOGIN"
-        },
-        {
-          "command": "[LOGIN ATTEMPT] root:3245gs5662d34",
-          "time": "2026-04-01T01:40:15.177282+05:30",
-          "event_type": "AUTH_LOGIN"
-        },
-        {
-          "command": "[LOGIN ATTEMPT] root:Root999!@#",
-          "time": "2026-04-04T03:52:35.655710+05:30",
-          "event_type": "AUTH_LOGIN"
-        },
-        {
-          "command": "[LOGIN ATTEMPT] 345gs5662d34:345gs5662d34",
-          "time": "2026-04-04T03:52:41.115028+05:30",
-          "event_type": "AUTH_LOGIN"
-        },
-        {
-          "command": "[LOGIN ATTEMPT] root:3245gs5662d34",
-          "time": "2026-04-04T03:52:44.427081+05:30",
-          "event_type": "AUTH_LOGIN"
-        }
-      ],
-      "total_actions": 6,
-      "event_types": [
-        "AUTH_LOGIN"
-      ]
     }
   ],
   "recent_events": [
+    {
+      "timestamp": "2026-04-28T06:42:22.210687+05:30",
+      "type": "HTTP_SCAN",
+      "ip": "20.46.228.199",
+      "message": "GET / from 20.46.228.199",
+      "details": "{\"method\": \"GET\", \"path\": \"/\", \"user_agent\": \"Mozilla/5.0 zgrab/0.x\"}"
+    },
     {
       "timestamp": "2026-04-28T05:14:35.747426+05:30",
       "type": "HTTP_SCAN",
@@ -40470,13 +40454,6 @@
       "ip": "130.12.180.51",
       "message": "HASSH: 4ddeb94c649240c02434d35ffdbc222d | Client: SSH-2.0-Go",
       "details": "{\"hassh\": \"4ddeb94c649240c02434d35ffdbc222d\", \"ssh_version\": \"SSH-2.0-Go\", \"hassh_raw\": \"curve25519-sha256@libssh.org,ec"
-    },
-    {
-      "timestamp": "2026-04-27T14:50:36.698604+05:30",
-      "type": "AUTH_SUCCESS",
-      "ip": "130.12.180.51",
-      "message": "User admin authenticated",
-      "details": "{\"username\": \"admin\"}"
     }
   ],
   "top_isps": [
@@ -40526,5 +40503,6 @@
     "Exfiltration": 3
   },
   "avg_session_duration": 31,
-  "max_session_duration": 86400
+  "max_session_duration": 86400,
+  "device_clusters": []
 }
