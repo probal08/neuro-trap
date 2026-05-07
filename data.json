@@ -1,7 +1,7 @@
 {
-  "last_updated": "2026-05-07T14:45:08.886420+05:30",
-  "total_attacks": 52922,
-  "unique_ips": 2951,
+  "last_updated": "2026-05-07T17:00:53.057442+05:30",
+  "total_attacks": 52925,
+  "unique_ips": 2952,
   "top_user": "root",
   "top_pass": "3245gs5662d34",
   "event_distribution": {
@@ -4551,10 +4551,6 @@
   ],
   "attacks_over_time": [
     {
-      "time": "2026-05-06 12:00",
-      "count": 33
-    },
-    {
       "time": "2026-05-06 13:00",
       "count": 6
     },
@@ -4645,6 +4641,10 @@
     {
       "time": "2026-05-07 14:00",
       "count": 1
+    },
+    {
+      "time": "2026-05-07 15:00",
+      "count": 3
     }
   ],
   "top_ips": [
@@ -4806,6 +4806,30 @@
     "Python Scripts": 2
   },
   "profiles": [
+    {
+      "ip": "34.62.197.208",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "8a01f2d653e5",
+      "bio_hash": "11f103e5",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 1,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-05-07T15:51:02.301554+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Unknown",
+      "infra_type": "Cloud Server",
+      "session_duration": 1,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC+9"
+    },
     {
       "ip": "162.216.150.52",
       "ssh_client": "Unknown",
@@ -9603,30 +9627,6 @@
       "input_method": "Manual Typing",
       "origin_hint": "\ud83e\udd16 Automated",
       "tz_guess": "UTC+4"
-    },
-    {
-      "ip": "183.236.130.182",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "a738e8078625",
-      "bio_hash": "18570903",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 1,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-05-02T21:11:36.154388+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Unknown",
-      "infra_type": "Unknown",
-      "session_duration": 7,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC+3"
     }
   ],
   "blocked_ips": [
@@ -9751,7 +9751,7 @@
       "attempts": 311
     }
   ],
-  "monitored_ips_count": 2951,
+  "monitored_ips_count": 2952,
   "monitored_ips": [
     {
       "ip": "172.239.117.186",
@@ -23421,8 +23421,8 @@
       ],
       "total_actions": 7,
       "event_types": [
-        "AUTH_LOGIN",
-        "HTTP_SCAN"
+        "HTTP_SCAN",
+        "AUTH_LOGIN"
       ]
     },
     {
@@ -26133,6 +26133,27 @@
     }
   ],
   "recent_events": [
+    {
+      "timestamp": "2026-05-07T15:51:02.301554+05:30",
+      "type": "FTP_LOGIN",
+      "ip": "34.62.197.208",
+      "message": "FTP login successful: anonymous",
+      "details": "{\"username\": \"anonymous\"}"
+    },
+    {
+      "timestamp": "2026-05-07T15:51:01.728559+05:30",
+      "type": "FTP_CONNECTION",
+      "ip": "34.62.197.208",
+      "message": "New FTP connection from 34.62.197.208",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-05-07T15:51:01.138937+05:30",
+      "type": "FTP_CONNECTION",
+      "ip": "34.62.197.208",
+      "message": "New FTP connection from 34.62.197.208",
+      "details": ""
+    },
     {
       "timestamp": "2026-05-07T14:35:58.708922+05:30",
       "type": "FTP_CONNECTION",
@@ -33111,27 +33132,6 @@
       "ip": "123.8.82.84",
       "message": "vnpt",
       "details": "{\"command\": \"vnpt\"}"
-    },
-    {
-      "timestamp": "2026-05-05T17:13:49.144220+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "123.8.82.84",
-      "message": "Telnet login: admin:",
-      "details": "{\"username\": \"admin\", \"password\": \"\"}"
-    },
-    {
-      "timestamp": "2026-05-05T17:13:48.700844+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "123.8.82.84",
-      "message": "New Telnet connection from 123.8.82.84",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-05-05T17:13:37.197521+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "123.8.82.84",
-      "message": "Telnet session ended: 123.8.82.84",
-      "details": ""
     }
   ],
   "top_isps": [
