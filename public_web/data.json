@@ -1,7 +1,7 @@
 {
-  "last_updated": "2026-05-16T15:30:39.388246+05:30",
-  "total_attacks": 57338,
-  "unique_ips": 3207,
+  "last_updated": "2026-05-16T16:36:52.793411+05:30",
+  "total_attacks": 57341,
+  "unique_ips": 3208,
   "top_user": "root",
   "top_pass": "3245gs5662d34",
   "event_distribution": {
@@ -12,7 +12,7 @@
     "THREAT_FEED": 4266,
     "DISCONNECT": 4237,
     "REPORT": 4139,
-    "TELNET_CONNECTION": 3705
+    "TELNET_CONNECTION": 3706
   },
   "top_countries": [
     {
@@ -4551,10 +4551,6 @@
   ],
   "attacks_over_time": [
     {
-      "time": "2026-05-15 04:00",
-      "count": 4
-    },
-    {
       "time": "2026-05-15 05:00",
       "count": 4
     },
@@ -4644,6 +4640,10 @@
     },
     {
       "time": "2026-05-16 14:00",
+      "count": 3
+    },
+    {
+      "time": "2026-05-16 16:00",
       "count": 3
     }
   ],
@@ -4806,6 +4806,30 @@
     "Python Scripts": 2
   },
   "profiles": [
+    {
+      "ip": "62.217.152.223",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "2794c7f4ece3",
+      "bio_hash": "4e224931",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 1,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-05-16T16:14:12.490840+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Unknown",
+      "infra_type": "Hosting",
+      "session_duration": 13,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC+8"
+    },
     {
       "ip": "71.6.167.142",
       "ssh_client": "Unknown",
@@ -9601,30 +9625,6 @@
       "input_method": "Unknown",
       "origin_hint": "\ud83e\udd16 Automated",
       "tz_guess": "UTC+11"
-    },
-    {
-      "ip": "91.196.152.53",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "dc44d69092e4",
-      "bio_hash": "07c11382",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 0,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-05-10T13:28:12.744843+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Unknown",
-      "infra_type": "Hosting",
-      "session_duration": 0,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC+11"
     }
   ],
   "blocked_ips": [
@@ -9749,7 +9749,7 @@
       "attempts": 322
     }
   ],
-  "monitored_ips_count": 3207,
+  "monitored_ips_count": 3208,
   "monitored_ips": [
     {
       "ip": "172.239.117.186",
@@ -31907,6 +31907,27 @@
   ],
   "recent_events": [
     {
+      "timestamp": "2026-05-16T16:14:12.490840+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "62.217.152.223",
+      "message": "Telnet session ended: 62.217.152.223",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-05-16T16:14:11.612564+05:30",
+      "type": "TELNET_LOGIN",
+      "ip": "62.217.152.223",
+      "message": "Telnet login: :",
+      "details": "{\"username\": \"\", \"password\": \"\"}"
+    },
+    {
+      "timestamp": "2026-05-16T16:13:58.838319+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "62.217.152.223",
+      "message": "New Telnet connection from 62.217.152.223",
+      "details": ""
+    },
+    {
       "timestamp": "2026-05-16T14:51:54.804305+05:30",
       "type": "FTP_LOGIN",
       "ip": "71.6.167.142",
@@ -38884,27 +38905,6 @@
       "ip": "193.32.162.28",
       "message": "Next-Action: x",
       "details": "{\"command\": \"Next-Action: x\"}"
-    },
-    {
-      "timestamp": "2026-05-13T20:47:03.675590+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "193.32.162.28",
-      "message": "Accept-Encoding: gzip, deflate",
-      "details": "{\"command\": \"Accept-Encoding: gzip, deflate\"}"
-    },
-    {
-      "timestamp": "2026-05-13T20:47:03.584004+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "193.32.162.28",
-      "message": "User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/134.0.6998.99 Mobile/15E148 Safari/604.1",
-      "details": "{\"command\": \"User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko)"
-    },
-    {
-      "timestamp": "2026-05-13T20:47:03.491792+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "193.32.162.28",
-      "message": "Connection: close",
-      "details": "{\"command\": \"Connection: close\"}"
     }
   ],
   "top_isps": [
