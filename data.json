@@ -1,7 +1,7 @@
 {
-  "last_updated": "2026-05-16T13:37:56.520302+05:30",
-  "total_attacks": 57335,
-  "unique_ips": 3205,
+  "last_updated": "2026-05-16T15:30:39.388246+05:30",
+  "total_attacks": 57338,
+  "unique_ips": 3207,
   "top_user": "root",
   "top_pass": "3245gs5662d34",
   "event_distribution": {
@@ -4551,10 +4551,6 @@
   ],
   "attacks_over_time": [
     {
-      "time": "2026-05-15 03:00",
-      "count": 9
-    },
-    {
       "time": "2026-05-15 04:00",
       "count": 4
     },
@@ -4644,6 +4640,10 @@
     },
     {
       "time": "2026-05-16 13:00",
+      "count": 3
+    },
+    {
+      "time": "2026-05-16 14:00",
       "count": 3
     }
   ],
@@ -4806,6 +4806,54 @@
     "Python Scripts": 2
   },
   "profiles": [
+    {
+      "ip": "71.6.167.142",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "0895be6eb560",
+      "bio_hash": "b0f9ee69",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 1,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-05-16T14:51:54.804305+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Unknown",
+      "infra_type": "Hosting",
+      "session_duration": 0,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC+10"
+    },
+    {
+      "ip": "87.236.176.75",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "9fbcd1aa558a",
+      "bio_hash": "d8f384a3",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 0,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-05-16T14:50:58.762518+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Unknown",
+      "infra_type": "VPN/Proxy",
+      "session_duration": 0,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC+10"
+    },
     {
       "ip": "152.59.170.227",
       "ssh_client": "Unknown",
@@ -9577,54 +9625,6 @@
       "input_method": "Unknown",
       "origin_hint": "\ud83e\udd16 Automated",
       "tz_guess": "UTC+11"
-    },
-    {
-      "ip": "91.196.152.74",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "6d905470793c",
-      "bio_hash": "6d6776ff",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 0,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-05-10T13:28:12.074393+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Unknown",
-      "infra_type": "Hosting",
-      "session_duration": 0,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC+11"
-    },
-    {
-      "ip": "23.111.14.184",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "5c6a0b347ea5",
-      "bio_hash": "c0d7b5ef",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 2,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-05-10T13:24:21.019536+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Unknown",
-      "infra_type": "Hosting",
-      "session_duration": 56597,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC+7"
     }
   ],
   "blocked_ips": [
@@ -9749,7 +9749,7 @@
       "attempts": 322
     }
   ],
-  "monitored_ips_count": 3205,
+  "monitored_ips_count": 3207,
   "monitored_ips": [
     {
       "ip": "172.239.117.186",
@@ -29733,8 +29733,8 @@
       ],
       "total_actions": 7,
       "event_types": [
-        "AUTH_LOGIN",
-        "HTTP_SCAN"
+        "HTTP_SCAN",
+        "AUTH_LOGIN"
       ]
     },
     {
@@ -31906,6 +31906,27 @@
     }
   ],
   "recent_events": [
+    {
+      "timestamp": "2026-05-16T14:51:54.804305+05:30",
+      "type": "FTP_LOGIN",
+      "ip": "71.6.167.142",
+      "message": "FTP login successful: anonymous",
+      "details": "{\"username\": \"anonymous\"}"
+    },
+    {
+      "timestamp": "2026-05-16T14:51:54.370366+05:30",
+      "type": "FTP_CONNECTION",
+      "ip": "71.6.167.142",
+      "message": "New FTP connection from 71.6.167.142",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-05-16T14:50:58.762518+05:30",
+      "type": "FTP_CONNECTION",
+      "ip": "87.236.176.75",
+      "message": "New FTP connection from 87.236.176.75",
+      "details": ""
+    },
     {
       "timestamp": "2026-05-16T13:24:33.577665+05:30",
       "type": "TELNET_DISCONNECT",
@@ -38884,27 +38905,6 @@
       "ip": "193.32.162.28",
       "message": "Connection: close",
       "details": "{\"command\": \"Connection: close\"}"
-    },
-    {
-      "timestamp": "2026-05-13T20:47:03.400187+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "193.32.162.28",
-      "message": "Content-Length: 517",
-      "details": "{\"command\": \"Content-Length: 517\"}"
-    },
-    {
-      "timestamp": "2026-05-13T20:47:03.308098+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "193.32.162.28",
-      "message": "Host: 20.255.59.217:2323",
-      "details": "{\"command\": \"Host: 20.255.59.217:2323\"}"
-    },
-    {
-      "timestamp": "2026-05-13T20:47:02.446143+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "193.32.162.28",
-      "message": "Telnet login: POST /_next HTTP/1.1:",
-      "details": "{\"username\": \"POST /_next HTTP/1.1\", \"password\": \"\"}"
     }
   ],
   "top_isps": [
@@ -38952,7 +38952,7 @@
     "Discovery": 2,
     "Exfiltration": 5
   },
-  "avg_session_duration": 30,
+  "avg_session_duration": 29,
   "max_session_duration": 86400,
   "device_clusters": [
     {
