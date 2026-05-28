@@ -1,7 +1,7 @@
 {
-  "last_updated": "2026-05-28T12:42:19.577822+05:30",
-  "total_attacks": 63047,
-  "unique_ips": 3465,
+  "last_updated": "2026-05-28T16:39:57.165511+05:30",
+  "total_attacks": 63048,
+  "unique_ips": 3466,
   "top_user": "root",
   "top_pass": "3245gs5662d34",
   "event_distribution": {
@@ -4551,10 +4551,6 @@
   ],
   "attacks_over_time": [
     {
-      "time": "2026-05-27 06:00",
-      "count": 3
-    },
-    {
       "time": "2026-05-27 07:00",
       "count": 3
     },
@@ -4644,6 +4640,10 @@
     },
     {
       "time": "2026-05-28 11:00",
+      "count": 1
+    },
+    {
+      "time": "2026-05-28 13:00",
       "count": 1
     }
   ],
@@ -4786,8 +4786,8 @@
     }
   ],
   "threat_distribution": {
-    "LOW": 177,
-    "CRITICAL": 9,
+    "LOW": 178,
+    "CRITICAL": 8,
     "MEDIUM": 7,
     "HIGH": 7
   },
@@ -4806,6 +4806,30 @@
     "Python Scripts": 2
   },
   "profiles": [
+    {
+      "ip": "87.236.176.72",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "21c489e43f4d",
+      "bio_hash": "d4eb3329",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 0,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-05-28T13:51:56.261238+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Unknown",
+      "infra_type": "VPN/Proxy",
+      "session_duration": 0,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC+11"
+    },
     {
       "ip": "198.235.24.23",
       "ssh_client": "Unknown",
@@ -9039,7 +9063,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "Unknown",
-      "infra_type": "Unknown",
+      "infra_type": "Hosting",
       "session_duration": 0,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
@@ -9599,30 +9623,6 @@
       "input_method": "Unknown",
       "origin_hint": "\ud83e\udd16 Automated",
       "tz_guess": "UTC-6"
-    },
-    {
-      "ip": "45.79.123.76",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "4e2d00f95ef9",
-      "bio_hash": "3edea03b",
-      "classification": "Scanner",
-      "commands": 26,
-      "logins": 80,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-05-22T01:37:19.581994+05:30",
-      "threat": "CRITICAL",
-      "automated": "YES",
-      "tools": [],
-      "isp": "Akamai Technologies, Inc.",
-      "infra_type": "Hosting",
-      "session_duration": 86400,
-      "kill_chain_stage": 1,
-      "kill_chain_label": "Reconnaissance",
-      "paste_ratio": 64,
-      "input_method": "Pasted Script",
-      "origin_hint": "\ud83c\udfaf Persistent",
-      "tz_guess": "UTC-6"
     }
   ],
   "blocked_ips": [
@@ -9747,7 +9747,7 @@
       "attempts": 323
     }
   ],
-  "monitored_ips_count": 3465,
+  "monitored_ips_count": 3466,
   "monitored_ips": [
     {
       "ip": "172.239.117.186",
@@ -37434,8 +37434,8 @@
       ],
       "total_actions": 7,
       "event_types": [
-        "HTTP_SCAN",
-        "AUTH_LOGIN"
+        "AUTH_LOGIN",
+        "HTTP_SCAN"
       ]
     },
     {
@@ -38979,6 +38979,13 @@
     }
   ],
   "recent_events": [
+    {
+      "timestamp": "2026-05-28T13:51:56.261238+05:30",
+      "type": "FTP_CONNECTION",
+      "ip": "87.236.176.72",
+      "message": "New FTP connection from 87.236.176.72",
+      "details": ""
+    },
     {
       "timestamp": "2026-05-28T11:13:24.278226+05:30",
       "type": "FTP_CONNECTION",
@@ -45971,13 +45978,6 @@
       "ip": "144.48.130.122",
       "message": "sh",
       "details": "{\"command\": \"sh\"}"
-    },
-    {
-      "timestamp": "2026-05-27T19:20:38.780062+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "144.48.130.122",
-      "message": "shell",
-      "details": "{\"command\": \"shell\"}"
     }
   ],
   "top_isps": [
