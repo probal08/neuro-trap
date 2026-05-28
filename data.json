@@ -1,13 +1,13 @@
 {
-  "last_updated": "2026-05-29T02:16:56.440589+05:30",
-  "total_attacks": 63568,
-  "unique_ips": 3472,
+  "last_updated": "2026-05-29T04:14:52.386512+05:30",
+  "total_attacks": 63571,
+  "unique_ips": 3473,
   "top_user": "root",
   "top_pass": "3245gs5662d34",
   "event_distribution": {
     "TELNET_COMMAND": 15336,
-    "TELNET_CONNECTION": 4763,
-    "TELNET_DISCONNECT": 4754,
+    "TELNET_CONNECTION": 4764,
+    "TELNET_DISCONNECT": 4755,
     "CONNECTION": 4629,
     "ERROR": 4523,
     "FIREWALL": 4417,
@@ -4551,14 +4551,6 @@
   ],
   "attacks_over_time": [
     {
-      "time": "2026-05-27 17:00",
-      "count": 3
-    },
-    {
-      "time": "2026-05-27 18:00",
-      "count": 3
-    },
-    {
       "time": "2026-05-27 19:00",
       "count": 315
     },
@@ -4645,6 +4637,14 @@
     {
       "time": "2026-05-29 01:00",
       "count": 323
+    },
+    {
+      "time": "2026-05-29 02:00",
+      "count": 2
+    },
+    {
+      "time": "2026-05-29 03:00",
+      "count": 1
     }
   ],
   "top_ips": [
@@ -4786,8 +4786,8 @@
     }
   ],
   "threat_distribution": {
-    "CRITICAL": 9,
     "LOW": 177,
+    "CRITICAL": 9,
     "HIGH": 7,
     "MEDIUM": 7
   },
@@ -4806,6 +4806,54 @@
     "Python Scripts": 2
   },
   "profiles": [
+    {
+      "ip": "205.210.31.145",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "e01b1ac4de3e",
+      "bio_hash": "ebbe393c",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 0,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-05-29T03:16:36.798312+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Unknown",
+      "infra_type": "Unknown",
+      "session_duration": 86400,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC-5"
+    },
+    {
+      "ip": "205.210.31.181",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "c92c9e63564e",
+      "bio_hash": "e985c9c7",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 0,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-05-29T02:49:43.621516+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Unknown",
+      "infra_type": "Unknown",
+      "session_duration": 30,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC-2"
+    },
     {
       "ip": "59.103.108.40",
       "ssh_client": "Unknown",
@@ -9575,54 +9623,6 @@
       "input_method": "Unknown",
       "origin_hint": "\ud83e\udd16 Automated",
       "tz_guess": "UTC-10"
-    },
-    {
-      "ip": "64.62.197.77",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "5d224c420dc6",
-      "bio_hash": "01e8bfb5",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 0,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-05-22T08:55:00.749345+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Unknown",
-      "infra_type": "Hosting",
-      "session_duration": 0,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC-8"
-    },
-    {
-      "ip": "205.210.31.175",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "3492ae8c5aa7",
-      "bio_hash": "0606accc",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 0,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-05-22T07:51:38.052998+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Unknown",
-      "infra_type": "Unknown",
-      "session_duration": 0,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC-7"
     }
   ],
   "blocked_ips": [
@@ -9747,7 +9747,7 @@
       "attempts": 323
     }
   ],
-  "monitored_ips_count": 3472,
+  "monitored_ips_count": 3473,
   "monitored_ips": [
     {
       "ip": "172.239.117.186",
@@ -38452,8 +38452,8 @@
       ],
       "total_actions": 7,
       "event_types": [
-        "AUTH_LOGIN",
-        "HTTP_SCAN"
+        "HTTP_SCAN",
+        "AUTH_LOGIN"
       ]
     },
     {
@@ -39964,6 +39964,27 @@
     }
   ],
   "recent_events": [
+    {
+      "timestamp": "2026-05-29T03:16:36.798312+05:30",
+      "type": "FTP_CONNECTION",
+      "ip": "205.210.31.145",
+      "message": "New FTP connection from 205.210.31.145",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-05-29T02:49:43.621516+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "205.210.31.181",
+      "message": "Telnet session ended: 205.210.31.181",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-05-29T02:49:12.702204+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "205.210.31.181",
+      "message": "New Telnet connection from 205.210.31.181",
+      "details": ""
+    },
     {
       "timestamp": "2026-05-29T01:39:57.269557+05:30",
       "type": "TELNET_DISCONNECT",
@@ -46942,27 +46963,6 @@
       "ip": "202.163.68.166",
       "message": "enable",
       "details": "{\"command\": \"enable\"}"
-    },
-    {
-      "timestamp": "2026-05-27T22:40:46.509343+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "202.163.68.166",
-      "message": "start",
-      "details": "{\"command\": \"start\"}"
-    },
-    {
-      "timestamp": "2026-05-27T22:40:46.202172+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "202.163.68.166",
-      "message": "friend",
-      "details": "{\"command\": \"friend\"}"
-    },
-    {
-      "timestamp": "2026-05-27T22:40:45.326089+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "202.163.68.166",
-      "message": "Telnet login: Manager:",
-      "details": "{\"username\": \"Manager\", \"password\": \"\"}"
     }
   ],
   "top_isps": [
