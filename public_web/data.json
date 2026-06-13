@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-06-13T22:28:27.644283+05:30",
-  "total_attacks": 69476,
+  "last_updated": "2026-06-13T23:39:44.568434+05:30",
+  "total_attacks": 69477,
   "unique_ips": 3780,
   "top_user": "root",
   "top_pass": "3245gs5662d34",
@@ -4551,10 +4551,6 @@
   ],
   "attacks_over_time": [
     {
-      "time": "2026-06-12 08:00",
-      "count": 1
-    },
-    {
       "time": "2026-06-12 09:00",
       "count": 2
     },
@@ -4645,6 +4641,10 @@
     {
       "time": "2026-06-13 19:00",
       "count": 3
+    },
+    {
+      "time": "2026-06-13 22:00",
+      "count": 1
     }
   ],
   "top_ips": [
@@ -4786,9 +4786,9 @@
     }
   ],
   "threat_distribution": {
-    "LOW": 187,
+    "LOW": 188,
     "MEDIUM": 6,
-    "HIGH": 3,
+    "HIGH": 2,
     "CRITICAL": 4
   },
   "tools_detected": {
@@ -4808,6 +4808,30 @@
     "Python Scripts": 2
   },
   "profiles": [
+    {
+      "ip": "65.49.1.122",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "2a2bf01e5dd8",
+      "bio_hash": "8006cda4",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 1,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-06-13T22:30:45.769138+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Unknown",
+      "infra_type": "Hosting",
+      "session_duration": 86400,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC+9"
+    },
     {
       "ip": "94.173.97.220",
       "ssh_client": "Unknown",
@@ -5811,7 +5835,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "Unknown",
-      "infra_type": "Hosting",
+      "infra_type": "Unknown",
       "session_duration": 31,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
@@ -7761,7 +7785,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "Unknown",
-      "infra_type": "Unknown",
+      "infra_type": "Hosting",
       "session_duration": 31,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
@@ -8197,7 +8221,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "Unknown",
-      "infra_type": "Unknown",
+      "infra_type": "Hosting",
       "session_duration": 32,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
@@ -8705,7 +8729,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "Unknown",
-      "infra_type": "Hosting",
+      "infra_type": "Unknown",
       "session_duration": 31,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
@@ -9601,30 +9625,6 @@
       "isp": "CNC Group CHINA169 Jiangsu Province Network",
       "infra_type": "Unknown",
       "session_duration": 316,
-      "kill_chain_stage": 2,
-      "kill_chain_label": "Credential Access",
-      "paste_ratio": 91,
-      "input_method": "Pasted Script",
-      "origin_hint": "\ud83c\udfaf Persistent",
-      "tz_guess": "UTC-9"
-    },
-    {
-      "ip": "122.96.50.209",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "6a606bc3a869",
-      "bio_hash": "815d50c2",
-      "classification": "Scanner",
-      "commands": 170,
-      "logins": 17,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-06-07T09:27:17.495629+05:30",
-      "threat": "HIGH",
-      "automated": "YES",
-      "tools": [],
-      "isp": "CNC Group CHINA169 Jiangsu Province Network",
-      "infra_type": "Unknown",
-      "session_duration": 330,
       "kill_chain_stage": 2,
       "kill_chain_label": "Credential Access",
       "paste_ratio": 91,
@@ -47088,6 +47088,13 @@
   ],
   "recent_events": [
     {
+      "timestamp": "2026-06-13T22:30:45.769138+05:30",
+      "type": "FTP_CONNECTION",
+      "ip": "65.49.1.122",
+      "message": "New FTP connection from 65.49.1.122",
+      "details": ""
+    },
+    {
       "timestamp": "2026-06-13T19:23:38.573006+05:30",
       "type": "TELNET_DISCONNECT",
       "ip": "94.173.97.220",
@@ -54079,13 +54086,6 @@
       "ip": "66.132.172.39",
       "message": "New Telnet connection from 66.132.172.39",
       "details": ""
-    },
-    {
-      "timestamp": "2026-06-11T10:07:47.314059+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "66.132.172.39",
-      "message": "Telnet session ended: 66.132.172.39",
-      "details": ""
     }
   ],
   "top_isps": [
@@ -54133,7 +54133,7 @@
     "Discovery": 2,
     "Exfiltration": 11
   },
-  "avg_session_duration": 19033,
+  "avg_session_duration": 86400,
   "max_session_duration": 86400,
   "device_clusters": [
     {
