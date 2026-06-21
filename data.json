@@ -1,16 +1,16 @@
 {
-  "last_updated": "2026-06-21T17:19:14.422618+05:30",
-  "total_attacks": 73622,
+  "last_updated": "2026-06-21T19:42:17.676305+05:30",
+  "total_attacks": 73631,
   "unique_ips": 3974,
   "top_user": "root",
   "top_pass": "3245gs5662d34",
   "event_distribution": {
     "TELNET_COMMAND": 20295,
-    "TELNET_CONNECTION": 6535,
-    "TELNET_DISCONNECT": 6500,
+    "TELNET_CONNECTION": 6539,
+    "TELNET_DISCONNECT": 6504,
     "CONNECTION": 4629,
     "ERROR": 4523,
-    "TELNET_LOGIN": 4494,
+    "TELNET_LOGIN": 4495,
     "FIREWALL": 4417,
     "THREAT_FEED": 4266
   },
@@ -25,7 +25,7 @@
     },
     {
       "country": "United States",
-      "count": 4202
+      "count": 4211
     },
     {
       "country": "India",
@@ -2123,6 +2123,15 @@
       "lng": -83.7489,
       "country": "United States",
       "city": "Ann Arbor",
+      "ip": "66.132.195.123",
+      "count": 36,
+      "size": 1.2
+    },
+    {
+      "lat": 42.2809,
+      "lng": -83.7489,
+      "country": "United States",
+      "city": "Ann Arbor",
       "ip": "66.132.195.109",
       "count": 36,
       "size": 1.2
@@ -2719,15 +2728,6 @@
       "city": "Singapore",
       "ip": "45.82.78.108",
       "count": 28,
-      "size": 1.2
-    },
-    {
-      "lat": 42.2809,
-      "lng": -83.7489,
-      "country": "United States",
-      "city": "Ann Arbor",
-      "ip": "66.132.195.123",
-      "count": 27,
       "size": 1.2
     },
     {
@@ -4551,10 +4551,6 @@
   ],
   "attacks_over_time": [
     {
-      "time": "2026-06-20 11:00",
-      "count": 3
-    },
-    {
       "time": "2026-06-20 12:00",
       "count": 6
     },
@@ -4645,6 +4641,10 @@
     {
       "time": "2026-06-21 17:00",
       "count": 2
+    },
+    {
+      "time": "2026-06-21 19:00",
+      "count": 9
     }
   ],
   "top_ips": [
@@ -4809,6 +4809,30 @@
   },
   "profiles": [
     {
+      "ip": "66.132.195.123",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "31ff5ddaf45f",
+      "bio_hash": "2d93a686",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 2,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-06-21T19:25:12.110460+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Censys, Inc.",
+      "infra_type": "Hosting",
+      "session_duration": 86400,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC-11"
+    },
+    {
       "ip": "172.104.210.178",
       "ssh_client": "Unknown",
       "os": "Unknown",
@@ -4823,7 +4847,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "Unknown",
-      "infra_type": "Cloud Server",
+      "infra_type": "Unknown",
       "session_duration": 31,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
@@ -5327,7 +5351,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "Unknown",
-      "infra_type": "Unknown",
+      "infra_type": "Hosting",
       "session_duration": 32,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
@@ -9469,7 +9493,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "Unknown",
-      "infra_type": "Unknown",
+      "infra_type": "Hosting",
       "session_duration": 32,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
@@ -9597,30 +9621,6 @@
       "input_method": "Unknown",
       "origin_hint": "\ud83e\udd16 Automated",
       "tz_guess": "UTC+1"
-    },
-    {
-      "ip": "216.218.206.68",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "21e1cfb78359",
-      "bio_hash": "246e72a1",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 0,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-06-16T22:51:43.079317+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Unknown",
-      "infra_type": "Hosting",
-      "session_duration": 86400,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC+4"
     }
   ],
   "blocked_ips": [
@@ -51378,8 +51378,8 @@
       ],
       "total_actions": 7,
       "event_types": [
-        "HTTP_SCAN",
-        "AUTH_LOGIN"
+        "AUTH_LOGIN",
+        "HTTP_SCAN"
       ]
     },
     {
@@ -51702,6 +51702,69 @@
     }
   ],
   "recent_events": [
+    {
+      "timestamp": "2026-06-21T19:25:12.110460+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "66.132.195.123",
+      "message": "Telnet session ended: 66.132.195.123",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-21T19:25:11.443317+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "66.132.195.123",
+      "message": "New Telnet connection from 66.132.195.123",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-21T19:25:07.379195+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "66.132.195.123",
+      "message": "Telnet session ended: 66.132.195.123",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-21T19:25:06.346779+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "66.132.195.123",
+      "message": "New Telnet connection from 66.132.195.123",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-21T19:24:54.384167+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "66.132.195.123",
+      "message": "Telnet session ended: 66.132.195.123",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-21T19:24:50.987722+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "66.132.195.123",
+      "message": "New Telnet connection from 66.132.195.123",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-21T19:24:47.374497+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "66.132.195.123",
+      "message": "Telnet session ended: 66.132.195.123",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-21T19:24:46.479264+05:30",
+      "type": "TELNET_LOGIN",
+      "ip": "66.132.195.123",
+      "message": "Telnet login: :",
+      "details": "{\"username\": \"\", \"password\": \"\"}"
+    },
+    {
+      "timestamp": "2026-06-21T19:24:29.848588+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "66.132.195.123",
+      "message": "New Telnet connection from 66.132.195.123",
+      "details": ""
+    },
     {
       "timestamp": "2026-06-21T17:00:35.000150+05:30",
       "type": "TELNET_DISCONNECT",
@@ -58638,69 +58701,6 @@
       "ip": "223.123.35.46",
       "message": "sh",
       "details": "{\"command\": \"sh\"}"
-    },
-    {
-      "timestamp": "2026-06-18T12:00:04.985830+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.35.46",
-      "message": "shell",
-      "details": "{\"command\": \"shell\"}"
-    },
-    {
-      "timestamp": "2026-06-18T12:00:04.896309+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.35.46",
-      "message": "su",
-      "details": "{\"command\": \"su\"}"
-    },
-    {
-      "timestamp": "2026-06-18T12:00:04.807652+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.35.46",
-      "message": "linuxshell",
-      "details": "{\"command\": \"linuxshell\"}"
-    },
-    {
-      "timestamp": "2026-06-18T12:00:04.718909+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.35.46",
-      "message": "system",
-      "details": "{\"command\": \"system\"}"
-    },
-    {
-      "timestamp": "2026-06-18T12:00:04.630053+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.35.46",
-      "message": "config terminal",
-      "details": "{\"command\": \"config terminal\"}"
-    },
-    {
-      "timestamp": "2026-06-18T12:00:04.539104+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.35.46",
-      "message": "enable",
-      "details": "{\"command\": \"enable\"}"
-    },
-    {
-      "timestamp": "2026-06-18T12:00:04.450298+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.35.46",
-      "message": "start",
-      "details": "{\"command\": \"start\"}"
-    },
-    {
-      "timestamp": "2026-06-18T12:00:04.080191+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.35.46",
-      "message": "xJ4pCYeW",
-      "details": "{\"command\": \"xJ4pCYeW\"}"
-    },
-    {
-      "timestamp": "2026-06-18T12:00:03.094515+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "223.123.35.46",
-      "message": "Telnet login: super:",
-      "details": "{\"username\": \"super\", \"password\": \"\"}"
     }
   ],
   "top_isps": [
@@ -58734,7 +58734,7 @@
     },
     {
       "isp": "Censys, Inc.",
-      "count": 126
+      "count": 135
     }
   ],
   "infra_types": {
