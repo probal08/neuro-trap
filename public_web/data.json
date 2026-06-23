@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-06-23T21:20:04.935939+05:30",
-  "total_attacks": 74456,
+  "last_updated": "2026-06-23T23:26:14.393085+05:30",
+  "total_attacks": 74457,
   "unique_ips": 4020,
   "top_user": "root",
   "top_pass": "3245gs5662d34",
@@ -4551,10 +4551,6 @@
   ],
   "attacks_over_time": [
     {
-      "time": "2026-06-22 10:00",
-      "count": 1
-    },
-    {
       "time": "2026-06-22 11:00",
       "count": 6
     },
@@ -4645,6 +4641,10 @@
     {
       "time": "2026-06-23 20:00",
       "count": 2
+    },
+    {
+      "time": "2026-06-23 23:00",
+      "count": 1
     }
   ],
   "top_ips": [
@@ -4809,6 +4809,30 @@
   },
   "profiles": [
     {
+      "ip": "64.62.156.10",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "5ba99513c06d",
+      "bio_hash": "41b940de",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 2,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-06-23T23:15:18.964942+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Unknown",
+      "infra_type": "Hosting",
+      "session_duration": 86400,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC+8"
+    },
+    {
       "ip": "172.104.30.251",
       "ssh_client": "Unknown",
       "os": "Unknown",
@@ -4823,7 +4847,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "Unknown",
-      "infra_type": "Cloud Server",
+      "infra_type": "Unknown",
       "session_duration": 31,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
@@ -7375,7 +7399,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "Unknown",
-      "infra_type": "Hosting",
+      "infra_type": "Unknown",
       "session_duration": 32,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
@@ -7471,7 +7495,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "Unknown",
-      "infra_type": "Hosting",
+      "infra_type": "Unknown",
       "session_duration": 31,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
@@ -8147,7 +8171,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "Unknown",
-      "infra_type": "Hosting",
+      "infra_type": "Unknown",
       "session_duration": 32,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
@@ -9603,30 +9627,6 @@
       "input_method": "Unknown",
       "origin_hint": "\ud83e\udd16 Automated",
       "tz_guess": "UTC-1"
-    },
-    {
-      "ip": "35.203.210.254",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "a06a8c3510ae",
-      "bio_hash": "cf801052",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 1,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-06-17T23:50:10.426086+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Unknown",
-      "infra_type": "Cloud Server",
-      "session_duration": 0,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC+1"
     }
   ],
   "blocked_ips": [
@@ -52933,8 +52933,8 @@
       ],
       "total_actions": 7,
       "event_types": [
-        "HTTP_SCAN",
-        "AUTH_LOGIN"
+        "AUTH_LOGIN",
+        "HTTP_SCAN"
       ]
     },
     {
@@ -53158,6 +53158,13 @@
     }
   ],
   "recent_events": [
+    {
+      "timestamp": "2026-06-23T23:15:18.964942+05:30",
+      "type": "FTP_CONNECTION",
+      "ip": "64.62.156.10",
+      "message": "New FTP connection from 64.62.156.10",
+      "details": ""
+    },
     {
       "timestamp": "2026-06-23T20:51:11.333234+05:30",
       "type": "TELNET_DISCONNECT",
@@ -60150,13 +60157,6 @@
       "ip": "175.107.37.146",
       "message": "su",
       "details": "{\"command\": \"su\"}"
-    },
-    {
-      "timestamp": "2026-06-21T00:02:39.406195+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "175.107.37.146",
-      "message": "linuxshell",
-      "details": "{\"command\": \"linuxshell\"}"
     }
   ],
   "top_isps": [
