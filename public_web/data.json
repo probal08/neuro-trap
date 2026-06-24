@@ -1,15 +1,15 @@
 {
-  "last_updated": "2026-06-24T15:00:16.965036+05:30",
-  "total_attacks": 74612,
-  "unique_ips": 4031,
+  "last_updated": "2026-06-24T17:39:31.645102+05:30",
+  "total_attacks": 74618,
+  "unique_ips": 4032,
   "top_user": "root",
   "top_pass": "3245gs5662d34",
   "event_distribution": {
     "TELNET_COMMAND": 20811,
-    "TELNET_CONNECTION": 6701,
-    "TELNET_DISCONNECT": 6665,
+    "TELNET_CONNECTION": 6703,
+    "TELNET_DISCONNECT": 6667,
     "CONNECTION": 4629,
-    "TELNET_LOGIN": 4592,
+    "TELNET_LOGIN": 4594,
     "ERROR": 4523,
     "FIREWALL": 4417,
     "THREAT_FEED": 4266
@@ -4551,10 +4551,6 @@
   ],
   "attacks_over_time": [
     {
-      "time": "2026-06-23 00:00",
-      "count": 4
-    },
-    {
       "time": "2026-06-23 01:00",
       "count": 2
     },
@@ -4645,6 +4641,10 @@
     {
       "time": "2026-06-24 14:00",
       "count": 2
+    },
+    {
+      "time": "2026-06-24 16:00",
+      "count": 6
     }
   ],
   "top_ips": [
@@ -4786,10 +4786,10 @@
     }
   ],
   "threat_distribution": {
-    "LOW": 186,
+    "LOW": 187,
     "HIGH": 4,
     "MEDIUM": 7,
-    "CRITICAL": 3
+    "CRITICAL": 2
   },
   "tools_detected": {
     "libssh (Brute-forcer)": 692,
@@ -4808,6 +4808,30 @@
     "Python Scripts": 2
   },
   "profiles": [
+    {
+      "ip": "20.65.193.130",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "d27d60e7141a",
+      "bio_hash": "f98f604f",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 2,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-06-24T16:28:34.114957+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Unknown",
+      "infra_type": "Hosting",
+      "session_duration": 2,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC+8"
+    },
     {
       "ip": "66.228.39.59",
       "ssh_client": "Unknown",
@@ -9603,30 +9627,6 @@
       "input_method": "Unknown",
       "origin_hint": "\ud83e\udd16 Automated",
       "tz_guess": "UTC-8"
-    },
-    {
-      "ip": "223.123.35.46",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "fc1744354703",
-      "bio_hash": "b3024f9f",
-      "classification": "Scanner",
-      "commands": 250,
-      "logins": 25,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-06-18T12:01:51.924475+05:30",
-      "threat": "CRITICAL",
-      "automated": "YES",
-      "tools": [],
-      "isp": "CMPak Limited",
-      "infra_type": "Unknown",
-      "session_duration": 371,
-      "kill_chain_stage": 2,
-      "kill_chain_label": "Credential Access",
-      "paste_ratio": 90,
-      "input_method": "Pasted Script",
-      "origin_hint": "\ud83c\udfaf Persistent",
-      "tz_guess": "UTC-11"
     }
   ],
   "blocked_ips": [
@@ -9751,7 +9751,7 @@
       "attempts": 324
     }
   ],
-  "monitored_ips_count": 4031,
+  "monitored_ips_count": 4032,
   "monitored_ips": [
     {
       "ip": "172.239.117.186",
@@ -53444,6 +53444,48 @@
   ],
   "recent_events": [
     {
+      "timestamp": "2026-06-24T16:28:34.114957+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "20.65.193.130",
+      "message": "Telnet session ended: 20.65.193.130",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-24T16:28:33.651305+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "20.65.193.130",
+      "message": "Telnet session ended: 20.65.193.130",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-24T16:28:33.221556+05:30",
+      "type": "TELNET_LOGIN",
+      "ip": "20.65.193.130",
+      "message": "Telnet login: MGLNDD_20.255.59.217_2323:",
+      "details": "{\"username\": \"MGLNDD_20.255.59.217_2323\", \"password\": \"\"}"
+    },
+    {
+      "timestamp": "2026-06-24T16:28:32.950971+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "20.65.193.130",
+      "message": "New Telnet connection from 20.65.193.130",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-24T16:28:32.782384+05:30",
+      "type": "TELNET_LOGIN",
+      "ip": "20.65.193.130",
+      "message": "Telnet login: :",
+      "details": "{\"username\": \"\", \"password\": \"\"}"
+    },
+    {
+      "timestamp": "2026-06-24T16:28:31.831214+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "20.65.193.130",
+      "message": "New Telnet connection from 20.65.193.130",
+      "details": ""
+    },
+    {
       "timestamp": "2026-06-24T14:51:45.747403+05:30",
       "type": "TELNET_DISCONNECT",
       "ip": "66.228.39.59",
@@ -60400,48 +60442,6 @@
       "ip": "45.156.128.168",
       "message": "Telnet session ended: 45.156.128.168",
       "details": ""
-    },
-    {
-      "timestamp": "2026-06-21T16:16:04.532103+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "45.156.128.168",
-      "message": "Telnet session ended: 45.156.128.168",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-21T16:16:04.414776+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "45.156.128.170",
-      "message": "Telnet login: GET / HTTP/1.1:",
-      "details": "{\"username\": \"GET / HTTP/1.1\", \"password\": \"\"}"
-    },
-    {
-      "timestamp": "2026-06-21T16:16:04.325524+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "45.156.128.170",
-      "message": "New Telnet connection from 45.156.128.170",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-21T16:16:04.081347+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "45.156.128.168",
-      "message": "Telnet login: :",
-      "details": "{\"username\": \"\", \"password\": \"\"}"
-    },
-    {
-      "timestamp": "2026-06-21T16:16:03.755150+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "45.156.128.168",
-      "message": "New Telnet connection from 45.156.128.168",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-21T16:16:03.630747+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "45.156.128.168",
-      "message": "Telnet login: :",
-      "details": "{\"username\": \"\", \"password\": \"\"}"
     }
   ],
   "top_isps": [
@@ -60489,7 +60489,7 @@
     "Discovery": 2,
     "Exfiltration": 13
   },
-  "avg_session_duration": 101,
+  "avg_session_duration": 87,
   "max_session_duration": 86400,
   "device_clusters": [
     {
