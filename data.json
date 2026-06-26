@@ -1,14 +1,14 @@
 {
-  "last_updated": "2026-06-27T02:51:28.309719+05:30",
-  "total_attacks": 75644,
-  "unique_ips": 4067,
+  "last_updated": "2026-06-27T04:18:40.172858+05:30",
+  "total_attacks": 75647,
+  "unique_ips": 4068,
   "top_user": "root",
   "top_pass": "3245gs5662d34",
   "event_distribution": {
     "TELNET_COMMAND": 21350,
-    "TELNET_CONNECTION": 6861,
-    "TELNET_DISCONNECT": 6825,
-    "TELNET_LOGIN": 4712,
+    "TELNET_CONNECTION": 6862,
+    "TELNET_DISCONNECT": 6826,
+    "TELNET_LOGIN": 4713,
     "CONNECTION": 4629,
     "ERROR": 4523,
     "FIREWALL": 4417,
@@ -4551,10 +4551,6 @@
   ],
   "attacks_over_time": [
     {
-      "time": "2026-06-25 16:00",
-      "count": 312
-    },
-    {
       "time": "2026-06-25 17:00",
       "count": 1
     },
@@ -4645,6 +4641,10 @@
     {
       "time": "2026-06-27 01:00",
       "count": 5
+    },
+    {
+      "time": "2026-06-27 03:00",
+      "count": 3
     }
   ],
   "top_ips": [
@@ -4808,6 +4808,30 @@
     "Python Scripts": 2
   },
   "profiles": [
+    {
+      "ip": "147.185.133.115",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "21c2d42349ba",
+      "bio_hash": "7ddbfcc7",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 1,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-06-27T03:57:19.682833+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Unknown",
+      "infra_type": "Unknown",
+      "session_duration": 1,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC-3"
+    },
     {
       "ip": "147.185.133.254",
       "ssh_client": "Unknown",
@@ -9597,30 +9621,6 @@
       "input_method": "Unknown",
       "origin_hint": "\ud83e\udd16 Automated",
       "tz_guess": "UTC+8"
-    },
-    {
-      "ip": "35.241.130.26",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "905b60cefe89",
-      "bio_hash": "080897fb",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 1,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-06-20T15:23:29.199609+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Unknown",
-      "infra_type": "Cloud Server",
-      "session_duration": 1,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC+9"
     }
   ],
   "blocked_ips": [
@@ -9745,7 +9745,7 @@
       "attempts": 324
     }
   ],
-  "monitored_ips_count": 4067,
+  "monitored_ips_count": 4068,
   "monitored_ips": [
     {
       "ip": "172.239.117.186",
@@ -54659,8 +54659,8 @@
       ],
       "total_actions": 7,
       "event_types": [
-        "AUTH_LOGIN",
-        "HTTP_SCAN"
+        "HTTP_SCAN",
+        "AUTH_LOGIN"
       ]
     },
     {
@@ -54722,6 +54722,27 @@
     }
   ],
   "recent_events": [
+    {
+      "timestamp": "2026-06-27T03:57:19.682833+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "147.185.133.115",
+      "message": "Telnet session ended: 147.185.133.115",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-27T03:57:18.814710+05:30",
+      "type": "TELNET_LOGIN",
+      "ip": "147.185.133.115",
+      "message": "Telnet login: GET / HTTP/1.1:",
+      "details": "{\"username\": \"GET / HTTP/1.1\", \"password\": \"\"}"
+    },
+    {
+      "timestamp": "2026-06-27T03:57:18.674626+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "147.185.133.115",
+      "message": "New Telnet connection from 147.185.133.115",
+      "details": ""
+    },
     {
       "timestamp": "2026-06-27T01:53:29.812922+05:30",
       "type": "TELNET_DISCONNECT",
@@ -61699,27 +61720,6 @@
       "type": "TELNET_DISCONNECT",
       "ip": "66.132.224.83",
       "message": "Telnet session ended: 66.132.224.83",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-25T00:31:58.172585+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "66.132.224.83",
-      "message": "Telnet login: :",
-      "details": "{\"username\": \"\", \"password\": \"\"}"
-    },
-    {
-      "timestamp": "2026-06-25T00:31:41.878212+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "66.132.224.83",
-      "message": "New Telnet connection from 66.132.224.83",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-25T00:07:23.656719+05:30",
-      "type": "FTP_CONNECTION",
-      "ip": "147.185.132.55",
-      "message": "New FTP connection from 147.185.132.55",
       "details": ""
     }
   ],
