@@ -1,14 +1,14 @@
 {
-  "last_updated": "2026-06-28T16:14:14.407461+05:30",
-  "total_attacks": 76638,
-  "unique_ips": 4091,
+  "last_updated": "2026-06-28T17:50:12.016593+05:30",
+  "total_attacks": 76783,
+  "unique_ips": 4092,
   "top_user": "root",
   "top_pass": "3245gs5662d34",
   "event_distribution": {
-    "TELNET_COMMAND": 22000,
-    "TELNET_CONNECTION": 6980,
-    "TELNET_DISCONNECT": 6944,
-    "TELNET_LOGIN": 4800,
+    "TELNET_COMMAND": 22110,
+    "TELNET_CONNECTION": 6992,
+    "TELNET_DISCONNECT": 6956,
+    "TELNET_LOGIN": 4811,
     "CONNECTION": 4629,
     "ERROR": 4523,
     "FIREWALL": 4417,
@@ -17,7 +17,7 @@
   "top_countries": [
     {
       "country": "Pakistan",
-      "count": 17491
+      "count": 17634
     },
     {
       "country": "China",
@@ -252,6 +252,15 @@
       "country": "Pakistan",
       "city": "Lahore",
       "ip": "153.117.13.97",
+      "count": 325,
+      "size": 1.2
+    },
+    {
+      "lat": 31.5826,
+      "lng": 74.3276,
+      "country": "Pakistan",
+      "city": "Lahore",
+      "ip": "139.135.45.56",
       "count": 325,
       "size": 1.2
     },
@@ -873,15 +882,6 @@
       "country": "Pakistan",
       "city": "Gujranwala",
       "ip": "119.160.215.50",
-      "count": 182,
-      "size": 1.2
-    },
-    {
-      "lat": 31.5826,
-      "lng": 74.3276,
-      "country": "Pakistan",
-      "city": "Lahore",
-      "ip": "139.135.45.56",
       "count": 182,
       "size": 1.2
     },
@@ -4644,7 +4644,7 @@
     },
     {
       "time": "2026-06-28 16:00",
-      "count": 182
+      "count": 327
     }
   ],
   "top_ips": [
@@ -4786,9 +4786,9 @@
     }
   ],
   "threat_distribution": {
-    "HIGH": 9,
     "LOW": 183,
-    "CRITICAL": 4,
+    "CRITICAL": 5,
+    "HIGH": 8,
     "MEDIUM": 4
   },
   "tools_detected": {
@@ -4809,25 +4809,49 @@
   },
   "profiles": [
     {
+      "ip": "45.79.162.225",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "0f416c71b41d",
+      "bio_hash": "2d32c6f6",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 0,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-06-28T16:17:59.950726+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Unknown",
+      "infra_type": "Unknown",
+      "session_duration": 31,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC+8"
+    },
+    {
       "ip": "139.135.45.56",
       "ssh_client": "Unknown",
       "os": "Unknown",
       "dna": "0b03f591c0fb",
       "bio_hash": "d904d587",
       "classification": "Scanner",
-      "commands": 140,
-      "logins": 14,
+      "commands": 250,
+      "logins": 25,
       "dangerous_cmds": 0,
-      "last_seen": "2026-06-28T16:09:50.926997+05:30",
-      "threat": "HIGH",
+      "last_seen": "2026-06-28T16:12:24.900215+05:30",
+      "threat": "CRITICAL",
       "automated": "YES",
       "tools": [],
       "isp": "Cyber Internet Services (Private) Limited",
       "infra_type": "Unknown",
-      "session_duration": 185,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 91,
+      "session_duration": 339,
+      "kill_chain_stage": 1,
+      "kill_chain_label": "Reconnaissance",
+      "paste_ratio": 90,
       "input_method": "Pasted Script",
       "origin_hint": "\ud83c\udfaf Persistent",
       "tz_guess": "UTC+8"
@@ -6197,7 +6221,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "Unknown",
-      "infra_type": "Hosting",
+      "infra_type": "Unknown",
       "session_duration": 31,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
@@ -7711,7 +7735,7 @@
       "automated": "NO",
       "tools": [],
       "isp": "Unknown",
-      "infra_type": "Hosting",
+      "infra_type": "Unknown",
       "session_duration": 32,
       "kill_chain_stage": 0,
       "kill_chain_label": "None",
@@ -9601,30 +9625,6 @@
       "input_method": "Unknown",
       "origin_hint": "\ud83e\udd16 Automated",
       "tz_guess": "UTC-1"
-    },
-    {
-      "ip": "182.92.238.201",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "6713d31b21f1",
-      "bio_hash": "774e9e08",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 1,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-06-21T21:05:58.039306+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Unknown",
-      "infra_type": "Unknown",
-      "session_duration": 1,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC+3"
     }
   ],
   "blocked_ips": [
@@ -9721,6 +9721,10 @@
       "attempts": 325
     },
     {
+      "ip": "139.135.45.56",
+      "attempts": 325
+    },
+    {
       "ip": "51.158.205.203",
       "attempts": 324
     },
@@ -9743,13 +9747,9 @@
     {
       "ip": "175.107.233.138",
       "attempts": 324
-    },
-    {
-      "ip": "144.48.130.241",
-      "attempts": 324
     }
   ],
-  "monitored_ips_count": 4091,
+  "monitored_ips_count": 4092,
   "monitored_ips": [
     {
       "ip": "172.239.117.186",
@@ -9844,6 +9844,10 @@
       "attempts": 325
     },
     {
+      "ip": "139.135.45.56",
+      "attempts": 325
+    },
+    {
       "ip": "51.158.205.203",
       "attempts": 324
     },
@@ -9866,10 +9870,6 @@
     {
       "ip": "175.107.233.138",
       "attempts": 324
-    },
-    {
-      "ip": "144.48.130.241",
-      "attempts": 324
     }
   ],
   "replay_sessions": [
@@ -9877,507 +9877,507 @@
       "ip": "139.135.45.56",
       "commands": [
         {
+          "command": "adminpass",
+          "time": "2026-06-28T16:10:17.664920+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "start",
+          "time": "2026-06-28T16:10:18.007482+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "enable",
+          "time": "2026-06-28T16:10:18.100847+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "config terminal",
+          "time": "2026-06-28T16:10:18.194732+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "system",
+          "time": "2026-06-28T16:10:18.288204+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "linuxshell",
+          "time": "2026-06-28T16:10:18.381696+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "su",
+          "time": "2026-06-28T16:10:18.475557+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "shell",
+          "time": "2026-06-28T16:10:18.569029+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "sh",
+          "time": "2026-06-28T16:10:18.663002+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
+          "time": "2026-06-28T16:10:18.757029+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "chtngpon",
+          "time": "2026-06-28T16:10:31.696276+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "start",
+          "time": "2026-06-28T16:10:32.004720+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "enable",
+          "time": "2026-06-28T16:10:32.098505+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "config terminal",
+          "time": "2026-06-28T16:10:32.192748+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "system",
+          "time": "2026-06-28T16:10:32.285560+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "linuxshell",
+          "time": "2026-06-28T16:10:32.379402+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "su",
+          "time": "2026-06-28T16:10:32.472799+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "shell",
+          "time": "2026-06-28T16:10:32.566160+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "sh",
+          "time": "2026-06-28T16:10:32.660385+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
+          "time": "2026-06-28T16:10:32.755199+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "juantech",
+          "time": "2026-06-28T16:10:45.683840+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "start",
+          "time": "2026-06-28T16:10:46.009190+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "enable",
+          "time": "2026-06-28T16:10:46.103317+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "config terminal",
+          "time": "2026-06-28T16:10:46.196541+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "system",
+          "time": "2026-06-28T16:10:46.289867+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "linuxshell",
+          "time": "2026-06-28T16:10:46.383283+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "su",
+          "time": "2026-06-28T16:10:46.476702+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "shell",
+          "time": "2026-06-28T16:10:46.570445+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "sh",
+          "time": "2026-06-28T16:10:46.663840+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
+          "time": "2026-06-28T16:10:46.757501+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "adminHW",
+          "time": "2026-06-28T16:10:59.717723+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "start",
+          "time": "2026-06-28T16:11:00.047402+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "enable",
+          "time": "2026-06-28T16:11:00.140992+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "config terminal",
+          "time": "2026-06-28T16:11:00.234805+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "system",
+          "time": "2026-06-28T16:11:00.328283+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "linuxshell",
+          "time": "2026-06-28T16:11:00.423082+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "su",
+          "time": "2026-06-28T16:11:00.516743+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "shell",
+          "time": "2026-06-28T16:11:00.610062+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": "sh",
+          "time": "2026-06-28T16:11:00.703363+05:30",
+          "event_type": "COMMAND"
+        },
+        {
+          "command": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
+          "time": "2026-06-28T16:11:00.797055+05:30",
+          "event_type": "COMMAND"
+        },
+        {
           "command": "admin",
-          "time": "2026-06-28T16:07:43.692779+05:30",
+          "time": "2026-06-28T16:11:13.675852+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "start",
-          "time": "2026-06-28T16:07:44.028948+05:30",
+          "time": "2026-06-28T16:11:14.007372+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "enable",
-          "time": "2026-06-28T16:07:44.122819+05:30",
+          "time": "2026-06-28T16:11:14.101060+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "config terminal",
-          "time": "2026-06-28T16:07:44.216208+05:30",
+          "time": "2026-06-28T16:11:14.194643+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "system",
-          "time": "2026-06-28T16:07:44.309604+05:30",
+          "time": "2026-06-28T16:11:14.287934+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "linuxshell",
-          "time": "2026-06-28T16:07:44.402857+05:30",
+          "time": "2026-06-28T16:11:14.381174+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "su",
-          "time": "2026-06-28T16:07:44.496605+05:30",
+          "time": "2026-06-28T16:11:14.474946+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "shell",
-          "time": "2026-06-28T16:07:44.589533+05:30",
+          "time": "2026-06-28T16:11:14.568376+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "sh",
-          "time": "2026-06-28T16:07:44.682888+05:30",
+          "time": "2026-06-28T16:11:14.662368+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
-          "time": "2026-06-28T16:07:44.777593+05:30",
+          "time": "2026-06-28T16:11:14.756059+05:30",
           "event_type": "COMMAND"
         },
         {
-          "command": "cu@Hnunicom",
-          "time": "2026-06-28T16:07:57.730211+05:30",
+          "command": "vnpt",
+          "time": "2026-06-28T16:11:27.718738+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "start",
-          "time": "2026-06-28T16:07:58.055669+05:30",
+          "time": "2026-06-28T16:11:28.049364+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "enable",
-          "time": "2026-06-28T16:07:58.149726+05:30",
+          "time": "2026-06-28T16:11:28.142982+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "config terminal",
-          "time": "2026-06-28T16:07:58.243238+05:30",
+          "time": "2026-06-28T16:11:28.236870+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "system",
-          "time": "2026-06-28T16:07:58.336921+05:30",
+          "time": "2026-06-28T16:11:28.330493+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "linuxshell",
-          "time": "2026-06-28T16:07:58.431018+05:30",
+          "time": "2026-06-28T16:11:28.424409+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "su",
-          "time": "2026-06-28T16:07:58.525299+05:30",
+          "time": "2026-06-28T16:11:28.517562+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "shell",
-          "time": "2026-06-28T16:07:58.620353+05:30",
+          "time": "2026-06-28T16:11:28.610889+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "sh",
-          "time": "2026-06-28T16:07:58.713490+05:30",
+          "time": "2026-06-28T16:11:28.704658+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
-          "time": "2026-06-28T16:07:58.807468+05:30",
+          "time": "2026-06-28T16:11:28.798546+05:30",
           "event_type": "COMMAND"
         },
         {
-          "command": "ftp",
-          "time": "2026-06-28T16:08:11.648137+05:30",
+          "command": "e8ehome",
+          "time": "2026-06-28T16:11:41.705481+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "start",
-          "time": "2026-06-28T16:08:11.975774+05:30",
+          "time": "2026-06-28T16:11:42.037085+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "enable",
-          "time": "2026-06-28T16:08:12.069744+05:30",
+          "time": "2026-06-28T16:11:42.130592+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "config terminal",
-          "time": "2026-06-28T16:08:12.163647+05:30",
+          "time": "2026-06-28T16:11:42.225449+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "system",
-          "time": "2026-06-28T16:08:12.257064+05:30",
+          "time": "2026-06-28T16:11:42.318552+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "linuxshell",
-          "time": "2026-06-28T16:08:12.351159+05:30",
+          "time": "2026-06-28T16:11:42.412024+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "su",
-          "time": "2026-06-28T16:08:12.444390+05:30",
+          "time": "2026-06-28T16:11:42.505492+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "shell",
-          "time": "2026-06-28T16:08:12.537790+05:30",
+          "time": "2026-06-28T16:11:42.598573+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "sh",
-          "time": "2026-06-28T16:08:12.631033+05:30",
+          "time": "2026-06-28T16:11:42.692079+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
-          "time": "2026-06-28T16:08:12.724474+05:30",
+          "time": "2026-06-28T16:11:42.785898+05:30",
           "event_type": "COMMAND"
         },
         {
-          "command": "7ujMko0admin",
-          "time": "2026-06-28T16:08:25.686795+05:30",
+          "command": "1234",
+          "time": "2026-06-28T16:11:55.679630+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "start",
-          "time": "2026-06-28T16:08:26.012146+05:30",
+          "time": "2026-06-28T16:11:56.026015+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "enable",
-          "time": "2026-06-28T16:08:26.105919+05:30",
+          "time": "2026-06-28T16:11:56.119313+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "config terminal",
-          "time": "2026-06-28T16:08:26.199474+05:30",
+          "time": "2026-06-28T16:11:56.213057+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "system",
-          "time": "2026-06-28T16:08:26.293390+05:30",
+          "time": "2026-06-28T16:11:56.320177+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "linuxshell",
-          "time": "2026-06-28T16:08:26.387505+05:30",
+          "time": "2026-06-28T16:11:56.413032+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "su",
-          "time": "2026-06-28T16:08:26.480854+05:30",
+          "time": "2026-06-28T16:11:56.506840+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "shell",
-          "time": "2026-06-28T16:08:26.576428+05:30",
+          "time": "2026-06-28T16:11:56.599608+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "sh",
-          "time": "2026-06-28T16:08:26.670022+05:30",
+          "time": "2026-06-28T16:11:56.692471+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
-          "time": "2026-06-28T16:08:26.763890+05:30",
+          "time": "2026-06-28T16:11:56.785930+05:30",
           "event_type": "COMMAND"
         },
         {
-          "command": "1234horses",
-          "time": "2026-06-28T16:08:39.714221+05:30",
+          "command": "888888",
+          "time": "2026-06-28T16:12:09.688916+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "start",
-          "time": "2026-06-28T16:08:40.042816+05:30",
+          "time": "2026-06-28T16:12:10.028881+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "enable",
-          "time": "2026-06-28T16:08:40.137543+05:30",
+          "time": "2026-06-28T16:12:10.122474+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "config terminal",
-          "time": "2026-06-28T16:08:40.230969+05:30",
+          "time": "2026-06-28T16:12:10.216397+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "system",
-          "time": "2026-06-28T16:08:40.324436+05:30",
+          "time": "2026-06-28T16:12:10.310003+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "linuxshell",
-          "time": "2026-06-28T16:08:40.417871+05:30",
+          "time": "2026-06-28T16:12:10.403632+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "su",
-          "time": "2026-06-28T16:08:40.511280+05:30",
+          "time": "2026-06-28T16:12:10.496498+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "shell",
-          "time": "2026-06-28T16:08:40.604648+05:30",
+          "time": "2026-06-28T16:12:10.589735+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "sh",
-          "time": "2026-06-28T16:08:40.697972+05:30",
+          "time": "2026-06-28T16:12:10.683578+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
-          "time": "2026-06-28T16:08:40.791381+05:30",
+          "time": "2026-06-28T16:12:10.777988+05:30",
           "event_type": "COMMAND"
         },
         {
-          "command": "bayandsl",
-          "time": "2026-06-28T16:08:53.701631+05:30",
+          "command": "12345",
+          "time": "2026-06-28T16:12:23.710148+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "start",
-          "time": "2026-06-28T16:08:54.035040+05:30",
+          "time": "2026-06-28T16:12:24.051169+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "enable",
-          "time": "2026-06-28T16:08:54.137038+05:30",
+          "time": "2026-06-28T16:12:24.145597+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "config terminal",
-          "time": "2026-06-28T16:08:54.230632+05:30",
+          "time": "2026-06-28T16:12:24.244768+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "system",
-          "time": "2026-06-28T16:08:54.323425+05:30",
+          "time": "2026-06-28T16:12:24.338530+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "linuxshell",
-          "time": "2026-06-28T16:08:54.417238+05:30",
+          "time": "2026-06-28T16:12:24.432314+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "su",
-          "time": "2026-06-28T16:08:54.510670+05:30",
+          "time": "2026-06-28T16:12:24.525211+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "shell",
-          "time": "2026-06-28T16:08:54.604151+05:30",
+          "time": "2026-06-28T16:12:24.619102+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": "sh",
-          "time": "2026-06-28T16:08:54.697644+05:30",
+          "time": "2026-06-28T16:12:24.712634+05:30",
           "event_type": "COMMAND"
         },
         {
           "command": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
-          "time": "2026-06-28T16:08:54.791892+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "Fireitup",
-          "time": "2026-06-28T16:09:07.719313+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "start",
-          "time": "2026-06-28T16:09:08.046324+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "enable",
-          "time": "2026-06-28T16:09:08.140486+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "config terminal",
-          "time": "2026-06-28T16:09:08.234233+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "system",
-          "time": "2026-06-28T16:09:08.328046+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "linuxshell",
-          "time": "2026-06-28T16:09:08.421835+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "su",
-          "time": "2026-06-28T16:09:08.515536+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "shell",
-          "time": "2026-06-28T16:09:08.609378+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "sh",
-          "time": "2026-06-28T16:09:08.703453+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
-          "time": "2026-06-28T16:09:08.797312+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "epicrouter",
-          "time": "2026-06-28T16:09:21.702272+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "start",
-          "time": "2026-06-28T16:09:22.034179+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "enable",
-          "time": "2026-06-28T16:09:22.128082+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "config terminal",
-          "time": "2026-06-28T16:09:22.222433+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "system",
-          "time": "2026-06-28T16:09:22.316504+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "linuxshell",
-          "time": "2026-06-28T16:09:22.410749+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "su",
-          "time": "2026-06-28T16:09:22.504499+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "shell",
-          "time": "2026-06-28T16:09:22.597970+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "sh",
-          "time": "2026-06-28T16:09:22.692346+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
-          "time": "2026-06-28T16:09:22.786296+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "CUAdmin",
-          "time": "2026-06-28T16:09:35.683786+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "start",
-          "time": "2026-06-28T16:09:36.022560+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "enable",
-          "time": "2026-06-28T16:09:36.116357+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "config terminal",
-          "time": "2026-06-28T16:09:36.210128+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "system",
-          "time": "2026-06-28T16:09:36.303660+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "linuxshell",
-          "time": "2026-06-28T16:09:36.397304+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "su",
-          "time": "2026-06-28T16:09:36.490684+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "shell",
-          "time": "2026-06-28T16:09:36.584088+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "sh",
-          "time": "2026-06-28T16:09:36.677327+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
-          "time": "2026-06-28T16:09:36.771464+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "test1",
-          "time": "2026-06-28T16:09:49.718799+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "start",
-          "time": "2026-06-28T16:09:50.072867+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "enable",
-          "time": "2026-06-28T16:09:50.166003+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "config terminal",
-          "time": "2026-06-28T16:09:50.258815+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "system",
-          "time": "2026-06-28T16:09:50.364919+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "linuxshell",
-          "time": "2026-06-28T16:09:50.458459+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "su",
-          "time": "2026-06-28T16:09:50.552346+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "shell",
-          "time": "2026-06-28T16:09:50.645623+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": "sh",
-          "time": "2026-06-28T16:09:50.739475+05:30",
-          "event_type": "COMMAND"
-        },
-        {
-          "command": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
-          "time": "2026-06-28T16:09:50.833368+05:30",
+          "time": "2026-06-28T16:12:24.807150+05:30",
           "event_type": "COMMAND"
         }
       ],
-      "total_actions": 140,
+      "total_actions": 250,
       "event_types": [
         "COMMAND"
       ]
@@ -56801,6 +56801,1021 @@
   ],
   "recent_events": [
     {
+      "timestamp": "2026-06-28T16:17:59.950726+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "45.79.162.225",
+      "message": "Telnet session ended: 45.79.162.225",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-28T16:17:27.982311+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "45.79.162.225",
+      "message": "New Telnet connection from 45.79.162.225",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-28T16:12:24.900215+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "139.135.45.56",
+      "message": "Telnet session ended: 139.135.45.56",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-28T16:12:24.807150+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
+      "details": "{\"command\": \">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>"
+    },
+    {
+      "timestamp": "2026-06-28T16:12:24.712634+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "sh",
+      "details": "{\"command\": \"sh\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:12:24.619102+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "shell",
+      "details": "{\"command\": \"shell\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:12:24.525211+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "su",
+      "details": "{\"command\": \"su\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:12:24.432314+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "linuxshell",
+      "details": "{\"command\": \"linuxshell\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:12:24.338530+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "system",
+      "details": "{\"command\": \"system\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:12:24.244768+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "config terminal",
+      "details": "{\"command\": \"config terminal\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:12:24.145597+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "enable",
+      "details": "{\"command\": \"enable\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:12:24.051169+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "start",
+      "details": "{\"command\": \"start\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:12:23.710148+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "12345",
+      "details": "{\"command\": \"12345\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:12:22.840657+05:30",
+      "type": "TELNET_LOGIN",
+      "ip": "139.135.45.56",
+      "message": "Telnet login: guest:",
+      "details": "{\"username\": \"guest\", \"password\": \"\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:12:22.307513+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "139.135.45.56",
+      "message": "New Telnet connection from 139.135.45.56",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-28T16:12:10.871528+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "139.135.45.56",
+      "message": "Telnet session ended: 139.135.45.56",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-28T16:12:10.777988+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
+      "details": "{\"command\": \">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>"
+    },
+    {
+      "timestamp": "2026-06-28T16:12:10.683578+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "sh",
+      "details": "{\"command\": \"sh\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:12:10.589735+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "shell",
+      "details": "{\"command\": \"shell\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:12:10.496498+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "su",
+      "details": "{\"command\": \"su\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:12:10.403632+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "linuxshell",
+      "details": "{\"command\": \"linuxshell\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:12:10.310003+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "system",
+      "details": "{\"command\": \"system\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:12:10.216397+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "config terminal",
+      "details": "{\"command\": \"config terminal\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:12:10.122474+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "enable",
+      "details": "{\"command\": \"enable\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:12:10.028881+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "start",
+      "details": "{\"command\": \"start\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:12:09.688916+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "888888",
+      "details": "{\"command\": \"888888\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:12:08.830440+05:30",
+      "type": "TELNET_LOGIN",
+      "ip": "139.135.45.56",
+      "message": "Telnet login: admin:",
+      "details": "{\"username\": \"admin\", \"password\": \"\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:12:08.308591+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "139.135.45.56",
+      "message": "New Telnet connection from 139.135.45.56",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-28T16:11:56.878900+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "139.135.45.56",
+      "message": "Telnet session ended: 139.135.45.56",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-28T16:11:56.785930+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
+      "details": "{\"command\": \">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:56.692471+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "sh",
+      "details": "{\"command\": \"sh\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:56.599608+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "shell",
+      "details": "{\"command\": \"shell\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:56.506840+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "su",
+      "details": "{\"command\": \"su\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:56.413032+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "linuxshell",
+      "details": "{\"command\": \"linuxshell\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:56.320177+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "system",
+      "details": "{\"command\": \"system\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:56.213057+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "config terminal",
+      "details": "{\"command\": \"config terminal\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:56.119313+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "enable",
+      "details": "{\"command\": \"enable\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:56.026015+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "start",
+      "details": "{\"command\": \"start\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:55.679630+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "1234",
+      "details": "{\"command\": \"1234\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:54.830917+05:30",
+      "type": "TELNET_LOGIN",
+      "ip": "139.135.45.56",
+      "message": "Telnet login: draytek:",
+      "details": "{\"username\": \"draytek\", \"password\": \"\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:54.307457+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "139.135.45.56",
+      "message": "New Telnet connection from 139.135.45.56",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-28T16:11:42.880215+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "139.135.45.56",
+      "message": "Telnet session ended: 139.135.45.56",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-28T16:11:42.785898+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
+      "details": "{\"command\": \">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:42.692079+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "sh",
+      "details": "{\"command\": \"sh\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:42.598573+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "shell",
+      "details": "{\"command\": \"shell\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:42.505492+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "su",
+      "details": "{\"command\": \"su\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:42.412024+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "linuxshell",
+      "details": "{\"command\": \"linuxshell\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:42.318552+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "system",
+      "details": "{\"command\": \"system\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:42.225449+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "config terminal",
+      "details": "{\"command\": \"config terminal\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:42.130592+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "enable",
+      "details": "{\"command\": \"enable\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:42.037085+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "start",
+      "details": "{\"command\": \"start\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:41.705481+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "e8ehome",
+      "details": "{\"command\": \"e8ehome\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:40.851959+05:30",
+      "type": "TELNET_LOGIN",
+      "ip": "139.135.45.56",
+      "message": "Telnet login: e8ehome:",
+      "details": "{\"username\": \"e8ehome\", \"password\": \"\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:40.327786+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "139.135.45.56",
+      "message": "New Telnet connection from 139.135.45.56",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-28T16:11:28.892040+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "139.135.45.56",
+      "message": "Telnet session ended: 139.135.45.56",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-28T16:11:28.798546+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
+      "details": "{\"command\": \">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:28.704658+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "sh",
+      "details": "{\"command\": \"sh\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:28.610889+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "shell",
+      "details": "{\"command\": \"shell\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:28.517562+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "su",
+      "details": "{\"command\": \"su\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:28.424409+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "linuxshell",
+      "details": "{\"command\": \"linuxshell\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:28.330493+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "system",
+      "details": "{\"command\": \"system\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:28.236870+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "config terminal",
+      "details": "{\"command\": \"config terminal\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:28.142982+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "enable",
+      "details": "{\"command\": \"enable\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:28.049364+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "start",
+      "details": "{\"command\": \"start\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:27.718738+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "vnpt",
+      "details": "{\"command\": \"vnpt\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:26.836105+05:30",
+      "type": "TELNET_LOGIN",
+      "ip": "139.135.45.56",
+      "message": "Telnet login: admin:",
+      "details": "{\"username\": \"admin\", \"password\": \"\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:26.305314+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "139.135.45.56",
+      "message": "New Telnet connection from 139.135.45.56",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-28T16:11:14.849539+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "139.135.45.56",
+      "message": "Telnet session ended: 139.135.45.56",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-28T16:11:14.756059+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
+      "details": "{\"command\": \">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:14.662368+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "sh",
+      "details": "{\"command\": \"sh\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:14.568376+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "shell",
+      "details": "{\"command\": \"shell\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:14.474946+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "su",
+      "details": "{\"command\": \"su\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:14.381174+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "linuxshell",
+      "details": "{\"command\": \"linuxshell\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:14.287934+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "system",
+      "details": "{\"command\": \"system\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:14.194643+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "config terminal",
+      "details": "{\"command\": \"config terminal\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:14.101060+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "enable",
+      "details": "{\"command\": \"enable\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:14.007372+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "start",
+      "details": "{\"command\": \"start\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:13.675852+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "admin",
+      "details": "{\"command\": \"admin\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:12.818377+05:30",
+      "type": "TELNET_LOGIN",
+      "ip": "139.135.45.56",
+      "message": "Telnet login: root:",
+      "details": "{\"username\": \"root\", \"password\": \"\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:12.296386+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "139.135.45.56",
+      "message": "New Telnet connection from 139.135.45.56",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-28T16:11:00.890536+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "139.135.45.56",
+      "message": "Telnet session ended: 139.135.45.56",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-28T16:11:00.797055+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
+      "details": "{\"command\": \">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:00.703363+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "sh",
+      "details": "{\"command\": \"sh\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:00.610062+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "shell",
+      "details": "{\"command\": \"shell\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:00.516743+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "su",
+      "details": "{\"command\": \"su\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:00.423082+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "linuxshell",
+      "details": "{\"command\": \"linuxshell\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:00.328283+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "system",
+      "details": "{\"command\": \"system\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:00.234805+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "config terminal",
+      "details": "{\"command\": \"config terminal\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:00.140992+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "enable",
+      "details": "{\"command\": \"enable\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:11:00.047402+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "start",
+      "details": "{\"command\": \"start\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:59.717723+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "adminHW",
+      "details": "{\"command\": \"adminHW\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:58.852000+05:30",
+      "type": "TELNET_LOGIN",
+      "ip": "139.135.45.56",
+      "message": "Telnet login: admin:",
+      "details": "{\"username\": \"admin\", \"password\": \"\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:58.315647+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "139.135.45.56",
+      "message": "New Telnet connection from 139.135.45.56",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-28T16:10:46.851004+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "139.135.45.56",
+      "message": "Telnet session ended: 139.135.45.56",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-28T16:10:46.757501+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
+      "details": "{\"command\": \">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:46.663840+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "sh",
+      "details": "{\"command\": \"sh\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:46.570445+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "shell",
+      "details": "{\"command\": \"shell\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:46.476702+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "su",
+      "details": "{\"command\": \"su\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:46.383283+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "linuxshell",
+      "details": "{\"command\": \"linuxshell\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:46.289867+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "system",
+      "details": "{\"command\": \"system\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:46.196541+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "config terminal",
+      "details": "{\"command\": \"config terminal\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:46.103317+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "enable",
+      "details": "{\"command\": \"enable\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:46.009190+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "start",
+      "details": "{\"command\": \"start\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:45.683840+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "juantech",
+      "details": "{\"command\": \"juantech\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:44.849939+05:30",
+      "type": "TELNET_LOGIN",
+      "ip": "139.135.45.56",
+      "message": "Telnet login: root:",
+      "details": "{\"username\": \"root\", \"password\": \"\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:44.315192+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "139.135.45.56",
+      "message": "New Telnet connection from 139.135.45.56",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-28T16:10:32.850413+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "139.135.45.56",
+      "message": "Telnet session ended: 139.135.45.56",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-28T16:10:32.755199+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
+      "details": "{\"command\": \">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:32.660385+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "sh",
+      "details": "{\"command\": \"sh\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:32.566160+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "shell",
+      "details": "{\"command\": \"shell\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:32.472799+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "su",
+      "details": "{\"command\": \"su\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:32.379402+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "linuxshell",
+      "details": "{\"command\": \"linuxshell\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:32.285560+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "system",
+      "details": "{\"command\": \"system\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:32.192748+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "config terminal",
+      "details": "{\"command\": \"config terminal\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:32.098505+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "enable",
+      "details": "{\"command\": \"enable\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:32.004720+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "start",
+      "details": "{\"command\": \"start\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:31.696276+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "chtngpon",
+      "details": "{\"command\": \"chtngpon\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:30.847342+05:30",
+      "type": "TELNET_LOGIN",
+      "ip": "139.135.45.56",
+      "message": "Telnet login: cht:",
+      "details": "{\"username\": \"cht\", \"password\": \"\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:30.311223+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "139.135.45.56",
+      "message": "New Telnet connection from 139.135.45.56",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-28T16:10:18.850759+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "139.135.45.56",
+      "message": "Telnet session ended: 139.135.45.56",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-28T16:10:18.757029+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
+      "details": "{\"command\": \">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:18.663002+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "sh",
+      "details": "{\"command\": \"sh\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:18.569029+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "shell",
+      "details": "{\"command\": \"shell\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:18.475557+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "su",
+      "details": "{\"command\": \"su\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:18.381696+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "linuxshell",
+      "details": "{\"command\": \"linuxshell\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:18.288204+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "system",
+      "details": "{\"command\": \"system\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:18.194732+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "config terminal",
+      "details": "{\"command\": \"config terminal\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:18.100847+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "enable",
+      "details": "{\"command\": \"enable\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:18.007482+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "start",
+      "details": "{\"command\": \"start\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:17.664920+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "adminpass",
+      "details": "{\"command\": \"adminpass\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:16.833070+05:30",
+      "type": "TELNET_LOGIN",
+      "ip": "139.135.45.56",
+      "message": "Telnet login: root:",
+      "details": "{\"username\": \"root\", \"password\": \"\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:16.300752+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "139.135.45.56",
+      "message": "New Telnet connection from 139.135.45.56",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-28T16:10:04.903066+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "139.135.45.56",
+      "message": "Telnet session ended: 139.135.45.56",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-06-28T16:10:04.809714+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4a\\x58\\x42\\x53\\x49\\x46'",
+      "details": "{\"command\": \">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:04.715487+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "sh",
+      "details": "{\"command\": \"sh\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:04.621912+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "shell",
+      "details": "{\"command\": \"shell\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:04.527896+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "su",
+      "details": "{\"command\": \"su\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:04.434357+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "linuxshell",
+      "details": "{\"command\": \"linuxshell\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:04.336583+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "system",
+      "details": "{\"command\": \"system\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:04.242434+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "config terminal",
+      "details": "{\"command\": \"config terminal\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:04.148874+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "enable",
+      "details": "{\"command\": \"enable\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:04.055903+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "start",
+      "details": "{\"command\": \"start\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:03.712545+05:30",
+      "type": "TELNET_COMMAND",
+      "ip": "139.135.45.56",
+      "message": "BrAhMoS@15",
+      "details": "{\"command\": \"BrAhMoS@15\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:02.842560+05:30",
+      "type": "TELNET_LOGIN",
+      "ip": "139.135.45.56",
+      "message": "Telnet login: admin:",
+      "details": "{\"username\": \"admin\", \"password\": \"\"}"
+    },
+    {
+      "timestamp": "2026-06-28T16:10:02.312259+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "139.135.45.56",
+      "message": "New Telnet connection from 139.135.45.56",
+      "details": ""
+    },
+    {
       "timestamp": "2026-06-28T16:09:50.926997+05:30",
       "type": "TELNET_DISCONNECT",
       "ip": "139.135.45.56",
@@ -62784,1021 +63799,6 @@
       "ip": "223.123.38.121",
       "message": "enable",
       "details": "{\"command\": \"enable\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:50.203645+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.38.121",
-      "message": "start",
-      "details": "{\"command\": \"start\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:49.805105+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.38.121",
-      "message": "admin",
-      "details": "{\"command\": \"admin\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:48.897094+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "223.123.38.121",
-      "message": "Telnet login: root:",
-      "details": "{\"username\": \"root\", \"password\": \"\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:48.239602+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "223.123.38.121",
-      "message": "New Telnet connection from 223.123.38.121",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T13:01:35.888742+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "223.123.38.121",
-      "message": "Telnet session ended: 223.123.38.121",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T13:01:35.800768+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.38.121",
-      "message": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4f\\x44\\x4a\\x45\\x52\\x52'",
-      "details": "{\"command\": \">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:35.709248+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.38.121",
-      "message": "sh",
-      "details": "{\"command\": \"sh\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:35.621016+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.38.121",
-      "message": "shell",
-      "details": "{\"command\": \"shell\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:35.531934+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.38.121",
-      "message": "su",
-      "details": "{\"command\": \"su\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:35.443614+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.38.121",
-      "message": "linuxshell",
-      "details": "{\"command\": \"linuxshell\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:35.355365+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.38.121",
-      "message": "system",
-      "details": "{\"command\": \"system\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:35.267193+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.38.121",
-      "message": "config terminal",
-      "details": "{\"command\": \"config terminal\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:35.178446+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.38.121",
-      "message": "enable",
-      "details": "{\"command\": \"enable\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:35.086767+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.38.121",
-      "message": "start",
-      "details": "{\"command\": \"start\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:34.712409+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.38.121",
-      "message": "fucker",
-      "details": "{\"command\": \"fucker\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:33.853842+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "223.123.38.121",
-      "message": "Telnet login: mother:",
-      "details": "{\"username\": \"mother\", \"password\": \"\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:33.240000+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "223.123.38.121",
-      "message": "New Telnet connection from 223.123.38.121",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T13:01:21.404865+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "223.123.38.121",
-      "message": "Telnet session ended: 223.123.38.121",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T13:01:21.306001+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.38.121",
-      "message": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x4f\\x44\\x4a\\x45\\x52\\x52'",
-      "details": "{\"command\": \">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:21.217517+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.38.121",
-      "message": "sh",
-      "details": "{\"command\": \"sh\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:21.128561+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.38.121",
-      "message": "shell",
-      "details": "{\"command\": \"shell\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:21.040502+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.38.121",
-      "message": "su",
-      "details": "{\"command\": \"su\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:20.951748+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.38.121",
-      "message": "linuxshell",
-      "details": "{\"command\": \"linuxshell\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:20.862343+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.38.121",
-      "message": "system",
-      "details": "{\"command\": \"system\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:20.773990+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.38.121",
-      "message": "config terminal",
-      "details": "{\"command\": \"config terminal\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:20.685437+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.38.121",
-      "message": "enable",
-      "details": "{\"command\": \"enable\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:20.595461+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.38.121",
-      "message": "start",
-      "details": "{\"command\": \"start\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:20.188010+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.38.121",
-      "message": "adminHW",
-      "details": "{\"command\": \"adminHW\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:19.103060+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "223.123.38.121",
-      "message": "Telnet login: admin:",
-      "details": "{\"username\": \"admin\", \"password\": \"\"}"
-    },
-    {
-      "timestamp": "2026-06-27T13:01:18.404419+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "223.123.38.121",
-      "message": "New Telnet connection from 223.123.38.121",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T12:26:17.163049+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "121.43.52.201",
-      "message": "Telnet session ended: 121.43.52.201",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T12:26:16.817392+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "121.43.52.201",
-      "message": "Telnet session ended: 121.43.52.201",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T12:26:16.299175+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "121.43.52.201",
-      "message": "Telnet login: HEAD / HTTP/1.1:",
-      "details": "{\"username\": \"HEAD / HTTP/1.1\", \"password\": \"\"}"
-    },
-    {
-      "timestamp": "2026-06-27T12:26:16.208053+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "121.43.52.201",
-      "message": "New Telnet connection from 121.43.52.201",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T12:26:15.887980+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "121.43.52.201",
-      "message": "Telnet login: \u0016\u0003\u0001\u0002\u0000\u0001\u0000\u0001\u0003\u0003N^Ga\f\u021f\bQ-\u0005G76'?,\u001a\f\u000fQn \u00149%U:\"r\u7fe4K/\u03fb\u5f9ewN#\u001c\u0000\"\u0013\u0002\u0013\u0003\u0013\u0001,0+/\u0329\u0328$(#'\u0000\u0000\u0000k\u0000g\u0001\u0000\u0001\u0001\u0000\u0001\u0000\u0000\u000b\u0000\u0004\u0003\u0000\u0001\u0002\u0000:\u0000\u0016\u0000\u0014\u0000\u001d\u0000\u0017\u0000\u001e\u0000\u0019\u0000\u0018\u0001\u0000\u0001\u0001\u0001\u0002\u0001\u0003\u0001\u0004\u0000#\u0000\u0000\u0000\u0010\u0000\u000b\u0000\t\bhttp/1.1\u0000\u0016\u0000\u0000\u0000\u0017\u0000\u0000\u00001\u0000\u0000\u0000",
-      "details": "{\"username\": \"\\u0016\\u0003\\u0001\\u0002\\u0000\\u0001\\u0000\\u0001\\u0003\\u0003N^Ga\\f\\u021f\\bQ-\\u0005G76'?,\\u001a\\f\\u000fQn \\"
-    },
-    {
-      "timestamp": "2026-06-27T12:26:15.710412+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "121.43.52.201",
-      "message": "New Telnet connection from 121.43.52.201",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T11:57:24.845993+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "66.132.195.96",
-      "message": "Telnet session ended: 66.132.195.96",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T11:57:24.214840+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "66.132.195.96",
-      "message": "New Telnet connection from 66.132.195.96",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T11:57:21.015486+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "66.132.195.96",
-      "message": "Telnet session ended: 66.132.195.96",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T11:57:20.503078+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "66.132.195.96",
-      "message": "New Telnet connection from 66.132.195.96",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T11:57:17.207755+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "66.132.195.96",
-      "message": "Telnet session ended: 66.132.195.96",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T11:57:14.146804+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "66.132.195.96",
-      "message": "New Telnet connection from 66.132.195.96",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T11:57:11.763462+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "66.132.195.96",
-      "message": "Telnet session ended: 66.132.195.96",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T11:57:10.878498+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "66.132.195.96",
-      "message": "Telnet login: :",
-      "details": "{\"username\": \"\", \"password\": \"\"}"
-    },
-    {
-      "timestamp": "2026-06-27T11:57:09.684296+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "66.132.195.96",
-      "message": "New Telnet connection from 66.132.195.96",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T11:55:52.768716+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "64.62.197.32",
-      "message": "Telnet session ended: 64.62.197.32",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T11:55:51.925763+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "64.62.197.32",
-      "message": "Telnet login: :",
-      "details": "{\"username\": \"\", \"password\": \"\"}"
-    },
-    {
-      "timestamp": "2026-06-27T11:55:50.987240+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "64.62.197.32",
-      "message": "New Telnet connection from 64.62.197.32",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T10:58:24.488411+05:30",
-      "type": "FTP_CONNECTION",
-      "ip": "198.235.24.16",
-      "message": "New FTP connection from 198.235.24.16",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T09:56:02.251370+05:30",
-      "type": "FTP_LOGIN",
-      "ip": "207.175.0.21",
-      "message": "FTP login successful: anonymous",
-      "details": "{\"username\": \"anonymous\"}"
-    },
-    {
-      "timestamp": "2026-06-27T09:56:01.752740+05:30",
-      "type": "FTP_CONNECTION",
-      "ip": "207.175.0.21",
-      "message": "New FTP connection from 207.175.0.21",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T09:56:01.235526+05:30",
-      "type": "FTP_CONNECTION",
-      "ip": "207.175.0.21",
-      "message": "New FTP connection from 207.175.0.21",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T09:37:38.283748+05:30",
-      "type": "FTP_CONNECTION",
-      "ip": "198.235.24.214",
-      "message": "New FTP connection from 198.235.24.214",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T08:15:30.076230+05:30",
-      "type": "FTP_CONNECTION",
-      "ip": "88.214.25.121",
-      "message": "New FTP connection from 88.214.25.121",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T05:34:25.972406+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "112.46.215.161",
-      "message": "Telnet session ended: 112.46.215.161",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T05:34:25.105204+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "112.46.215.161",
-      "message": "Telnet login: :",
-      "details": "{\"username\": \"\", \"password\": \"\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:34:09.312105+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "112.46.215.161",
-      "message": "New Telnet connection from 112.46.215.161",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T05:27:57.740785+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "85.217.149.35",
-      "message": "Telnet session ended: 85.217.149.35",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T05:27:56.889533+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "85.217.149.35",
-      "message": "Telnet login: :",
-      "details": "{\"username\": \"\", \"password\": \"\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:27:56.529807+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "85.217.149.35",
-      "message": "New Telnet connection from 85.217.149.35",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T05:26:24.919424+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "20.65.192.101",
-      "message": "Telnet session ended: 20.65.192.101",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T05:26:24.462020+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "20.65.192.101",
-      "message": "Telnet session ended: 20.65.192.101",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T05:26:24.053598+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "20.65.192.101",
-      "message": "Telnet login: MGLNDD_20.255.59.217_2323:",
-      "details": "{\"username\": \"MGLNDD_20.255.59.217_2323\", \"password\": \"\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:26:23.775614+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "20.65.192.101",
-      "message": "New Telnet connection from 20.65.192.101",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T05:26:23.599086+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "20.65.192.101",
-      "message": "Telnet login: :",
-      "details": "{\"username\": \"\", \"password\": \"\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:26:22.651640+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "20.65.192.101",
-      "message": "New Telnet connection from 20.65.192.101",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T05:23:01.995039+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "223.123.125.9",
-      "message": "Telnet session ended: 223.123.125.9",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T05:23:01.896668+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x42\\x51\\x4a\\x5a\\x4a\\x45'",
-      "details": "{\"command\": \">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>"
-    },
-    {
-      "timestamp": "2026-06-27T05:23:01.797703+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "sh",
-      "details": "{\"command\": \"sh\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:23:01.699202+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "shell",
-      "details": "{\"command\": \"shell\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:23:01.600826+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "su",
-      "details": "{\"command\": \"su\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:23:01.502615+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "linuxshell",
-      "details": "{\"command\": \"linuxshell\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:23:01.399822+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "system",
-      "details": "{\"command\": \"system\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:23:01.301605+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "config terminal",
-      "details": "{\"command\": \"config terminal\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:23:01.202801+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "enable",
-      "details": "{\"command\": \"enable\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:23:01.104140+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "start",
-      "details": "{\"command\": \"start\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:23:00.764521+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "realtek",
-      "details": "{\"command\": \"realtek\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:59.911573+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "223.123.125.9",
-      "message": "Telnet login: root:",
-      "details": "{\"username\": \"root\", \"password\": \"\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:59.371799+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "223.123.125.9",
-      "message": "New Telnet connection from 223.123.125.9",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T05:22:48.014446+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "223.123.125.9",
-      "message": "Telnet session ended: 223.123.125.9",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T05:22:47.916165+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x42\\x51\\x4a\\x5a\\x4a\\x45'",
-      "details": "{\"command\": \">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:47.817046+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "sh",
-      "details": "{\"command\": \"sh\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:47.718562+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "shell",
-      "details": "{\"command\": \"shell\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:47.620242+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "su",
-      "details": "{\"command\": \"su\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:47.521847+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "linuxshell",
-      "details": "{\"command\": \"linuxshell\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:47.423776+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "system",
-      "details": "{\"command\": \"system\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:47.324613+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "config terminal",
-      "details": "{\"command\": \"config terminal\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:47.225928+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "enable",
-      "details": "{\"command\": \"enable\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:47.127437+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "start",
-      "details": "{\"command\": \"start\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:46.790712+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "adminpass",
-      "details": "{\"command\": \"adminpass\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:45.919435+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "223.123.125.9",
-      "message": "Telnet login: admin:",
-      "details": "{\"username\": \"admin\", \"password\": \"\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:45.371882+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "223.123.125.9",
-      "message": "New Telnet connection from 223.123.125.9",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T05:22:34.011003+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "223.123.125.9",
-      "message": "Telnet session ended: 223.123.125.9",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T05:22:33.912530+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x42\\x51\\x4a\\x5a\\x4a\\x45'",
-      "details": "{\"command\": \">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:33.813808+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "sh",
-      "details": "{\"command\": \"sh\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:33.715067+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "shell",
-      "details": "{\"command\": \"shell\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:33.616559+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "su",
-      "details": "{\"command\": \"su\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:33.518068+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "linuxshell",
-      "details": "{\"command\": \"linuxshell\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:33.419589+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "system",
-      "details": "{\"command\": \"system\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:33.321506+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "config terminal",
-      "details": "{\"command\": \"config terminal\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:33.222786+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "enable",
-      "details": "{\"command\": \"enable\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:33.124155+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "start",
-      "details": "{\"command\": \"start\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:32.770182+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "admin1234",
-      "details": "{\"command\": \"admin1234\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:31.932273+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "223.123.125.9",
-      "message": "Telnet login: admin:",
-      "details": "{\"username\": \"admin\", \"password\": \"\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:31.376448+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "223.123.125.9",
-      "message": "New Telnet connection from 223.123.125.9",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T05:22:20.031916+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "223.123.125.9",
-      "message": "Telnet session ended: 223.123.125.9",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T05:22:19.933202+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x42\\x51\\x4a\\x5a\\x4a\\x45'",
-      "details": "{\"command\": \">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:19.834473+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "sh",
-      "details": "{\"command\": \"sh\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:19.735025+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "shell",
-      "details": "{\"command\": \"shell\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:19.630218+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "su",
-      "details": "{\"command\": \"su\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:19.531505+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "linuxshell",
-      "details": "{\"command\": \"linuxshell\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:19.433476+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "system",
-      "details": "{\"command\": \"system\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:19.335357+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "config terminal",
-      "details": "{\"command\": \"config terminal\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:19.236175+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "enable",
-      "details": "{\"command\": \"enable\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:19.131932+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "start",
-      "details": "{\"command\": \"start\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:18.785183+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "1234",
-      "details": "{\"command\": \"1234\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:17.915689+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "223.123.125.9",
-      "message": "Telnet login: user:",
-      "details": "{\"username\": \"user\", \"password\": \"\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:17.367869+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "223.123.125.9",
-      "message": "New Telnet connection from 223.123.125.9",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T05:22:05.208197+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "223.123.125.9",
-      "message": "Telnet session ended: 223.123.125.9",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T05:22:05.097428+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": ">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>/tmp/.x&&cd /tmp;>/var/.x&&cd /var;/bin/busybox echo -e '\\x42\\x51\\x4a\\x5a\\x4a\\x45'",
-      "details": "{\"command\": \">/var/run/.x&&cd /var/run;>/mnt/.x&&cd /mnt;>/usr/.x&&cd /usr;>/dev/.x&&cd /dev;>/dev/shm/.x&&cd /dev/shm;>"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:04.998500+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "sh",
-      "details": "{\"command\": \"sh\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:04.900621+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "shell",
-      "details": "{\"command\": \"shell\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:04.802728+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "su",
-      "details": "{\"command\": \"su\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:04.703101+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "linuxshell",
-      "details": "{\"command\": \"linuxshell\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:04.603844+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "system",
-      "details": "{\"command\": \"system\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:04.505262+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "config terminal",
-      "details": "{\"command\": \"config terminal\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:04.406857+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "enable",
-      "details": "{\"command\": \"enable\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:04.308190+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "start",
-      "details": "{\"command\": \"start\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:03.959881+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "Zte521",
-      "details": "{\"command\": \"Zte521\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:03.068359+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "223.123.125.9",
-      "message": "Telnet login: root:",
-      "details": "{\"username\": \"root\", \"password\": \"\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:22:02.504329+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "223.123.125.9",
-      "message": "New Telnet connection from 223.123.125.9",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T05:11:41.044395+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "85.217.149.3",
-      "message": "Telnet session ended: 85.217.149.3",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T05:11:40.136497+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "85.217.149.3",
-      "message": "Telnet login: :",
-      "details": "{\"username\": \"\", \"password\": \"\"}"
-    },
-    {
-      "timestamp": "2026-06-27T05:11:39.750556+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "85.217.149.3",
-      "message": "New Telnet connection from 85.217.149.3",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T04:27:31.941417+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "173.255.226.192",
-      "message": "Telnet session ended: 173.255.226.192",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T04:26:59.950221+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "173.255.226.192",
-      "message": "New Telnet connection from 173.255.226.192",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T03:57:19.682833+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "147.185.133.115",
-      "message": "Telnet session ended: 147.185.133.115",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T03:57:18.814710+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "147.185.133.115",
-      "message": "Telnet login: GET / HTTP/1.1:",
-      "details": "{\"username\": \"GET / HTTP/1.1\", \"password\": \"\"}"
-    },
-    {
-      "timestamp": "2026-06-27T03:57:18.674626+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "147.185.133.115",
-      "message": "New Telnet connection from 147.185.133.115",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T01:53:29.812922+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "147.185.133.254",
-      "message": "Telnet session ended: 147.185.133.254",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T01:53:28.974651+05:30",
-      "type": "TELNET_LOGIN",
-      "ip": "147.185.133.254",
-      "message": "Telnet login: GET / HTTP/1.1:",
-      "details": "{\"username\": \"GET / HTTP/1.1\", \"password\": \"\"}"
-    },
-    {
-      "timestamp": "2026-06-27T01:53:28.864187+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "147.185.133.254",
-      "message": "New Telnet connection from 147.185.133.254",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T01:31:27.663804+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "198.235.24.153",
-      "message": "Telnet session ended: 198.235.24.153",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T01:30:56.976348+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "198.235.24.153",
-      "message": "New Telnet connection from 198.235.24.153",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-06-27T00:27:57.049611+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "173.255.229.38",
-      "message": "Telnet session ended: 173.255.229.38",
-      "details": ""
     }
   ],
   "top_isps": [
@@ -63841,7 +63841,7 @@
     "Cloud Server": 4
   },
   "kill_chain": {
-    "Reconnaissance": 659,
+    "Reconnaissance": 661,
     "Lateral Movement": 38,
     "Discovery": 2,
     "Exfiltration": 13
