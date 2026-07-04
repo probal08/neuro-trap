@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-07-05T03:00:36.950404+05:30",
-  "total_attacks": 79041,
+  "last_updated": "2026-07-05T04:01:56.846528+05:30",
+  "total_attacks": 79042,
   "unique_ips": 4193,
   "top_user": "root",
   "top_pass": "3245gs5662d34",
@@ -4551,10 +4551,6 @@
   ],
   "attacks_over_time": [
     {
-      "time": "2026-07-03 14:00",
-      "count": 109
-    },
-    {
       "time": "2026-07-03 15:00",
       "count": 2
     },
@@ -4645,6 +4641,10 @@
     {
       "time": "2026-07-05 02:00",
       "count": 6
+    },
+    {
+      "time": "2026-07-05 03:00",
+      "count": 1
     }
   ],
   "top_ips": [
@@ -4786,9 +4786,9 @@
     }
   ],
   "threat_distribution": {
+    "MEDIUM": 7,
     "LOW": 181,
-    "CRITICAL": 5,
-    "MEDIUM": 6,
+    "CRITICAL": 4,
     "HIGH": 8
   },
   "tools_detected": {
@@ -4808,6 +4808,30 @@
     "Python Scripts": 2
   },
   "profiles": [
+    {
+      "ip": "194.195.210.47",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "dfe4c769546c",
+      "bio_hash": "fa845a04",
+      "classification": "Scanner",
+      "commands": 4,
+      "logins": 2,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-07-05T03:02:39.462168+05:30",
+      "threat": "MEDIUM",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Unknown",
+      "infra_type": "Hosting",
+      "session_duration": 86400,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 100,
+      "input_method": "Pasted Script",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC-3"
+    },
     {
       "ip": "20.65.195.32",
       "ssh_client": "Unknown",
@@ -9592,30 +9616,6 @@
       "paste_ratio": 0,
       "input_method": "Unknown",
       "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC-7"
-    },
-    {
-      "ip": "153.117.13.97",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "65e51f4d42ec",
-      "bio_hash": "d72bf35a",
-      "classification": "Scanner",
-      "commands": 250,
-      "logins": 25,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-06-28T07:16:39.127949+05:30",
-      "threat": "CRITICAL",
-      "automated": "YES",
-      "tools": [],
-      "isp": "Cyber Internet Services (Private) Limited",
-      "infra_type": "Unknown",
-      "session_duration": 369,
-      "kill_chain_stage": 1,
-      "kill_chain_label": "Reconnaissance",
-      "paste_ratio": 90,
-      "input_method": "Pasted Script",
-      "origin_hint": "\ud83c\udfaf Persistent",
       "tz_guess": "UTC-7"
     }
   ],
@@ -59713,6 +59713,13 @@
   ],
   "recent_events": [
     {
+      "timestamp": "2026-07-05T03:02:39.462168+05:30",
+      "type": "FTP_CONNECTION",
+      "ip": "194.195.210.47",
+      "message": "New FTP connection from 194.195.210.47",
+      "details": ""
+    },
+    {
       "timestamp": "2026-07-05T02:07:26.478325+05:30",
       "type": "TELNET_DISCONNECT",
       "ip": "20.65.195.32",
@@ -66704,13 +66711,6 @@
       "ip": "223.123.125.9",
       "message": "system",
       "details": "{\"command\": \"system\"}"
-    },
-    {
-      "timestamp": "2026-07-01T20:55:54.313916+05:30",
-      "type": "TELNET_COMMAND",
-      "ip": "223.123.125.9",
-      "message": "config terminal",
-      "details": "{\"command\": \"config terminal\"}"
     }
   ],
   "top_isps": [
