@@ -1,12 +1,12 @@
 {
-  "last_updated": "2026-08-25T11:03:45.957735+05:30",
-  "total_attacks": 1382686,
+  "last_updated": "2026-08-25T11:35:22.103091+05:30",
+  "total_attacks": 1382688,
   "unique_ips": 5091,
   "top_user": "\u0003\u0000\u0000&!\u0000\u0000\u0000\u0000\u0000Cookie: mstshash=",
   "top_pass": "3245gs5662d34",
   "event_distribution": {
-    "TELNET_CONNECTION": 438126,
-    "TELNET_DISCONNECT": 438057,
+    "TELNET_CONNECTION": 438127,
+    "TELNET_DISCONNECT": 438058,
     "TELNET_LOGIN": 433527,
     "TELNET_COMMAND": 35915,
     "CONNECTION": 4629,
@@ -4551,10 +4551,6 @@
   ],
   "attacks_over_time": [
     {
-      "time": "2026-08-24 01:00",
-      "count": 208
-    },
-    {
       "time": "2026-08-24 02:00",
       "count": 186
     },
@@ -4645,6 +4641,10 @@
     {
       "time": "2026-08-25 10:00",
       "count": 332
+    },
+    {
+      "time": "2026-08-25 11:00",
+      "count": 2
     }
   ],
   "top_ips": [
@@ -4786,9 +4786,9 @@
     }
   ],
   "threat_distribution": {
+    "LOW": 165,
     "CRITICAL": 9,
     "MEDIUM": 17,
-    "LOW": 165,
     "HIGH": 9
   },
   "tools_detected": {
@@ -4808,6 +4808,30 @@
     "Python Scripts": 2
   },
   "profiles": [
+    {
+      "ip": "205.210.31.14",
+      "ssh_client": "Unknown",
+      "os": "Unknown",
+      "dna": "72aecdd5cfcf",
+      "bio_hash": "6c3a6be3",
+      "classification": "Scanner",
+      "commands": 0,
+      "logins": 0,
+      "dangerous_cmds": 0,
+      "last_seen": "2026-08-25T11:21:56.220926+05:30",
+      "threat": "LOW",
+      "automated": "NO",
+      "tools": [],
+      "isp": "Unknown",
+      "infra_type": "Unknown",
+      "session_duration": 86400,
+      "kill_chain_stage": 0,
+      "kill_chain_label": "None",
+      "paste_ratio": 0,
+      "input_method": "Unknown",
+      "origin_hint": "\ud83e\udd16 Automated",
+      "tz_guess": "UTC-4"
+    },
     {
       "ip": "72.255.18.47",
       "ssh_client": "Unknown",
@@ -9595,30 +9619,6 @@
       "logins": 2,
       "dangerous_cmds": 0,
       "last_seen": "2026-08-19T07:24:29.449790+05:30",
-      "threat": "LOW",
-      "automated": "NO",
-      "tools": [],
-      "isp": "Unknown",
-      "infra_type": "Hosting",
-      "session_duration": 86400,
-      "kill_chain_stage": 0,
-      "kill_chain_label": "None",
-      "paste_ratio": 0,
-      "input_method": "Unknown",
-      "origin_hint": "\ud83e\udd16 Automated",
-      "tz_guess": "UTC-9"
-    },
-    {
-      "ip": "66.132.195.61",
-      "ssh_client": "Unknown",
-      "os": "Unknown",
-      "dna": "89a424731436",
-      "bio_hash": "4472bc7e",
-      "classification": "Scanner",
-      "commands": 0,
-      "logins": 1,
-      "dangerous_cmds": 0,
-      "last_seen": "2026-08-19T07:24:27.830221+05:30",
       "threat": "LOW",
       "automated": "NO",
       "tools": [],
@@ -89182,6 +89182,20 @@
   ],
   "recent_events": [
     {
+      "timestamp": "2026-08-25T11:21:56.220926+05:30",
+      "type": "TELNET_DISCONNECT",
+      "ip": "205.210.31.14",
+      "message": "Telnet session ended: 205.210.31.14",
+      "details": ""
+    },
+    {
+      "timestamp": "2026-08-25T11:21:25.826846+05:30",
+      "type": "TELNET_CONNECTION",
+      "ip": "205.210.31.14",
+      "message": "New Telnet connection from 205.210.31.14",
+      "details": ""
+    },
+    {
       "timestamp": "2026-08-25T10:37:11.635284+05:30",
       "type": "TELNET_DISCONNECT",
       "ip": "72.255.18.47",
@@ -96166,20 +96180,6 @@
       "ip": "109.60.101.18",
       "message": "Telnet login: root:",
       "details": "{\"username\": \"root\", \"password\": \"\"}"
-    },
-    {
-      "timestamp": "2026-08-25T02:01:18.630890+05:30",
-      "type": "TELNET_DISCONNECT",
-      "ip": "109.60.101.18",
-      "message": "Telnet session ended: 109.60.101.18",
-      "details": ""
-    },
-    {
-      "timestamp": "2026-08-25T02:01:18.296275+05:30",
-      "type": "TELNET_CONNECTION",
-      "ip": "109.60.101.18",
-      "message": "New Telnet connection from 109.60.101.18",
-      "details": ""
     }
   ],
   "top_isps": [
